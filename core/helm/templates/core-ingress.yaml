@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubebit-core
+  labels:
+    app.kubernetes.io/name: kubebit-core
+    app.kubernetes.io/instance: kubebit
+    app.kubernetes.io/component: core
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: selfsigned-issuer
+spec:
+  tls:
+  - hosts:
+    - kubebit.home.local
+    secretName: https-cert
+  rules:
+  - host: kubebit.home.local
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: kubebit-core
+            port:
+              name: http

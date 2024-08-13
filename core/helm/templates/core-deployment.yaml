@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubebit-core
+  labels:
+    app.kubernetes.io/name: kubebit-core
+    app.kubernetes.io/instance: kubebit
+    app.kubernetes.io/component: core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kubebit-core
+      app.kubernetes.io/instance: kubebit
+      app.kubernetes.io/component: core
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kubebit-core
+        app.kubernetes.io/instance: kubebit
+        app.kubernetes.io/component: core
+        git.commit: {{ .Values.git.commit }}
+    spec:
+      containers:
+      - name: kubebit
+        image: localhost:5001/kubebit:latest
+        imagePullPolicy: Always        
+        ports:
+        - name: http
+          containerPort: 8801
+        volumeMounts:
+        - name: kubebit-core
+          mountPath: /.kubebit
+      serviceAccountName: kubebit-core
+      volumes:
+      - name: kubebit-core
+        persistentVolumeClaim:
+          claimName: kubebit-core
