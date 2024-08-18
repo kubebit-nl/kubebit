@@ -14,7 +14,7 @@ WORKDIR /home
 RUN mkdir /.kubebit
 
 #
-COPY /source/infrastructure/target/infrastructure-*-SNAPSHOT.jar /home/app.jar
+COPY /infrastructure/target/infrastructure-*-SNAPSHOT.jar /home/app.jar
 
 #
 CMD ["java", "-jar", "/home/app.jar"]

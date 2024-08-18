@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubebit-core
+  labels: {{- include "common.labels.core" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {{- include "common.labels.core" . | nindent 6 }}
+  template:
+    metadata:
+      labels: {{- include "common.labels.core" . | nindent 8 }}
+        git.commit: {{ .Values.git.commit }}
+    spec:
+      containers:
+      - name: kubebit
+        image: localhost:5001/kubebit:latest
+        imagePullPolicy: Always        
+        ports:
+        - name: http
+          containerPort: 8801
+        volumeMounts:
+        - name: kubebit-core
+          mountPath: /.kubebit
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: {{ .Values.profile }}
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      serviceAccountName: kubebit-core
+      volumes:
+      - name: kubebit-core
+        persistentVolumeClaim:
+          claimName: kubebit-core

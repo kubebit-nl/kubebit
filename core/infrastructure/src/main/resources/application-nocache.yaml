@@ -1,0 +1,7 @@
+
+# =================== Spring Config ===================
+
+#
+spring:
+  cache:
+    type: NONE

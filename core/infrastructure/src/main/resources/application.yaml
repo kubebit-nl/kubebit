@@ -1,0 +1,82 @@
+# =================== Server Config ===================
+
+#
+server:
+  port: 8801
+
+  # reverse proxy configuration
+  forward-headers-strategy: FRAMEWORK
+
+# =================== Spring Config ===================
+
+#
+spring:
+  application: 
+    name: kubebit-core
+  banner: 
+    location: banner.txt
+
+  #
+  output:
+    ansi:
+      enabled: always
+
+  # 
+  threads:
+    virtual:
+      enabled: true
+
+# =================== Logging Config ===================
+
+#
+logging:
+  level:
+    nl:
+      kubebit:
+        core: TRACE
+
+# ================== SpringDoc Config ==================
+
+#
+springdoc:
+
+  #
+  swagger-ui:
+    use-root-path: true
+  
+  # enable a deterministic/alphabetical ordering
+  writer-with-order-by-keys: true
+  
+  #
+  show-actuator: false
+
+# ====================== Actuator ======================
+
+#
+info:
+  app:
+    name: Kubebit Core
+    description: Kubebit Core API
+    version: @project.version@
+    group: @project.parent.artifactId@
+
+#
+management:
+  info:
+    env:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+      group:
+        custom:
+          show-details: always
+          show-components: always
+      probes:
+        enabled: true
+
+# -------------------------------------------------------------------------------------------------

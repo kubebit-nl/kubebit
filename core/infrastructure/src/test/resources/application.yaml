@@ -1,0 +1,35 @@
+# =================== Server Config ===================
+
+#
+server:
+  port: 8801
+
+# =================== Spring Config ===================
+
+#
+spring:
+  application: 
+    name: kubebit-core
+  banner:
+    location: banner-test.txt
+
+  #
+  output:
+    ansi:
+      enabled: always
+
+# =================== Logging Config ===================
+
+#
+logging:
+  level:
+    nl:
+      kubebit:
+        core: TRACE
+
+# ================== SpringDoc Config ==================
+
+#
+springdoc:
+  swagger-ui:
+    use-root-path: true
