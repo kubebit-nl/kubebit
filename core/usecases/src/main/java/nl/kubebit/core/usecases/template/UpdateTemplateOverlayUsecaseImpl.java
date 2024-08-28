@@ -60,10 +60,10 @@ class UpdateTemplateOverlayUsecaseImpl implements UpdateTemplateOverlayUsecase {
             template.appVersion(),
             template.description(),
             template.keywords(),
-            template.enviromentId());  
+            template.namespaceId());  
 
         //
-        return gateway.update(update).map(TemplateResponse::new).orElseThrow(() -> new TemplateNotUpdatedException());
+        return gateway.update(update).map(TemplateResponse::new).orElseThrow(TemplateNotUpdatedException::new);
     }
     
 }

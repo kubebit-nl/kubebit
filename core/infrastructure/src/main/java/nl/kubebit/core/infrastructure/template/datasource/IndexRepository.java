@@ -33,7 +33,8 @@ import jakarta.validation.constraints.NotNull;
 import reactor.core.publisher.Flux;
 import reactor.netty.http.client.HttpClient;
 
-import static nl.kubebit.core.infrastructure.configuration.StorageConfig.CHARTS_LOCATION;
+import static nl.kubebit.core.usecases.common.vars.GlobalVars.CHARTS_LOCATION;
+import static nl.kubebit.core.usecases.common.vars.GlobalVars.YAML_EXT;
 
 /**
  * 
@@ -47,10 +48,6 @@ public class IndexRepository {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     //
-    public final String GZIP_TAR = ".tgz";
-    public final String YAML_EXT = ".yaml";
-
-    //
     private final YAMLFactory factory;
 
     //
@@ -59,11 +56,11 @@ public class IndexRepository {
     }
 
     /**
-     * 
-     * @param location
-     * @return
-     * @throws IOException
-     * @throws URISyntaxException
+     *  Pull the index file from the repository
+     * @param repositoryUrl the repository url
+     * @return the index file
+     * @throws IOException if the file does not exist
+     * @throws URISyntaxException if the uri is invalid
      */
     public File pullIndex(@NotBlank String repositoryUrl) throws IOException, URISyntaxException {
         log.trace("pull index: {}", repositoryUrl);
@@ -87,10 +84,10 @@ public class IndexRepository {
     }
 
     /**
-     * 
-     * @param chartUri
-     * @return
-     * @throws IOException
+     * Pull the chart from the repository
+     * @param chartUri the chart uri
+     * @return the chart file
+     * @throws IOException if the file does not exist
      */
     public File pullChart(@NotNull URI chartUri) throws IOException {
         String chart = chartUri.getPath().substring(chartUri.getPath().lastIndexOf('/') + 1);
@@ -113,14 +110,14 @@ public class IndexRepository {
     }
 
     /**
-     * 
-     * @param templateId
-     * @return
-     * @throws IOException 
+     * Get the chart from the local repository
+     * @param templateId the template id
+     * @return the chart file
+     * @throws IOException if the file does not exist
      */
     public Optional<File> getChart(String templateId) throws IOException {
-        String chart = templateId + GZIP_TAR;
-        log.trace("pull chart: {}", chart);
+        String chart = templateId + ".tgz";
+        log.trace("get chart: {}", chart);
         Path path = Paths.get(CHARTS_LOCATION, chart);
         if (Files.exists(path)) {
             return Optional.of(path.toFile());
@@ -129,17 +126,17 @@ public class IndexRepository {
     }
 
     /**
-     * 
-     * @param file
-     * @return
-     * @throws IOException
+     * Parse the index file
+     * @param file the index file
+     * @return the chart wrapper
+     * @throws IOException if the file does not exist
      */
     public ChartWrapper parseIndexFile(@NotNull File file) throws IOException {
         ChartWrapper wrapper = new ObjectMapper(factory).readValue(file, ChartWrapper.class);
         for (var entry : wrapper.entries().entrySet()) {
             log.trace("entry: {}", entry.getKey());
             var charts = entry.getValue();
-            for (int i = 0; i < (charts.size() < 5 ? charts.size() : 5); i++) {
+            for (int i = 0; i < (Math.min(charts.size(), 5)); i++) {
                 var chart = charts.get(i);
                 log.trace("- chart: {} - v{}", chart.name(), chart.version());
             }
@@ -148,10 +145,10 @@ public class IndexRepository {
     }
 
     /**
-     * 
-     * @param yamlFile
-     * @return
-     * @throws IOException
+     * Parse the yaml file
+     * @param yamlFile the yaml file
+     * @return the map
+     * @throws IOException if the file does not exist
      */
     public Map<String, Object> parseYaml(File yamlFile) throws IOException {
         Yaml yaml = new Yaml();

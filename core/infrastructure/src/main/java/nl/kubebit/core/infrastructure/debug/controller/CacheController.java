@@ -1,6 +1,7 @@
 package nl.kubebit.core.infrastructure.debug.controller;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.cache.CacheManager;
@@ -48,7 +49,7 @@ public class CacheController {
     @GetMapping
     public List<Object> show() {
         return cacheManager.getCacheNames().stream().map(name -> {
-            return cacheManager.getCache(name).getNativeCache();
+            return Objects.requireNonNull(cacheManager.getCache(name)).getNativeCache();
         }).collect(Collectors.toList());
     }
 }

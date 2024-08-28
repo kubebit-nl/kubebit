@@ -16,12 +16,12 @@ import nl.kubebit.core.entities.release.TemplateRef;
 public interface GetReleaseUsecase {
     
     //
-    ReleaseValueResponse execute(String projectId, String enviromentName, String releaseId);
+    ReleaseValueResponse execute(String projectId, String namespaceName, String releaseId);
 
     /**
      * 
      */
-    public record ReleaseValueResponse(
+    record ReleaseValueResponse(
 
         @JsonProperty("id")
         String id,

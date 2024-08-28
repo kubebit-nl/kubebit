@@ -5,8 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.kubebit.core.entities.enviroment.exception.EnviromentNotFoundException;
-import nl.kubebit.core.entities.enviroment.gateway.EnviromentGateway;
+import nl.kubebit.core.entities.namespace.exception.NamespaceNotFoundException;
+import nl.kubebit.core.entities.namespace.gateway.NamespaceGateway;
 import nl.kubebit.core.entities.project.exception.ProjectNotFoundException;
 import nl.kubebit.core.entities.project.gateway.ProjectGateway;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
@@ -17,7 +17,7 @@ import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
  * 
  */
 @Usecase
-public class FetchReleasesUsecaseImpl implements FetchReleasesUsecase {
+class FetchReleasesUsecaseImpl implements FetchReleasesUsecase {
     // --------------------------------------------------------------------------------------------
     
     //
@@ -25,18 +25,18 @@ public class FetchReleasesUsecaseImpl implements FetchReleasesUsecase {
 
     //
     private final ProjectGateway projectGateway;
-    private final EnviromentGateway enviromentGateway;
+    private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
     
     /**
      * 
      * @param projectGateway
-     * @param enviromentGateway
-     * @param deploymentGateway
+     * @param namespaceGateway
+     * @param releaseGateway
      */
-    public FetchReleasesUsecaseImpl(ProjectGateway projectGateway, EnviromentGateway enviromentGateway, ReleaseGateway releaseGateway) {
+    public FetchReleasesUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway) {
         this.projectGateway = projectGateway;
-        this.enviromentGateway = enviromentGateway;
+        this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
     }
 
@@ -44,11 +44,11 @@ public class FetchReleasesUsecaseImpl implements FetchReleasesUsecase {
      * 
      */
     @Override
-    public List<ReleaseResponse> execute(String projectId, String enviromentName) {
-        log.info("{} - {} -> fetch releases", projectId, enviromentName);
+    public List<ReleaseResponse> execute(String projectId, String namespaceName) {
+        log.info("{} - {} -> fetch releases", projectId, namespaceName);
         var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var enviroment = enviromentGateway.findByName(project, enviromentName).orElseThrow(() -> new EnviromentNotFoundException(enviromentName));
-        return releaseGateway.findAll(enviroment.id()).stream().map(ReleaseResponse::new).toList();
+        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        return releaseGateway.findAll(namespace.id()).stream().map(ReleaseResponse::new).toList();
     }
    
     

@@ -11,12 +11,12 @@ import nl.kubebit.core.entities.release.TemplateRef;
 public interface GetReleaseRevisionUsecase {
     
     //
-    ReleaseRefValuesResponse execute(String projectId, String enviromentName, String releaseId, Long revisionVersion);
+    ReleaseRefValuesResponse execute(String projectId, String namespaceName, String releaseId, Long revisionVersion);
 
     /**
      * 
      */
-    public record ReleaseRefValuesResponse(
+    record ReleaseRefValuesResponse(
 
         Long version,
         TemplateRef template,

@@ -15,7 +15,7 @@ import nl.kubebit.core.usecases.resource.GetContainerLogsUsecase;
  */
 @Tag(name = "Resource")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/enviroment/{enviroment_name}/logs")
+@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/logs")
 public class GetContainerLogsController {
     // --------------------------------------------------------------------------------------------
 
@@ -29,20 +29,21 @@ public class GetContainerLogsController {
     public GetContainerLogsController(GetContainerLogsUsecase usecase) {
         this.usecase = usecase;
     }
-    
+
     /**
-     * 
+     *
      * @param projectId
-     * @param enviromentName
-     * @param ref
-     * @return 
+     * @param namespaceName
+     * @param pod
+     * @param container
+     * @return
      */
     @GetMapping
     public String getResource(
         @PathVariable("project_id") String projectId,
-        @PathVariable("enviroment_name") String enviromentName,
+        @PathVariable("namespace_name") String namespaceName,
         @RequestParam String pod,
         @RequestParam String container) {
-        return usecase.execute(projectId, enviromentName, pod, container);
+        return usecase.execute(projectId, namespaceName, pod, container);
     }
 }

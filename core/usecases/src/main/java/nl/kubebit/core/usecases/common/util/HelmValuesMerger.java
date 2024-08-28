@@ -21,16 +21,15 @@ public abstract class HelmValuesMerger {
     private static final Logger log = LoggerFactory.getLogger(HelmValuesMerger.class);
 
     /**
-     * 
-     * @param chartValues
-     * @param overlayValues
-     * @param inputValues
-     * @param outputFile
-     * @throws IOException
+     * Combine the values of the chart, overlay and input values and write them to a file
+     * @param chartValues the chart values
+     * @param overlayValues the overlay values
+     * @param inputValues input values
+     * @param outputFile the output file
+     * @throws IOException if an I/O error occurs
      */
-    public static void combine(Map<String, Object> chartValues, Map<String, Object> overlayValues, Map<String, Object> inputValues, Path outputFile) throws IOException {
+    public static void execute(Map<String, Object> chartValues, Map<String, Object> overlayValues, Map<String, Object> inputValues, Path outputFile) throws IOException {
         Map<String, Object> result = merge(chartValues, overlayValues, inputValues);
-
         log.trace("writing values to file -> {}", outputFile);
         final Yaml yaml = new Yaml();
         try (FileWriter writer = new FileWriter(outputFile.toFile())) {
@@ -38,15 +37,17 @@ public abstract class HelmValuesMerger {
         }
     }
 
+    // --------------------------------------------------------------------------------------------
+
     /**
-     * 
-     * @param chartValues
-     * @param overlayValues
-     * @param inputValues
-     * @return
+     * Merge the values of the chart, overlay and input values
+     * @param chartValues the chart values
+     * @param overlayValues the overlay values
+     * @param inputValues the input values
+     * @return the merged values
      */
-    public static Map<String, Object> merge(Map<String, Object> chartValues, Map<String, Object> overlayValues, Map<String, Object> inputValues) {
-        log.info("merging values");
+    private static Map<String, Object> merge(Map<String, Object> chartValues, Map<String, Object> overlayValues, Map<String, Object> inputValues) {
+        log.trace("merging values...");
         Map<String, Object> result = new HashMap<>(chartValues);
 
         // merge overlay (unknown/new values will be copied)
@@ -59,13 +60,11 @@ public abstract class HelmValuesMerger {
 
         return result;
     }
- 
-    
 
     /**
-     *
-     * @param map1
-     * @param map2
+     * Put known values from map2 into map1
+     * @param map1 result map
+     * @param map2 source map
      */
     @SuppressWarnings("unchecked")
     private static void putKnown(Map<String, Object> map1, Map<String, Object> map2) {

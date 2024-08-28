@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Tag(name = "Release")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/enviroment/{enviroment_name}/release/{release_id}/revision/{revision_version}")
+@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/release/{release_id}/revision/{revision_version}")
 public class GetReleaseRevisionController {
     // --------------------------------------------------------------------------------------------
 
@@ -37,10 +37,10 @@ public class GetReleaseRevisionController {
     @GetMapping
     public ReleaseRefValuesResponse fetchDeployments(
         @PathVariable("project_id") String projectId,
-        @PathVariable("enviroment_name") String enviromentName,
+        @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,
         @PathVariable("revision_version") Long revisionVersion) {
-        return usecase.execute(projectId, enviromentName, releaseId, revisionVersion);
+        return usecase.execute(projectId, namespaceName, releaseId, revisionVersion);
     }
     
 }

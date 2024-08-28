@@ -1,5 +1,6 @@
 package nl.kubebit.core.usecases.template;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.hibernate.validator.constraints.URL;
 
 import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
@@ -15,7 +16,8 @@ public interface UpdateTemplateUsecase {
     /**
      * 
      */
-    public record TemplateUpdateRequest(
+    @JsonPropertyOrder({"type", "category", "icon"})
+    record TemplateUpdateRequest(
 
         String type,
         String category,

@@ -9,6 +9,6 @@ import org.springframework.core.io.Resource;
  */
 public interface GetReleaseManifestUsecase {
     
-    Optional<Resource> execute(String projectId, String enviromentName, String releaseId, Long revisionVersion);
+    Optional<Resource> execute(String projectId, String namespaceName, String releaseId, Long revisionVersion);
 
 }

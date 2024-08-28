@@ -1,5 +1,6 @@
 package nl.kubebit.core.usecases.template;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.validation.constraints.NotBlank;
@@ -17,7 +18,8 @@ public interface CreateTemplateUsecase {
     /**
      * 
      */
-    public record TemplateCreateRequest(
+    @JsonPropertyOrder({"chart", "version", "repository"})
+    record TemplateCreateRequest(
 
         @NotBlank
         @Pattern(regexp = "[a-z0-9]([-a-z0-9]*[a-z0-9])?")

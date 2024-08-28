@@ -12,12 +12,12 @@ import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
  */
 public interface UpdateReleasesUsecase {
     
-    ReleaseResponse execute(String projectId, String enviromentName, String releaseId, ReleaseUpdateRequest request);
+    ReleaseResponse execute(String projectId, String namespaceName, String releaseId, ReleaseUpdateRequest request);
 
     /**
      * 
      */
-    public record ReleaseUpdateRequest(
+    record ReleaseUpdateRequest(
 
         @NotBlank
         @JsonProperty("template_id")

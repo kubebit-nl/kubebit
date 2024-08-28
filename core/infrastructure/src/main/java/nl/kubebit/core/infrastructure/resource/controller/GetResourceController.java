@@ -17,7 +17,7 @@ import nl.kubebit.core.usecases.resource.GetResourceUsecase;
  */
 @Tag(name = "Resource")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/enviroment/{enviroment_name}/resource")
+@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/resource")
 public class GetResourceController {
     // --------------------------------------------------------------------------------------------
 
@@ -35,18 +35,18 @@ public class GetResourceController {
     /**
      * 
      * @param projectId
-     * @param enviromentName
+     * @param namespaceName
      * @param ref
      * @return 
      */
     @GetMapping
     public Resource getResource(
         @PathVariable("project_id") String projectId,
-        @PathVariable("enviroment_name") String enviromentName,
+        @PathVariable("namespace_name") String namespaceName,
         @RequestParam(required = false, defaultValue = "") String group,
         @RequestParam String version,
         @RequestParam String kind,
         @RequestParam String name) {
-        return usecase.execute(projectId, enviromentName, new ReleaseResourceRef(group, version, kind, name));
+        return usecase.execute(projectId, namespaceName, new ReleaseResourceRef(group, version, kind, name));
     }
 }

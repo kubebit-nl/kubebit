@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Tag(name = "Release")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/enviroment/{enviroment_name}/release/{release_id}/manifest")
+@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/release/{release_id}/manifest")
 public class GetReleaseManifestController {
     // --------------------------------------------------------------------------------------------
 
@@ -43,12 +43,12 @@ public class GetReleaseManifestController {
     @GetMapping
     public ResponseEntity<Resource> fetchDeployments(
         @PathVariable("project_id") String projectId,
-        @PathVariable("enviroment_name") String enviromentName,
+        @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,
         @RequestParam(value = "revision_version", required = false) Long revisionVersion) {
         
         //
-        var resource = usecase.execute(projectId, enviromentName, releaseId, revisionVersion)
+        var resource = usecase.execute(projectId, namespaceName, releaseId, revisionVersion)
             .orElseThrow(RevisionNotFoundException::new);
         
         //

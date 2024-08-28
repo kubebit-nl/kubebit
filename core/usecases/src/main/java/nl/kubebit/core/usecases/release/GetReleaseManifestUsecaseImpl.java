@@ -3,13 +3,14 @@ package nl.kubebit.core.usecases.release;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import nl.kubebit.core.entities.release.exception.ManifestNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
-import nl.kubebit.core.entities.enviroment.exception.EnviromentNotFoundException;
-import nl.kubebit.core.entities.enviroment.gateway.EnviromentGateway;
+import nl.kubebit.core.entities.namespace.exception.NamespaceNotFoundException;
+import nl.kubebit.core.entities.namespace.gateway.NamespaceGateway;
 import nl.kubebit.core.entities.project.exception.ProjectNotFoundException;
 import nl.kubebit.core.entities.project.gateway.ProjectGateway;
 import nl.kubebit.core.entities.release.exception.ReleaseNotFoundException;
@@ -20,7 +21,7 @@ import nl.kubebit.core.usecases.common.annotation.Usecase;
  * 
  */
 @Usecase
-public class GetReleaseManifestUsecaseImpl implements GetReleaseManifestUsecase {
+class GetReleaseManifestUsecaseImpl implements GetReleaseManifestUsecase {
     // --------------------------------------------------------------------------------------------
 
     //
@@ -28,45 +29,53 @@ public class GetReleaseManifestUsecaseImpl implements GetReleaseManifestUsecase 
 
     //
     private final ProjectGateway projectGateway;
-    private final EnviromentGateway enviromentGateway;
+    private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
 
     /**
-     * 
-     * @param projectGateway
-     * @param enviromentGateway
-     * @param templateGateway
-     * @param releaseGateway
-     * @param manifestGateway
+     * Constructor
+     * @param projectGateway project gateway
+     * @param namespaceGateway namespace gateway
+     * @param releaseGateway release gateway
      */
     public GetReleaseManifestUsecaseImpl(
             ProjectGateway projectGateway, 
-            EnviromentGateway enviromentGateway,
+            NamespaceGateway namespaceGateway,
             ReleaseGateway releaseGateway) {
         this.projectGateway = projectGateway;
-        this.enviromentGateway = enviromentGateway;
+        this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
     }
 
     /**
-     * @return 
-     * 
+     * Fetch release manifest
+     * @param projectId project id
+     * @param namespaceName namespace name
+     * @param releaseId release id
+     * @param revisionVersion revision version
+     * @return resource
      */
     @Override
-    public Optional<Resource> execute(String projectId, String enviromentName, String releaseId, Long revisionVersion) {
-        log.info("{} - {} -> fetch releases", projectId, enviromentName);
+    public Optional<Resource> execute(String projectId, String namespaceName, String releaseId, Long revisionVersion) {
+        log.info("{} - {} -> get manifest", projectId, namespaceName);
         var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var enviroment = enviromentGateway.findByName(project, enviromentName).orElseThrow(() -> new EnviromentNotFoundException(enviromentName));
-        var release = releaseGateway.findById(enviroment.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));  
+        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));  
         
         //
-        var dirPath = Paths.get("/.kubebit/manifests/", project.id(), enviroment.name(), release.id());
+        var dirPath = Paths.get("/.kubebit/manifests/", project.id(), namespace.name(), release.id());
         var version = revisionVersion == null ? release.version() : revisionVersion;
         var filePath = Paths.get(dirPath.toString(), version + ".yaml");
+        var manifestFile = filePath.toFile();
+
+        // check if manifest exists
+        if(!manifestFile.exists()) {
+            throw new ManifestNotFoundException(manifestFile.getName());
+        }
 
         //
         try {
-            return Optional.of(new UrlResource(filePath.toFile().toURI()));
+            return Optional.of(new UrlResource(manifestFile.toURI()));
         } catch (Exception e) {
             log.warn("--> {}", e.getMessage());
         }

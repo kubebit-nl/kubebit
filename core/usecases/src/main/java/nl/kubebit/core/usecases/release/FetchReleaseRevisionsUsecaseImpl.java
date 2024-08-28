@@ -5,8 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.kubebit.core.entities.enviroment.exception.EnviromentNotFoundException;
-import nl.kubebit.core.entities.enviroment.gateway.EnviromentGateway;
+import nl.kubebit.core.entities.namespace.exception.NamespaceNotFoundException;
+import nl.kubebit.core.entities.namespace.gateway.NamespaceGateway;
 import nl.kubebit.core.entities.project.exception.ProjectNotFoundException;
 import nl.kubebit.core.entities.project.gateway.ProjectGateway;
 import nl.kubebit.core.entities.release.exception.ReleaseNotFoundException;
@@ -19,7 +19,7 @@ import nl.kubebit.core.usecases.release.dto.ReleaseRefResponse;
  * 
  */
 @Usecase
-public class FetchReleaseRevisionsUsecaseImpl implements FetchReleaseRevisionsUsecase {
+class FetchReleaseRevisionsUsecaseImpl implements FetchReleaseRevisionsUsecase {
     // --------------------------------------------------------------------------------------------
 
     //
@@ -27,18 +27,18 @@ public class FetchReleaseRevisionsUsecaseImpl implements FetchReleaseRevisionsUs
 
     //
     private final ProjectGateway projectGateway;
-    private final EnviromentGateway enviromentGateway;
+    private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
     
     /**
      * 
      * @param projectGateway
-     * @param enviromentGateway
-     * @param deploymentGateway
+     * @param namespaceGateway
+     * @param releaseGateway
      */
-    public FetchReleaseRevisionsUsecaseImpl(ProjectGateway projectGateway, EnviromentGateway enviromentGateway, ReleaseGateway releaseGateway) {
+    public FetchReleaseRevisionsUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway) {
         this.projectGateway = projectGateway;
-        this.enviromentGateway = enviromentGateway;
+        this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
     }
 
@@ -46,12 +46,12 @@ public class FetchReleaseRevisionsUsecaseImpl implements FetchReleaseRevisionsUs
      * 
      */
     @Override
-    public List<ReleaseRefResponse> execute(String projectId, String enviromentName, String releaseId) {
-        log.info("{} - {} -> fetch releases", projectId, enviromentName);
+    public List<ReleaseRefResponse> execute(String projectId, String namespaceName, String releaseId) {
+        log.info("{} - {} -> fetch revisions", projectId, namespaceName);
         var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var enviroment = enviromentGateway.findByName(project, enviromentName).orElseThrow(() -> new EnviromentNotFoundException(enviromentName));
-        var release = releaseGateway.findById(enviroment.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
-        return releaseGateway.findRevisions(enviroment.id(), release).stream().map(ReleaseRefResponse::new).toList();
+        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
+        return releaseGateway.findRevisions(namespace.id(), release).stream().map(ReleaseRefResponse::new).toList();
     }
     
 }

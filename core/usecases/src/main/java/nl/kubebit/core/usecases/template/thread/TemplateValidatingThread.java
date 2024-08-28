@@ -20,6 +20,7 @@ import nl.kubebit.core.entities.template.TemplateStatus;
 import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
 import nl.kubebit.core.entities.template.exception.TemplateNotUpdatedException;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
+import nl.kubebit.core.usecases.common.event.ServerSideEventGateway;
 import nl.kubebit.core.usecases.template.util.HelmChartUtils;
 
 /**
@@ -32,15 +33,13 @@ public class TemplateValidatingThread extends Thread {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     //
-    private final String CHART_VALUES_FILE = "values.yaml";
-    private final String CHART_SCHEMA_FILE = "values.schema.json";
-
-    //
+    private final ServerSideEventGateway eventGateway;
     private final TemplateGateway gateway;
     private Template template;
 
     //
-    public TemplateValidatingThread(TemplateGateway gateway, Template template) {
+    public TemplateValidatingThread(ServerSideEventGateway eventGateway, TemplateGateway gateway, Template template) {
+        this.eventGateway = eventGateway;
         this.gateway = gateway;
         this.template = template;
     }
@@ -84,11 +83,13 @@ public class TemplateValidatingThread extends Thread {
             log.trace("tar: {}", tarFile.getAbsolutePath());
 
             //
+            String CHART_SCHEMA_FILE = "values.schema.json";
             var schemaPath = saveChartFile(tarFile, CHART_SCHEMA_FILE);
             Map<String, Object> schema = loadSchema(schemaPath);
             log.trace("schema: {}", schemaPath.getName());
 
             //
+            String CHART_VALUES_FILE = "values.yaml";
             var valuesPath = saveChartFile(tarFile, CHART_VALUES_FILE);
             Map<String, Object> values = loadValues(valuesPath);
             log.trace("values: {}", valuesPath.getName());
@@ -98,7 +99,10 @@ public class TemplateValidatingThread extends Thread {
 
             //
             gateway.updateStatus(template.setStatus(TemplateStatus.VALIDATED, null))
-                    .orElseThrow(() -> new TemplateNotUpdatedException());
+                    .orElseThrow(TemplateNotUpdatedException::new);
+
+            //
+            eventGateway.sendEvent(null, "thread finished");
 
         } catch (Exception e) {
             log.warn("failed to validate chart: {}", e.getMessage());
@@ -178,7 +182,7 @@ public class TemplateValidatingThread extends Thread {
             chart != null ? chart.appVersion() : null,
             chart != null ? chart.description() : null,
             chart != null ? chart.keywords() : null,
-            template.enviromentId());
+            template.namespaceId());
     }
 
     /**
@@ -204,7 +208,7 @@ public class TemplateValidatingThread extends Thread {
             template.appVersion(),
             template.description(),
             template.keywords(),
-            template.enviromentId());
+            template.namespaceId());
     }
 
     /**

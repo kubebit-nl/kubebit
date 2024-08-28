@@ -1,10 +1,21 @@
 package nl.kubebit.core.entities.release;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * 
+ * Release entity
+ * @param id release id
+ * @param version release version
+ * @param template template
+ * @param values values
+ * @param icon icon
+ * @param status status
+ * @param message message
+ * @param resources resources
+ * @param revisions revisions
+ * @param namespaceId namespace id
  */
 public record Release(
 
@@ -21,13 +32,15 @@ public record Release(
 
     List<ReleaseRef> revisions,
 
-    String enviromentId
+    String namespaceId
 
 ) {
-    
+
     /**
-     * 
-     * @return
+     * Set status and message
+     * @param status status
+     * @param message message
+     * @return release
      */
     public Release setStatus(ReleaseStatus status, String message) {
         return new Release(
@@ -40,14 +53,13 @@ public record Release(
             message, 
             this.resources(), 
             this.revisions(), 
-            this.enviromentId());
+            this.namespaceId());
     }
 
     /**
-     * 
-     * @param status
-     * @param message
-     * @return
+     * Set deployed status and resources
+     * @param resources resources
+     * @return release
      */
     public Release setDeployedAndResources(List<ReleaseResourceRef> resources) {
         return new Release(
@@ -60,7 +72,23 @@ public record Release(
             null, 
             resources, 
             this.revisions(), 
-            this.enviromentId());
+            this.namespaceId());
     }
-    
+
+    /**
+     * Create a new revision list based on the current release
+     * @return the revisions
+     */
+    public List<ReleaseRef> newRevisions() {
+        var ref = new ReleaseRef(this.version(), this.template(), this.values());
+        List<ReleaseRef> result = this.revisions() == null ? new ArrayList<>() : new ArrayList<>(this.revisions());
+        result.add(ref);
+
+        // trim the list to keep only the last 5 elements
+        if (result.size() > 5) {
+            result = result.subList(result.size() - 5, result.size());
+        }
+        return result;
+    }
+
 }

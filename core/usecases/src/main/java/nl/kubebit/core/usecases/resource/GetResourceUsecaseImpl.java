@@ -3,8 +3,8 @@ package nl.kubebit.core.usecases.resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.kubebit.core.entities.enviroment.exception.EnviromentNotFoundException;
-import nl.kubebit.core.entities.enviroment.gateway.EnviromentGateway;
+import nl.kubebit.core.entities.namespace.exception.NamespaceNotFoundException;
+import nl.kubebit.core.entities.namespace.gateway.NamespaceGateway;
 import nl.kubebit.core.entities.project.exception.ProjectNotFoundException;
 import nl.kubebit.core.entities.project.gateway.ProjectGateway;
 import nl.kubebit.core.entities.release.ReleaseResourceRef;
@@ -18,7 +18,7 @@ import nl.kubebit.core.usecases.common.annotation.Usecase;
  * 
  */
 @Usecase
-public class GetResourceUsecaseImpl implements GetResourceUsecase {
+class GetResourceUsecaseImpl implements GetResourceUsecase {
     // --------------------------------------------------------------------------------------------
 
     //
@@ -26,37 +26,37 @@ public class GetResourceUsecaseImpl implements GetResourceUsecase {
 
     //
     private final ProjectGateway projectGateway;
-    private final EnviromentGateway enviromentGateway;
+    private final NamespaceGateway namespaceGateway;
     private final ResourceGateway resourcegateway;
 
     /**
      * 
      * @param projectGateway
-     * @param enviromentGateway
+     * @param namespaceGateway
      * @param releaseGateway
      * @param resourcegateway
      */
     public GetResourceUsecaseImpl(
             ProjectGateway projectGateway, 
-            EnviromentGateway enviromentGateway,
+            NamespaceGateway namespaceGateway,
             ReleaseGateway releaseGateway, 
             ResourceGateway resourcegateway) {
         this.projectGateway = projectGateway;
-        this.enviromentGateway = enviromentGateway;
+        this.namespaceGateway = namespaceGateway;
         this.resourcegateway = resourcegateway;
     }
 
     /**
      * 
-     * @param enviromentId
+     * @param namespaceId
      * @param kind
      * @param name
      */
     @Override
-    public Resource execute(String projectId, String enviromentName, ReleaseResourceRef ref) {
-        log.info("{} - {} -> get resource: {}", projectId, enviromentName, ref);
+    public Resource execute(String projectId, String namespaceName, ReleaseResourceRef ref) {
+        log.info("{} - {} -> get resource: {}", projectId, namespaceName, ref);
         var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var enviroment = enviromentGateway.findByName(project, enviromentName).orElseThrow(() -> new EnviromentNotFoundException(enviromentName));
-        return resourcegateway.getResource(enviroment.id(), ref).orElseThrow(ResourceNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        return resourcegateway.getResource(namespace.id(), ref).orElseThrow(ResourceNotFoundException::new);
     }
 }

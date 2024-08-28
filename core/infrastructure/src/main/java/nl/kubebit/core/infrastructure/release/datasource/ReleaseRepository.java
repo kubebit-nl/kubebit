@@ -91,7 +91,7 @@ public class ReleaseRepository {
 
     /**
      * 
-     * @param enviromentId
+     * @param namespaceId
      * @param schema
      * @return
      */
@@ -162,7 +162,7 @@ public class ReleaseRepository {
 
     /**
      * 
-     * @param enviromentId
+     * @param namespaceId
      * @param id
      * @param revisionVersion
      * @return

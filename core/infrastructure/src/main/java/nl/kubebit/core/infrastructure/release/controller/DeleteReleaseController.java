@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Tag(name = "Release")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/enviroment/{enviroment_name}/release/{release_id}")
+@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/release/{release_id}")
 public class DeleteReleaseController {
     // --------------------------------------------------------------------------------------------
 
@@ -36,9 +36,9 @@ public class DeleteReleaseController {
     @DeleteMapping
     public void fetchDeployments(
         @PathVariable("project_id") String projectId,
-        @PathVariable("enviroment_name") String enviromentName,
+        @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {
-        usecase.execute(projectId, enviromentName, releaseId);
+        usecase.execute(projectId, namespaceName, releaseId);
     }
     
 }

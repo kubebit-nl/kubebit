@@ -14,7 +14,7 @@ public class StringToTemplateStatusConverter implements Converter<String, Templa
      */
     @Override
     public TemplateStatus convert(String source) {
-        if (source == null || source.isEmpty()) {
+        if (source.isEmpty()) {
             return null;
         }
         return TemplateStatus.valueOf(source.toUpperCase());

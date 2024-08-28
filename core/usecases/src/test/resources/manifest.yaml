@@ -233,7 +233,6 @@ metadata:
     app.kubernetes.io/version: 11.4.2
     helm.sh/chart: mariadb-19.0.3
     app.kubernetes.io/component: primary
-  annotations:
 spec:
   type: ClusterIP
   sessionAffinity: None
@@ -242,7 +241,6 @@ spec:
       port: 3306
       protocol: TCP
       targetPort: mysql
-      nodePort: null
   selector:
     app.kubernetes.io/instance: release-name
     app.kubernetes.io/name: mariadb
@@ -315,8 +313,6 @@ spec:
           ip: 127.0.0.1
       # yamllint enable rule:indentation
       affinity:
-        podAffinity:
-          
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
@@ -326,8 +322,6 @@ spec:
                     app.kubernetes.io/name: wordpress
                 topologyKey: kubernetes.io/hostname
               weight: 1
-        nodeAffinity:
-          
       securityContext:
         fsGroup: 1001
         fsGroupChangePolicy: Always
@@ -458,7 +452,6 @@ spec:
               value: "8080"
             - name: APACHE_HTTPS_PORT_NUMBER
               value: "8443"
-          envFrom:
           ports:
             - name: http
               containerPort: 8080
@@ -567,8 +560,6 @@ spec:
       automountServiceAccountToken: false
       serviceAccountName: release-name-mariadb
       affinity:
-        podAffinity:
-          
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - podAffinityTerm:
@@ -579,8 +570,6 @@ spec:
                     app.kubernetes.io/component: primary
                 topologyKey: kubernetes.io/hostname
               weight: 1
-        nodeAffinity:
-          
       securityContext:
         fsGroup: 1001
         fsGroupChangePolicy: Always

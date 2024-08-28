@@ -1,10 +1,11 @@
 package nl.kubebit.core.usecases.release;
 
+import nl.kubebit.core.usecases.release.util.ManifestAsyncInstaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.kubebit.core.entities.enviroment.exception.EnviromentNotFoundException;
-import nl.kubebit.core.entities.enviroment.gateway.EnviromentGateway;
+import nl.kubebit.core.entities.namespace.exception.NamespaceNotFoundException;
+import nl.kubebit.core.entities.namespace.gateway.NamespaceGateway;
 import nl.kubebit.core.entities.project.exception.ProjectNotFoundException;
 import nl.kubebit.core.entities.project.gateway.ProjectGateway;
 import nl.kubebit.core.entities.release.Release;
@@ -14,7 +15,6 @@ import nl.kubebit.core.entities.release.exception.ReleaseIsRunningException;
 import nl.kubebit.core.entities.release.exception.ReleaseNotCreatedException;
 import nl.kubebit.core.entities.release.exception.ReleaseNotFoundException;
 import nl.kubebit.core.entities.release.exception.RevisionNotFoundException;
-import nl.kubebit.core.entities.release.gateway.ManifestGateway;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 import nl.kubebit.core.entities.template.TemplateStatus;
 import nl.kubebit.core.entities.template.exception.TemplateInvalidStatusException;
@@ -27,7 +27,7 @@ import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
  * 
  */
 @Usecase
-public class RollbackReleaseRevisionUsecaseImpl implements RollbackReleaseRevisionUsecase {
+class RollbackReleaseRevisionUsecaseImpl implements RollbackReleaseRevisionUsecase {
     // --------------------------------------------------------------------------------------------
 
     //
@@ -35,60 +35,60 @@ public class RollbackReleaseRevisionUsecaseImpl implements RollbackReleaseRevisi
 
     //
     private final ProjectGateway projectGateway;
-    private final EnviromentGateway enviromentGateway;
+    private final NamespaceGateway namespaceGateway;
     private final TemplateGateway templateGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestGateway manifestGateway;
+    private final ManifestAsyncInstaller manifestInstaller;
 
     /**
-     * 
+     *
      * @param projectGateway
-     * @param enviromentGateway
+     * @param namespaceGateway
      * @param templateGateway
      * @param releaseGateway
-     * @param manifestGateway
+     * @param manifestInstaller
      */
     public RollbackReleaseRevisionUsecaseImpl(
-            ProjectGateway projectGateway, 
-            EnviromentGateway enviromentGateway,
-            TemplateGateway templateGateway, 
-            ReleaseGateway releaseGateway, 
-            ManifestGateway manifestGateway) {
+            ProjectGateway projectGateway,
+            NamespaceGateway namespaceGateway,
+            TemplateGateway templateGateway,
+            ReleaseGateway releaseGateway,
+            ManifestAsyncInstaller manifestInstaller) {
         this.projectGateway = projectGateway;
-        this.enviromentGateway = enviromentGateway;
+        this.namespaceGateway = namespaceGateway;
         this.templateGateway = templateGateway;
         this.releaseGateway = releaseGateway;
-        this.manifestGateway = manifestGateway;
+        this.manifestInstaller = manifestInstaller;
     }
 
     /**
      * 
      */
     @Override
-    public ReleaseResponse execute(String projectId, String enviromentName, String releaseId, Long revisionVersion) {
-        log.info("{} - {} -> fetch releases", projectId, enviromentName);
+    public ReleaseResponse execute(String projectId, String namespaceName, String releaseId, Long revisionVersion) {
+        log.info("{} - {} -> rollback release: {}", projectId, namespaceName, revisionVersion);
         var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var enviroment = enviromentGateway.findByName(project, enviromentName).orElseThrow(() -> new EnviromentNotFoundException(enviromentName));
-        var release = releaseGateway.findById(enviroment.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));  
+        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));  
         
-        //
+        // check if release is running
         if(ReleaseStatus.isRunning(release.status())) {
             throw new ReleaseIsRunningException(release.id());
         }
         
-        //
-        var revision = releaseGateway.findRevisionById(enviroment.id(), release, revisionVersion)
+        // find revision
+        var revision = releaseGateway.findRevisionById(namespace.id(), release, revisionVersion)
             .orElseThrow(() -> new RevisionNotFoundException(revisionVersion));
 
-        //
+        // find template
         var templateId = revision.template().id();
         var template = templateGateway.findById(templateId).orElseThrow(() -> new TemplateNotFoundException(templateId));
         if(template.status() != TemplateStatus.AVAILABLE) {
             throw new TemplateInvalidStatusException(template.status());
         }
         
-        // rolback release
-        var rollback = new Release(
+        // rollback release
+        var entity = new Release(
             release.id(), 
             release.version() + 1,
             new TemplateRef(template.chart(), template.version()),
@@ -97,17 +97,17 @@ public class RollbackReleaseRevisionUsecaseImpl implements RollbackReleaseRevisi
             ReleaseStatus.PENDING_ROLLBACK,
             null,
             null,
-            UpdateReleasesUsecaseImpl.getRevisions(release),
-            enviroment.id());
+            release.newRevisions(),
+            namespace.id());
         
         // rollback release
-        releaseGateway.update(rollback).orElseThrow(() -> new ReleaseNotCreatedException());
+        releaseGateway.update(entity).orElseThrow(ReleaseNotCreatedException::new);
 
-        // install manifest
-        manifestGateway.installManifest(project.id(), enviroment.name(), rollback, template);
+        // install manifest async
+        manifestInstaller.execute(project, namespace, template, entity);
 
         // return response
-        return new ReleaseResponse(rollback);
+        return new ReleaseResponse(entity);
     }
     
 }

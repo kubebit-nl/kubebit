@@ -116,9 +116,7 @@ public class ProjectRepository {
     }
 
     /**
-     * 
      * @param project
-     * @return 
      */
     @Caching( 
         evict = { 
@@ -126,14 +124,12 @@ public class ProjectRepository {
             @CacheEvict(value = CACHE_PROJECTS, allEntries = true)
         }
     )
-    public boolean delete(ProjectCRD project) {
+    public void delete(ProjectCRD project) {
         log.trace("--> delete project: {}", project);
         try {
             kubernetes.resources(ProjectCRD.class).resource(project).delete();
-            return true;
         } catch (Exception e) {
             log.trace("project not deleted -> {}", e.getMessage());
         }
-        return false;        
     }
 }

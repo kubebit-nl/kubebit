@@ -36,10 +36,10 @@ public class ResourceGatewayImpl implements ResourceGateway {
      * 
      */
     @Override
-    public Optional<Resource> getResource(String enviromentId, ReleaseResourceRef ref) {
-        log.info("{} -> get resource: {}", enviromentId, ref);
+    public Optional<Resource> getResource(String namespaceId, ReleaseResourceRef ref) {
+        log.info("{} -> get resource: {}", namespaceId, ref);
         return repository.getResource(
-                enviromentId,
+                namespaceId,
                 ref.apiVersion(),
                 ref.kind(),
                 ref.name())
@@ -50,9 +50,9 @@ public class ResourceGatewayImpl implements ResourceGateway {
      * 
      */
     @Override
-    public Optional<String> getLogs(String enviromentId, String podName, String containerName) {
-        log.info("{} -> get logs: {}/{}", enviromentId, podName, containerName);
-        return repository.getLogs(enviromentId, podName, containerName);
+    public Optional<String> getLogs(String namespaceId, String podName, String containerName) {
+        log.info("{} -> get logs: {}/{}", namespaceId, podName, containerName);
+        return repository.getLogs(namespaceId, podName, containerName);
     }
 
 }

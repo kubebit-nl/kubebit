@@ -12,7 +12,7 @@ import nl.kubebit.core.usecases.common.annotation.Usecase;
  * 
  */
 @Usecase
-public class GetProjectUsecaseImpl implements GetProjectUsecase {
+class GetProjectUsecaseImpl implements GetProjectUsecase {
     // --------------------------------------------------------------------------------------------
 
     //

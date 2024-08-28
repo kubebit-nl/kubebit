@@ -39,18 +39,18 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
      * 
      */
     @Override
-    public List<Release> findAll(String enviromentId) {
-        log.trace("{} -> fetch releases", enviromentId);
-        return repository.findAllInNamespace(enviromentId).stream().map(ReleaseMapper::toEntity).toList();
+    public List<Release> findAll(String namespaceId) {
+        log.trace("{} -> fetch releases", namespaceId);
+        return repository.findAllInNamespace(namespaceId).stream().map(ReleaseMapper::toEntity).toList();
     }
 
     /**
      * 
      */
     @Override
-    public Optional<Release> findById(String enviromentId, String releaseId) {
-        log.trace("{} -> get release: {}", enviromentId, releaseId);
-        return repository.findById(enviromentId, releaseId).map(ReleaseMapper::toEntity);
+    public Optional<Release> findById(String namespaceId, String releaseId) {
+        log.trace("{} -> get release: {}", namespaceId, releaseId);
+        return repository.findById(namespaceId, releaseId).map(ReleaseMapper::toEntity);
     }
 
     // -------
@@ -60,7 +60,7 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
      */
     @Override
     public Optional<Release> create(Release release) {
-        log.trace("save release: {}", release.id());
+        log.trace("save release: {} - v{}", release.id(), release.version());
         return repository.save(ReleaseMapper.toSchema(release)).map(ReleaseMapper::toEntity);
     }
 
@@ -69,7 +69,7 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
      */
     @Override
     public Optional<Release> update(Release release) {
-        log.trace("update release: {}", release.id());
+        log.trace("update release: {} - v{}", release.id(), release.version());
         return repository.update(ReleaseMapper.toSchema(release)).map(ReleaseMapper::toEntity);
     }
 
@@ -78,7 +78,7 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
      */
     @Override
     public Optional<Release> patch(Release release) {
-        log.trace("patch release status: {}", release.id());
+        log.trace("patch release status: {} - v{}", release.id(), release.version());
         return repository.patch(ReleaseMapper.toSchema(release)).map(ReleaseMapper::toEntity);
     }
 
@@ -88,10 +88,7 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
     @Override
     public void delete(Release release) {
         log.trace("delete release: {}", release.id());
-        
-        repository.delete(ReleaseMapper.toSchema(release)).get().stream().forEach(status -> {
-            log.error("delete release: {} -> {}", release.id(), status);
-        });
+        repository.delete(ReleaseMapper.toSchema(release)).ifPresent(l -> l.forEach(status -> log.error("delete release: {} -> {}", release.id(), status)));
     }
 
     // -------
@@ -100,20 +97,27 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
      * 
      */
     @Override
-    public List<ReleaseRef> findRevisions(String enviromentId, Release release) {
+    public List<ReleaseRef> findRevisions(String namespaceId, Release release) {
         log.trace("{} -> find release revisions", release.id());
-        return repository.findRevisions(enviromentId, release.id()).stream().map(ReleaseMapper::toEntity).toList();
+        return repository.findRevisions(namespaceId, release.id()).stream().map(ReleaseMapper::toEntity).toList();
     }
 
     /**
      * 
      */
     @Override
-    public Optional<ReleaseRef> findRevisionById(String enviromentId, Release release, Long revisionVersion) {
+    public Optional<ReleaseRef> findRevisionById(String namespaceId, Release release, Long revisionVersion) {
         log.trace("{} -> find release revision: {}", release.id(), revisionVersion);
-        return repository.findRevision(enviromentId, release.id(), revisionVersion).map(ReleaseMapper::toEntity);
+        return repository.findRevision(namespaceId, release.id(), revisionVersion).map(ReleaseMapper::toEntity);
     }
 
-    
+    /**
+     *
+     */
+    @Override
+    public boolean unique(String namespaceId, String releaseId) {
+        return repository.findById(namespaceId, releaseId).isEmpty();
+    }
+
 
 }

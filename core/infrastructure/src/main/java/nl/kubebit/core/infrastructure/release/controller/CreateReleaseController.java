@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Tag(name = "Release")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/enviroment/{enviroment_name}/release")
+@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/release")
 public class CreateReleaseController {
     // --------------------------------------------------------------------------------------------
 
@@ -41,9 +41,9 @@ public class CreateReleaseController {
     @PostMapping
     public ReleaseResponse getProject(
         @PathVariable("project_id") String projectId,
-        @PathVariable("enviroment_name") String enviromentName,
+        @PathVariable("namespace_name") String namespaceName,
         @RequestBody @Valid ReleaseCreateRequest request) {
-        return usecase.execute(projectId, enviromentName, request);
+        return usecase.execute(projectId, namespaceName, request);
     }
     
 }

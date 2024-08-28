@@ -1,18 +1,20 @@
 package nl.kubebit.core.entities.release.gateway;
 
-import nl.kubebit.core.entities.release.Release;
-import nl.kubebit.core.entities.template.Template;
+import nl.kubebit.core.entities.release.ReleaseResourceRef;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 /**
- * 
+ *
  */
 public interface ManifestGateway {
     // --------------------------------------------------------------------------------------------
 
-    //
-    void installManifest(String projectId, String envirmentName, Release release, Template template);
+    void createManifest(InputStream inputStream, String projectId, String releaseId, String releaseVersion, File targetFile) throws IOException;
 
-    //
-    void patchManifest(String projectId, String envirmentName, Release release);
-    
+    List<ReleaseResourceRef> applyManifest(File manifestFile) throws IOException;
+
 }

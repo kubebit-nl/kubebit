@@ -17,14 +17,13 @@ import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 public interface CreateReleaseUsecase {
     
     //
-    ReleaseResponse execute(String projectId, String enviromentName, ReleaseCreateRequest request) throws ProjectNotCreatedException;
+    ReleaseResponse execute(String projectId, String namespaceName, ReleaseCreateRequest request) throws ProjectNotCreatedException;
 
     /**
      * 
      */
-    public record ReleaseCreateRequest(
+    record ReleaseCreateRequest(
 
-        //@Unique
         @NotBlank
         @Size(min = 2, max = 100)
         @Pattern(regexp = "[a-z0-9]([-a-z0-9]*[a-z0-9])?")

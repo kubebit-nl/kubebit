@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import static nl.kubebit.core.usecases.common.vars.GlobalVars.CHARTS_LOCATION;
+import static nl.kubebit.core.usecases.common.vars.GlobalVars.MANIFESTS_LOCATION;
+
 /**
  * 
  */
@@ -17,10 +20,6 @@ public class StorageConfig implements CommandLineRunner {
 
     //
     private final Logger log = LoggerFactory.getLogger(getClass());
-    
-    //
-    public static final String CHARTS_LOCATION = "/.kubebit/charts";
-    public static final String MANIFESTS_LOCATION = "/.kubebit/manifests";
 
     /**
      * 

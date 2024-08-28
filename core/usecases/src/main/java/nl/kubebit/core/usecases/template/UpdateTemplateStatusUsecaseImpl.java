@@ -54,7 +54,7 @@ class UpdateTemplateStatusUsecaseImpl implements UpdateTemplateStatusUsecase {
         var update = template.setStatus(status, null);
 
         //
-        return gateway.updateStatus(update).map(TemplateResponse::new).orElseThrow(() -> new TemplateNotUpdatedException());
+        return gateway.updateStatus(update).map(TemplateResponse::new).orElseThrow(TemplateNotUpdatedException::new);
     }
     
 }

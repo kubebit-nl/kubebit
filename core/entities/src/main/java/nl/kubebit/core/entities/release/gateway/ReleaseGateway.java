@@ -11,9 +11,9 @@ import nl.kubebit.core.entities.release.ReleaseRef;
  */
 public interface ReleaseGateway {
     
-    List<Release> findAll(String enviromentId);
+    List<Release> findAll(String namespaceId);
 
-    Optional<Release> findById(String enviromentId, String releaseId);
+    Optional<Release> findById(String namespaceId, String releaseId);
 
     // -------
 
@@ -27,8 +27,9 @@ public interface ReleaseGateway {
 
     // -------
 
-    List<ReleaseRef> findRevisions(String enviromentId, Release release);
+    List<ReleaseRef> findRevisions(String namespaceId, Release release);
 
-    Optional<ReleaseRef> findRevisionById(String enviromentId, Release release, Long revisionVersion);
-    
+    Optional<ReleaseRef> findRevisionById(String namespaceId, Release release, Long revisionVersion);
+
+    boolean unique(String namespaceId, String releaseId);
 }

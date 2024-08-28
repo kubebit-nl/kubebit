@@ -17,7 +17,7 @@ public interface CreateProjectUsecase {
     /**
      * 
      */
-    public record ProjectRequest(
+    record ProjectRequest(
 
         @NotBlank
         @Size(min = 2, max = 50)

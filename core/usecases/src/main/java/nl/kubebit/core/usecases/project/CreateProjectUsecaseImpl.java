@@ -13,7 +13,7 @@ import nl.kubebit.core.usecases.common.annotation.Usecase;
  * 
  */
 @Usecase
-public class CreateProjectUsecaseImpl implements CreateProjectUsecase {
+class CreateProjectUsecaseImpl implements CreateProjectUsecase {
     // --------------------------------------------------------------------------------------------
 
     //

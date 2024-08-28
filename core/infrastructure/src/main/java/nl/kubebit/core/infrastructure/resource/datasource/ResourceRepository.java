@@ -97,21 +97,21 @@ public class ResourceRepository {
      */
     public List<Pod> getPods(StatefulSet statefulset) {
         return getPods(statefulset.getMetadata().getNamespace(), statefulset.getSpec().getTemplate().getMetadata().getLabels());
-    };
+    }
 
     /**
      * 
      */
     public List<Pod> getPods(Deployment deployment) {
         return getPods(deployment.getMetadata().getNamespace(), deployment.getSpec().getTemplate().getMetadata().getLabels());
-    };
+    }
 
     /**
      * 
      */
     public List<Pod> getPods(DaemonSet daemonSet) {
         return getPods(daemonSet.getMetadata().getNamespace(), daemonSet.getSpec().getTemplate().getMetadata().getLabels());
-    };
+    }
 
     /**
      * 
@@ -135,7 +135,7 @@ public class ResourceRepository {
             log.trace("failed to get pods: {}", e.getMessage());
         }
         return List.of();
-    };
+    }
 
     
 

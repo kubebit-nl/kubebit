@@ -29,13 +29,6 @@ public abstract class HelmChartUtils {
     //
     private static final Logger log = LoggerFactory.getLogger(HelmChartUtils.class);
 
-    //
-    public static final String YAML_EXT = ".yaml";
-
-    //
-    private HelmChartUtils() {
-    }
-
     /**
      * 
      * @param tarPath

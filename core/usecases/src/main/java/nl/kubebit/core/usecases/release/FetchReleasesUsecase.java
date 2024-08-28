@@ -9,5 +9,5 @@ import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
  */
 public interface FetchReleasesUsecase {
     
-    List<ReleaseResponse> execute(String projectId, String enviromentName);
+    List<ReleaseResponse> execute(String projectId, String namespaceName);
 }

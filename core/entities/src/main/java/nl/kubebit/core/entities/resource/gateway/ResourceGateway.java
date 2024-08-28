@@ -10,8 +10,8 @@ import nl.kubebit.core.entities.resource.Resource;
  */
 public interface ResourceGateway {
     
-    public Optional<Resource> getResource(String enviromentId, ReleaseResourceRef ref);
+    Optional<Resource> getResource(String namespaceId, ReleaseResourceRef ref);
 
-    public Optional<String> getLogs(String enviromentId, String podName, String containerName);
+    Optional<String> getLogs(String namespaceId, String podName, String containerName);
 
 }

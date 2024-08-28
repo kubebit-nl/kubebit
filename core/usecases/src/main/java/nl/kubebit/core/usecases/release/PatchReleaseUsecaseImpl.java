@@ -1,23 +1,23 @@
 package nl.kubebit.core.usecases.release;
 
+import nl.kubebit.core.usecases.release.util.ManifestAsyncPatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.kubebit.core.entities.enviroment.exception.EnviromentNotFoundException;
-import nl.kubebit.core.entities.enviroment.gateway.EnviromentGateway;
+import nl.kubebit.core.entities.namespace.exception.NamespaceNotFoundException;
+import nl.kubebit.core.entities.namespace.gateway.NamespaceGateway;
 import nl.kubebit.core.entities.project.exception.ProjectNotFoundException;
 import nl.kubebit.core.entities.project.gateway.ProjectGateway;
 import nl.kubebit.core.entities.release.Release;
 import nl.kubebit.core.entities.release.ReleaseStatus;
 import nl.kubebit.core.entities.release.exception.ReleaseIsRunningException;
 import nl.kubebit.core.entities.release.exception.ReleaseNotFoundException;
-import nl.kubebit.core.entities.release.gateway.ManifestGateway;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 import nl.kubebit.core.usecases.common.annotation.Usecase;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 @Usecase
-public class PatchReleaseUsecaseImpl implements PatchReleaseUsecase {
+class PatchReleaseUsecaseImpl implements PatchReleaseUsecase {
     // --------------------------------------------------------------------------------------------
 
     //
@@ -25,46 +25,45 @@ public class PatchReleaseUsecaseImpl implements PatchReleaseUsecase {
 
     //
     private final ProjectGateway projectGateway;
-    private final EnviromentGateway enviromentGateway;
+    private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestGateway manifestGateway;
+    private final ManifestAsyncPatcher manifestPatcher;
 
     /**
-     * 
-     * @param projectGateway
-     * @param enviromentGateway
-     * @param templateGateway
-     * @param releaseGateway
-     * @param manifestGateway
+     * Constructor
+     * @param projectGateway project gateway
+     * @param namespaceGateway namespace gateway
+     * @param releaseGateway release gateway
+     * @param manifestPatcher manifest patcher
      */
     public PatchReleaseUsecaseImpl(
-            ProjectGateway projectGateway, 
-            EnviromentGateway enviromentGateway,
-            ReleaseGateway releaseGateway, 
-            ManifestGateway manifestGateway) {
+            ProjectGateway projectGateway,
+            NamespaceGateway namespaceGateway,
+            ReleaseGateway releaseGateway,
+            ManifestAsyncPatcher manifestPatcher) {
         this.projectGateway = projectGateway;
-        this.enviromentGateway = enviromentGateway;
+        this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
-        this.manifestGateway = manifestGateway;
+        this.manifestPatcher = manifestPatcher;
     }
 
     /**
      * 
      */
     @Override
-    public ReleaseResponse execute(String projectId, String enviromentName, String releaseId) {
-        log.info("{} - {} -> patch release", projectId, enviromentName);
+    public ReleaseResponse execute(String projectId, String namespaceName, String releaseId) {
+        log.info("{} - {} -> patch release: {}", projectId, namespaceName, releaseId);
         var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var enviroment = enviromentGateway.findByName(project, enviromentName).orElseThrow(() -> new EnviromentNotFoundException(enviromentName));
-        var release = releaseGateway.findById(enviroment.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
+        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
         
-        //
+        // check if release is running
         if(ReleaseStatus.isRunning(release.status())) {
             throw new ReleaseIsRunningException(release.id());
         }
 
         // update release
-        var update  = new Release(
+        var entity = new Release(
             release.id(), 
             release.version(),
             release.template(),
@@ -74,13 +73,13 @@ public class PatchReleaseUsecaseImpl implements PatchReleaseUsecase {
             null,
             null,
             release.revisions(),
-            enviroment.id());
+            namespace.id());
 
-        // install manifest
-        manifestGateway.patchManifest(project.id(), enviroment.name(), update);
+        // patch manifest
+        manifestPatcher.execute(project, namespace, entity);
 
         // return response
-        return new ReleaseResponse(update);
+        return new ReleaseResponse(entity);
     }
     
 }

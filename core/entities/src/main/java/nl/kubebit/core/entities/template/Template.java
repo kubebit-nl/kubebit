@@ -34,7 +34,7 @@ public record Template(
     List<String> keywords,
 
     //
-    String enviromentId
+    String namespaceId
     
 ) {
     /**
@@ -61,7 +61,7 @@ public record Template(
             this.appVersion(),
             this.description(),
             this.keywords(),
-            this.enviromentId());
+            this.namespaceId());
     }
 
 }

@@ -49,7 +49,7 @@ public abstract class ReleaseMapper {
         //
         var meta = new ObjectMeta();
         meta.setName(entity.id());
-        meta.setNamespace(entity.enviromentId());
+        meta.setNamespace(entity.namespaceId());
 
         //
         var spec = new ReleaseCRDSpec(

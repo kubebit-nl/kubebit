@@ -9,6 +9,6 @@ import nl.kubebit.core.usecases.release.dto.ReleaseRefResponse;
  */
 public interface FetchReleaseRevisionsUsecase {
     
-    List<ReleaseRefResponse> execute(String projectId, String enviromentName, String releaseId);
+    List<ReleaseRefResponse> execute(String projectId, String namespaceName, String releaseId);
     
 }

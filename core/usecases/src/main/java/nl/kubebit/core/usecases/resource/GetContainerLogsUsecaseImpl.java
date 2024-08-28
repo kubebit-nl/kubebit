@@ -3,8 +3,8 @@ package nl.kubebit.core.usecases.resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.kubebit.core.entities.enviroment.exception.EnviromentNotFoundException;
-import nl.kubebit.core.entities.enviroment.gateway.EnviromentGateway;
+import nl.kubebit.core.entities.namespace.exception.NamespaceNotFoundException;
+import nl.kubebit.core.entities.namespace.gateway.NamespaceGateway;
 import nl.kubebit.core.entities.project.exception.ProjectNotFoundException;
 import nl.kubebit.core.entities.project.gateway.ProjectGateway;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
@@ -16,7 +16,7 @@ import nl.kubebit.core.usecases.common.annotation.Usecase;
  * 
  */
 @Usecase
-public class GetContainerLogsUsecaseImpl implements GetContainerLogsUsecase {
+class GetContainerLogsUsecaseImpl implements GetContainerLogsUsecase {
     // --------------------------------------------------------------------------------------------
 
     //
@@ -24,32 +24,32 @@ public class GetContainerLogsUsecaseImpl implements GetContainerLogsUsecase {
 
     //
     private final ProjectGateway projectGateway;
-    private final EnviromentGateway enviromentGateway;
+    private final NamespaceGateway namespaceGateway;
     private final ResourceGateway resourcegateway;
 
     /**
      * 
      * @param projectGateway
-     * @param enviromentGateway
+     * @param namespaceGateway
      * @param releaseGateway
      * @param resourcegateway
      */
     public GetContainerLogsUsecaseImpl(
             ProjectGateway projectGateway, 
-            EnviromentGateway enviromentGateway,
+            NamespaceGateway namespaceGateway,
             ReleaseGateway releaseGateway, 
             ResourceGateway resourcegateway) {
         this.projectGateway = projectGateway;
-        this.enviromentGateway = enviromentGateway;
+        this.namespaceGateway = namespaceGateway;
         this.resourcegateway = resourcegateway;
     }
 
     @Override
-    public String execute(String projectId, String enviromentName, String podName, String containerName) {
-        log.info("{} - {} -> get logs: {}/{}", projectId, enviromentName, podName, containerName);
+    public String execute(String projectId, String namespaceName, String podName, String containerName) {
+        log.info("{} - {} -> get logs: {}/{}", projectId, namespaceName, podName, containerName);
         var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var enviroment = enviromentGateway.findByName(project, enviromentName).orElseThrow(() -> new EnviromentNotFoundException(enviromentName));
-        return resourcegateway.getLogs(enviroment.id(), podName, containerName).orElseThrow(ResourceNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        return resourcegateway.getLogs(namespace.id(), podName, containerName).orElseThrow(ResourceNotFoundException::new);
     }
     
 }
