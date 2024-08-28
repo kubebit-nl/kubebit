@@ -12,8 +12,7 @@ public abstract class ProjectMapper {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * 
-     * @param spec
+     *
      */
     public static Project toEntity(ProjectCRD schema) {
         return new Project(
@@ -23,8 +22,7 @@ public abstract class ProjectMapper {
     }
 
     /**
-     * 
-     * @param entity
+     *
      */
     public static ProjectCRD toSchema(Project entity) {
 

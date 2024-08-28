@@ -22,16 +22,14 @@ public class DeleteReleaseController {
     private final DeleteReleaseUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public DeleteReleaseController(DeleteReleaseUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @DeleteMapping
     public void fetchDeployments(

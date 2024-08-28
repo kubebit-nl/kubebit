@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -60,9 +59,8 @@ public class IndexRepository {
      * @param repositoryUrl the repository url
      * @return the index file
      * @throws IOException if the file does not exist
-     * @throws URISyntaxException if the uri is invalid
      */
-    public File pullIndex(@NotBlank String repositoryUrl) throws IOException, URISyntaxException {
+    public File pullIndex(@NotBlank String repositoryUrl) throws IOException {
         log.trace("pull index: {}", repositoryUrl);
         var file = File.createTempFile("index", YAML_EXT);
         
@@ -87,9 +85,8 @@ public class IndexRepository {
      * Pull the chart from the repository
      * @param chartUri the chart uri
      * @return the chart file
-     * @throws IOException if the file does not exist
      */
-    public File pullChart(@NotNull URI chartUri) throws IOException {
+    public File pullChart(@NotNull URI chartUri) {
         String chart = chartUri.getPath().substring(chartUri.getPath().lastIndexOf('/') + 1);
         log.trace("pull chart: {}", chart);
         Path path = Paths.get(CHARTS_LOCATION, chart);
@@ -113,9 +110,8 @@ public class IndexRepository {
      * Get the chart from the local repository
      * @param templateId the template id
      * @return the chart file
-     * @throws IOException if the file does not exist
      */
-    public Optional<File> getChart(String templateId) throws IOException {
+    public Optional<File> getChart(String templateId) {
         String chart = templateId + ".tgz";
         log.trace("get chart: {}", chart);
         Path path = Paths.get(CHARTS_LOCATION, chart);

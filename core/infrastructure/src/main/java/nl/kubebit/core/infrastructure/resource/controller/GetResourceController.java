@@ -25,19 +25,14 @@ public class GetResourceController {
     private final GetResourceUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public GetResourceController(GetResourceUsecase usecase) {
         this.usecase = usecase;
     }
     
     /**
-     * 
-     * @param projectId
-     * @param namespaceName
-     * @param ref
-     * @return 
+     *
      */
     @GetMapping
     public Resource getResource(

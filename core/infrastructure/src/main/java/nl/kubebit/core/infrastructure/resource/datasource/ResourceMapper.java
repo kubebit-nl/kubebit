@@ -39,9 +39,7 @@ public abstract class ResourceMapper {
     private static final Logger log = LoggerFactory.getLogger(ResourceMapper.class);
 
     /**
-     * 
-     * @param resource
-     * @return
+     *
      */
     public static Resource toEntity(GenericKubernetesResource resource, ResourceRepository repository) {
 
@@ -56,14 +54,14 @@ public abstract class ResourceMapper {
         // Secret        
         if(Secret.class.getSimpleName().equals(resource.getKind())) {
             var secret = toClass(resource, Secret.class);
-            type = secret.map(s -> s.getType()).orElse(null);
-            data = secret.map(s -> s.getData()).orElse(null);     
+            type = secret.map(Secret::getType).orElse(null);
+            data = secret.map(Secret::getData).orElse(null);
         }
 
         // ------------------------------
         // ConfigMap
         if(ConfigMap.class.getSimpleName().equals(resource.getKind())) {
-            data = toClass(resource, ConfigMap.class).map(c -> c.getData()).orElse(null);
+            data = toClass(resource, ConfigMap.class).map(ConfigMap::getData).orElse(null);
         }
 
         // ------------------------------
@@ -79,7 +77,7 @@ public abstract class ResourceMapper {
         if(Deployment.class.getSimpleName().equals(resource.getKind())) {
             var deployment = toClass(resource, Deployment.class);
             replicas = deployment.map(s -> s.getSpec().getReplicas()).orElse(null);
-            pods = deployment.map(e -> repository.getPods(e)).orElse(List.of()).stream().map(ResourceMapper::toPod).toList();
+            pods = deployment.map(repository::getPods).orElse(List.of()).stream().map(ResourceMapper::toPod).toList();
             pods = pods.isEmpty() ? null : pods;
         }
 
@@ -88,7 +86,7 @@ public abstract class ResourceMapper {
         if(StatefulSet.class.getSimpleName().equals(resource.getKind())) {
             var statefulset = toClass(resource, StatefulSet.class);
             replicas = statefulset.map(s -> s.getSpec().getReplicas()).orElse(null);
-            pods = statefulset.map(e -> repository.getPods(e)).orElse(List.of()).stream().map(ResourceMapper::toPod).toList();
+            pods = statefulset.map(repository::getPods).orElse(List.of()).stream().map(ResourceMapper::toPod).toList();
             pods = pods.isEmpty() ? null : pods;
         }
 
@@ -96,7 +94,7 @@ public abstract class ResourceMapper {
         // StatefulSet
         if(DaemonSet.class.getSimpleName().equals(resource.getKind())) {
             var daemonset = toClass(resource, DaemonSet.class);
-            pods = daemonset.map(e -> repository.getPods(e)).orElse(List.of()).stream().map(ResourceMapper::toPod).toList();
+            pods = daemonset.map(repository::getPods).orElse(List.of()).stream().map(ResourceMapper::toPod).toList();
             pods = pods.isEmpty() ? null : pods;
         }
 
@@ -117,17 +115,13 @@ public abstract class ResourceMapper {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * 
-     * @param <T>
-     * @param resource
-     * @param clazz
-     * @return
+     *
      */
     private static <T> Optional<T> toClass(GenericKubernetesResource resource, Class<T> clazz) {
         try {
             return Optional.of(new ObjectMapper().convertValue(resource, clazz));
         } catch (Exception e) {
-            log.error("failed to convert to " + clazz.getSimpleName(), e.getMessage());
+            log.error("failed to convert to {} - {}", clazz.getSimpleName(), e.getMessage());
         }
         return Optional.empty();
     }
@@ -135,9 +129,7 @@ public abstract class ResourceMapper {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * 
-     * @param port
-     * @return
+     *
      */
     private static ResourcePort toPort(ServicePort port) {
         return new ResourcePort(
@@ -148,9 +140,7 @@ public abstract class ResourceMapper {
     }
 
     /**
-     * 
-     * @param pod
-     * @return
+     *
      */
     private static ResourcePod toPod(Pod pod) {
         var status = PodStatusUtil.getContainerStatus(pod);
@@ -165,9 +155,7 @@ public abstract class ResourceMapper {
     }
 
     /**
-     * 
-     * @param container
-     * @return
+     *
      */
     private static ResourceContainer toContainer(Container container, List<ContainerStatus> list) {
         var status = list.stream().filter(s -> s.getName().equals(container.getName())).findAny()
@@ -181,9 +169,7 @@ public abstract class ResourceMapper {
     }
 
     /**
-     * 
-     * @param status
-     * @return
+     *
      */
     private static ResourceContainerStatus toStatus(ContainerStatus status) {
 

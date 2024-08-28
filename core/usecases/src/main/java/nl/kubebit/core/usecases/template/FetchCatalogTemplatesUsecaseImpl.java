@@ -24,8 +24,7 @@ class FetchCatalogTemplatesUsecaseImpl implements FetchCatalogTemplatesUsecase {
     private final TemplateGateway gateway;
     
     /**
-     * 
-     * @param gateway
+     *
      */
     public FetchCatalogTemplatesUsecaseImpl(TemplateGateway gateway) {
         this.gateway = gateway;

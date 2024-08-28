@@ -26,16 +26,14 @@ public class CreateNamespaceController {
     private final CreateNamespaceUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public CreateNamespaceController(CreateNamespaceUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PostMapping
     public NamespaceResponse getProject(

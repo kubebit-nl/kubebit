@@ -28,11 +28,7 @@ class GetContainerLogsUsecaseImpl implements GetContainerLogsUsecase {
     private final ResourceGateway resourcegateway;
 
     /**
-     * 
-     * @param projectGateway
-     * @param namespaceGateway
-     * @param releaseGateway
-     * @param resourcegateway
+     *
      */
     public GetContainerLogsUsecaseImpl(
             ProjectGateway projectGateway, 

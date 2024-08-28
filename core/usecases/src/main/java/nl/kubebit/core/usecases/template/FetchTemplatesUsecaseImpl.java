@@ -23,8 +23,7 @@ class FetchTemplatesUsecaseImpl implements FetchTemplatesUsecase {
     private final TemplateGateway gateway;
     
     /**
-     * 
-     * @param gateway
+     *
      */
     public FetchTemplatesUsecaseImpl(TemplateGateway gateway) {
         this.gateway = gateway;

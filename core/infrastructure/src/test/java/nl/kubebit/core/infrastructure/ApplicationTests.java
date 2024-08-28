@@ -15,6 +15,7 @@ class ApplicationTests {
 	//
 	@Test
 	void smokeTest() {
+		// running spring boot application is the test
 	}
 
 }

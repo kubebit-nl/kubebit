@@ -26,16 +26,14 @@ public class FetchReleaseRevisionsController {
     private final FetchReleaseRevisionsUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public FetchReleaseRevisionsController(FetchReleaseRevisionsUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping
     public List<ReleaseRefResponse> fetchDeployments(

@@ -50,8 +50,6 @@ public class SseEventController {
 
     /**
      *
-     * @param groupId
-     * @param event
      */
     @PostMapping("/send/{groupId}")
     public void sendEventToGroup(@PathVariable String groupId, @RequestBody String event) {

@@ -25,16 +25,14 @@ public class UpdateTemplateStatusController {
     private final UpdateTemplateStatusUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public UpdateTemplateStatusController(UpdateTemplateStatusUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PutMapping
     @Operation(summary = "Update template status [DEPRECATED, AVAILABLE]")

@@ -28,8 +28,7 @@ public class NamespaceGatewayImpl implements NamespaceGateway {
     private final NamespaceRepository repository;
 
     /**
-     * 
-     * @param repository
+     *
      */
     public NamespaceGatewayImpl(NamespaceRepository repository) {
         this.repository = repository;

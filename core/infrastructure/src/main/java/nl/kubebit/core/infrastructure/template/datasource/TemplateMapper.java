@@ -18,9 +18,7 @@ public abstract class TemplateMapper {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * 
-     * @param schema
-     * @return
+     *
      */
     public static Template toEntity(TemplateCRD schema) {
         return new Template(
@@ -46,9 +44,7 @@ public abstract class TemplateMapper {
     
 
     /**
-     * 
-     * @param project
-     * @return
+     *
      */
     public static TemplateCRD toSchema(Template entity) {
 
@@ -89,9 +85,7 @@ public abstract class TemplateMapper {
 
 
     /**
-     * 
-     * @param anyType
-     * @return
+     *
      */
     @SuppressWarnings("unchecked")
     private static Map<String, Object> transformAnyType(AnyType anyType) {
@@ -99,9 +93,7 @@ public abstract class TemplateMapper {
     }
     
     /**
-     * 
-     * @param map
-     * @return
+     *
      */
     private static AnyType transformAnyType(Map<String, Object> map) {
         return map == null ? null : new AnyType(map);

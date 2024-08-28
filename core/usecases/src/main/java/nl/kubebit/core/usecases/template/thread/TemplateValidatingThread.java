@@ -1,7 +1,6 @@
 package nl.kubebit.core.usecases.template.thread;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
@@ -117,23 +116,21 @@ public class TemplateValidatingThread extends Thread {
     // --------------------------
 
     /**
-     * 
-     * @param tarFile
-     * @param fileName
-     * @return
-     * @throws FileNotFoundException
-     * @throws IOException
+     * Save chart file
+     * @param tarFile tar file
+     * @param fileName file name
+     * @return file
      */
-    private static File saveChartFile(File tarFile, String fileName) throws FileNotFoundException, IOException {
-        var schemaPath = Files.createTempFile("", fileName).toFile();
-        HelmChartUtils.saveChartFile(tarFile, schemaPath, fileName);
-        return schemaPath;
+    private static File saveChartFile(File tarFile, String fileName) throws IOException {
+        var file = Files.createTempFile("", fileName).toFile();
+        HelmChartUtils.saveChartFile(tarFile, file, fileName);
+        return file;
     }
 
     /**
-     * 
-     * @param schemaFile
-     * @return
+     * Load schema
+     * @param schemaFile schema file
+     * @return schema
      */
     @SuppressWarnings("unchecked")
     private static Map<String, Object> loadSchema(File schemaFile) {
@@ -146,9 +143,9 @@ public class TemplateValidatingThread extends Thread {
     }
 
     /**
-     * 
-     * @param valuesFile
-     * @return
+     * Load values
+     * @param valuesFile values file
+     * @return values
      */
     private static Map<String, Object> loadValues(File valuesFile) {
         final Yaml yaml = new Yaml();
@@ -160,9 +157,9 @@ public class TemplateValidatingThread extends Thread {
     }
 
     /**
-     * 
-     * @param chart
-     * @return
+     * Set chart
+     * @param chart chart
+     * @return template
      */
     private Template setChart(Template template, Chart chart) {
         return new Template(
@@ -186,9 +183,9 @@ public class TemplateValidatingThread extends Thread {
     }
 
     /**
-     * 
-     * @param schema
-     * @return
+     * Set schema and values
+     * @param schema schema
+     * @return template
      */
     private Template setSchemaAndValues(Template template, Map<String, Object> schema, Map<String, Object> values) {
         return new Template(
@@ -212,12 +209,14 @@ public class TemplateValidatingThread extends Thread {
     }
 
     /**
-     * 
-     * @param file
+     * Delete file
+     * @param file file
      */
     private void deleteFile(File file) {
         if (file != null && file.exists()) {
-            file.delete();
+            if(!file.delete()) {
+                log.error("failed to delete file: {}", file.getAbsolutePath());
+            }
         }
     }
 

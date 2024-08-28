@@ -29,16 +29,14 @@ public class GetReleaseManifestController {
     private final GetReleaseManifestUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public GetReleaseManifestController(GetReleaseManifestUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping
     public ResponseEntity<Resource> fetchDeployments(

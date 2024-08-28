@@ -29,9 +29,6 @@ class GetReleaseRevisionUsecaseImpl implements GetReleaseRevisionUsecase {
 
     /**
      *
-     * @param projectGateway
-     * @param namespaceGateway
-     * @param releaseGateway
      */
     public GetReleaseRevisionUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway) {
         this.projectGateway = projectGateway;

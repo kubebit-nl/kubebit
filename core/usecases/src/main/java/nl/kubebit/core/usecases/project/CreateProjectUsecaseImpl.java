@@ -23,8 +23,7 @@ class CreateProjectUsecaseImpl implements CreateProjectUsecase {
     private final ProjectGateway gateway;
 
     /**
-     * 
-     * @param gateway
+     *
      */
     public CreateProjectUsecaseImpl(ProjectGateway gateway) {
         this.gateway = gateway;

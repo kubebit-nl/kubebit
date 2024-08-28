@@ -29,10 +29,7 @@ class DeleteReleaseUsecaseImpl implements DeleteReleaseUsecase {
     private final ReleaseGateway releaseGateway;
     
     /**
-     * 
-     * @param projectGateway
-     * @param namespaceGateway
-     * @param releaseGateway
+     *
      */
     public DeleteReleaseUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway) {
         this.projectGateway = projectGateway;

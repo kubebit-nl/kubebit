@@ -49,9 +49,7 @@ public record Resource(
 ) {
 
     /**
-     * 
-     * @param apiVersion
-     * @return
+     *
      */
     public static String extractGroup(String apiVersion) {
         if(apiVersion.contains("/")) {
@@ -61,9 +59,7 @@ public record Resource(
     }
 
     /**
-     * 
-     * @param apiVersion
-     * @return
+     *
      */
     public static String extractVersion(String apiVersion) {
         if(apiVersion.contains("/")) {

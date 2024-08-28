@@ -8,7 +8,7 @@ import nl.kubebit.core.entities.common.exception.EntityNotCreatedException;
 public class NamespaceNotCreatedException extends EntityNotCreatedException {
 
     public NamespaceNotCreatedException() {
-        super("Enviroment not created");
+        super("Namespace not created");
     }
     
 }

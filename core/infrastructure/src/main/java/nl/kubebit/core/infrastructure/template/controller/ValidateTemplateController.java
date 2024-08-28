@@ -23,16 +23,14 @@ public class ValidateTemplateController {
     private final ValidateTemplateUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public ValidateTemplateController(ValidateTemplateUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PostMapping
     public TemplateResponse validateTemplate(

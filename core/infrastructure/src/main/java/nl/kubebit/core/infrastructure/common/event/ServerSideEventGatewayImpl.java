@@ -1,7 +1,5 @@
 package nl.kubebit.core.infrastructure.common.event;
 
-import java.io.IOException;
-
 import org.springframework.context.ApplicationEventPublisher;
 
 import nl.kubebit.core.usecases.common.annotation.Gateway;
@@ -18,8 +16,7 @@ public class ServerSideEventGatewayImpl implements ServerSideEventGateway {
     private final ApplicationEventPublisher publisher;
 
     /**
-     * 
-     * @param publisher
+     *
      */
     public ServerSideEventGatewayImpl(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
@@ -29,7 +26,7 @@ public class ServerSideEventGatewayImpl implements ServerSideEventGateway {
      * 
      */
     @Override
-    public void sendEvent(String projectId, Object event) throws IOException {
+    public void sendEvent(String projectId, Object event) {
         publisher.publishEvent(new InnerEvent(projectId, event));
     }
 

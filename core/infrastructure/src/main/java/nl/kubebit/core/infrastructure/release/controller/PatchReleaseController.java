@@ -23,16 +23,14 @@ public class PatchReleaseController {
     private final PatchReleaseUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public PatchReleaseController(PatchReleaseUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PatchMapping
     public ReleaseResponse fetchDeployments(

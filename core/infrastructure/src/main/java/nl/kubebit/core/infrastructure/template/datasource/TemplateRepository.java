@@ -25,16 +25,14 @@ public class TemplateRepository {
     private final KubernetesClient kubernetes;
 
     /**
-     * 
-     * @param kubernetes
+     *
      */
     public TemplateRepository(KubernetesClient kubernetes) {
         this.kubernetes = kubernetes;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     public List<TemplateCRD> findAll() {
         log.trace("find all templates");
@@ -42,9 +40,7 @@ public class TemplateRepository {
     }
 
     /**
-     * 
-     * @param templateId
-     * @return
+     *
      */
     public Optional<TemplateCRD> findById(String templateId) {
         log.trace("find template by id: {}", templateId);
@@ -52,10 +48,7 @@ public class TemplateRepository {
     }
 
     /**
-     * 
-     * @param namespace
-     * @param release
-     * @return
+     *
      */
     public Optional<TemplateCRD> save(TemplateCRD release) {
         log.trace("save template: {}", release.getMetadata().getName());
@@ -68,9 +61,7 @@ public class TemplateRepository {
     }
 
     /**
-     * 
-     * @param release
-     * @return
+     *
      */
     public Optional<TemplateCRD> update(TemplateCRD release) {
         log.trace("update template: {}", release.getMetadata().getName());
@@ -83,9 +74,7 @@ public class TemplateRepository {
     }
 
     /**
-     * 
-     * @param release
-     * @return
+     *
      */
     public Optional<TemplateCRD> updateStatus(TemplateCRD release) {
         log.trace("update status template: {}", release.getMetadata().getName());

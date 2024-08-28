@@ -3,7 +3,6 @@ package nl.kubebit.core.entities.template.gateway;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -28,11 +27,11 @@ public interface TemplateGateway {
 
     // -----------------------------------------------
     
-    File pullIndex(String repositoryUrl) throws URISyntaxException, IOException;
+    File pullIndex(String repositoryUrl) throws IOException;
 
-    File pullChart(URI chartUri) throws IOException;
+    File pullChart(URI chartUri);
 
-    Optional<File> getChart(String templateId) throws IOException;
+    Optional<File> getChart(String templateId);
 
     ChartWrapper parseIndexFile(File index) throws IOException;
 

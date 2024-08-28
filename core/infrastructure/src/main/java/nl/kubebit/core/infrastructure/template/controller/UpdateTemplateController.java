@@ -26,16 +26,14 @@ public class UpdateTemplateController {
     private final UpdateTemplateUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public UpdateTemplateController(UpdateTemplateUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PutMapping
     public TemplateResponse createTemplate(

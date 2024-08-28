@@ -23,16 +23,14 @@ public class GetNamespaceController {
     private final GetNamespaceUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public GetNamespaceController(GetNamespaceUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping("/{namespace_name}")
     public NamespaceResponse getProject(

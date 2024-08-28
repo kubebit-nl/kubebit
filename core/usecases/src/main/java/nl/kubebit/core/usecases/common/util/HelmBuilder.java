@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,18 +32,14 @@ public class HelmBuilder {
     }
 
     /**
-     * 
-     * @return
+     *
      */
     public static HelmBuilder init() {
         return new HelmBuilder();
     }
 
     /**
-     * 
-     * @param release
-     * @param file
-     * @return
+     *
      */
     public HelmBuilder template(String release, File file) {
         commandStrings.addAll(List.of("template", release, file.getAbsolutePath()));
@@ -52,9 +47,7 @@ public class HelmBuilder {
     }
     
     /**
-     * 
-     * @param additionalArg
-     * @return
+     *
      */
     public HelmBuilder additionalArg(String additionalArg) {
         commandStrings.add(additionalArg);
@@ -62,9 +55,7 @@ public class HelmBuilder {
     }
 
     /**
-     * 
-     * @param additionalArgs
-     * @return
+     *
      */
     public HelmBuilder additionalArgs(List<String> additionalArgs) {
         commandStrings.addAll(additionalArgs);
@@ -72,9 +63,7 @@ public class HelmBuilder {
     }
 
     /**
-     * 
-     * @param namespaceName
-     * @return
+     *
      */
     public HelmBuilder namespace(String namespaceName) {
         commandStrings.add("--namespace");
@@ -83,9 +72,7 @@ public class HelmBuilder {
     }
 
     /**
-     * 
-     * @param valuesPath
-     * @return
+     *
      */
     public HelmBuilder values(Path valuesPath) {
         commandStrings.add("--values");
@@ -94,8 +81,7 @@ public class HelmBuilder {
     }
 
     /**
-     * 
-     * @return
+     *
      */
     public HelmBuilder outputJson() {
         commandStrings.add("--output");
@@ -106,23 +92,17 @@ public class HelmBuilder {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * 
-     * @return
-     * @throws IOException
+     *
      */
     public Process executeAs() throws IOException {
-        log.trace("execution: {}", commandStrings.stream().collect(Collectors.joining(" ")));
+        log.trace("execution: {}", String.join(" ", commandStrings));
         ProcessBuilder builder = new ProcessBuilder();
         builder.command(commandStrings);
         return builder.start();
     }
 
     /**
-     * 
-     * @return
-     * @throws IOException
-     * @throws RuntimeException
-     * @throws InterruptedException 
+     *
      */
     public String execute() throws IOException, RuntimeException, InterruptedException {
         var process = this.executeAs();        
@@ -136,10 +116,7 @@ public class HelmBuilder {
     }
 
     /**
-     * 
-     * @param stream
-     * @return
-     * @throws IOException
+     *
      */
     private String fetchStream(InputStream stream) throws IOException {
         var output = new StringBuilder();
@@ -147,7 +124,7 @@ public class HelmBuilder {
             try(var reader = new BufferedReader(input)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
-                    output.append(line + "\n");
+                    output.append(line).append("\n");
                 }
             }
         }

@@ -24,16 +24,14 @@ public class FetchProjectsController {
     private final FetchProjectsUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public FetchProjectsController(FetchProjectsUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping
     public List<ProjectResponse> fetchProjects() {

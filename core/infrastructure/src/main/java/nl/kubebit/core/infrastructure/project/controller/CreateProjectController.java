@@ -25,16 +25,14 @@ public class CreateProjectController {
     private final CreateProjectUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public CreateProjectController(CreateProjectUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PostMapping
     public ProjectResponse getProject(@RequestBody @Valid ProjectRequest request) {

@@ -29,10 +29,7 @@ class FetchReleasesUsecaseImpl implements FetchReleasesUsecase {
     private final ReleaseGateway releaseGateway;
     
     /**
-     * 
-     * @param projectGateway
-     * @param namespaceGateway
-     * @param releaseGateway
+     *
      */
     public FetchReleasesUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway) {
         this.projectGateway = projectGateway;

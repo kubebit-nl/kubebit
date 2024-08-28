@@ -23,8 +23,7 @@ public class GetContainerLogsController {
     private final GetContainerLogsUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public GetContainerLogsController(GetContainerLogsUsecase usecase) {
         this.usecase = usecase;
@@ -32,11 +31,6 @@ public class GetContainerLogsController {
 
     /**
      *
-     * @param projectId
-     * @param namespaceName
-     * @param pod
-     * @param container
-     * @return
      */
     @GetMapping
     public String getResource(

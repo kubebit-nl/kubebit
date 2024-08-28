@@ -27,8 +27,7 @@ public class ProjectGatewayImpl implements ProjectGateway {
     private final ProjectRepository repository;
 
     /**
-     * 
-     * @param repository
+     *
      */
     public ProjectGatewayImpl(ProjectRepository repository) {
         this.repository = repository;

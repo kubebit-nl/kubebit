@@ -14,8 +14,7 @@ public class KubernetesConfig {
    // --------------------------------------------------------------------------------------------
    
     /**
-     * 
-     * @return
+     *
      */
     @Bean
     KubernetesClient kubernetesClient() {

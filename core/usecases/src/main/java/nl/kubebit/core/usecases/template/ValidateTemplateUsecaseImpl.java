@@ -27,8 +27,7 @@ class ValidateTemplateUsecaseImpl implements ValidateTemplateUsecase {
     private final TemplateGateway gateway;
     
     /**
-     * 
-     * @param gateway
+     *
      */
     public ValidateTemplateUsecaseImpl(ServerSideEventGateway eventGateway, TemplateGateway gateway) {
         this.eventGateway = eventGateway;

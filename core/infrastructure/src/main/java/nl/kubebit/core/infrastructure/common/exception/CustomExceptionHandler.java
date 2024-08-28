@@ -27,9 +27,7 @@ public class CustomExceptionHandler {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     /**
-     * 
-     * @param e
-     * @return
+     *
      */
     @ExceptionHandler({
         EntityNotCreatedException.class,
@@ -42,9 +40,7 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 
-     * @param e
-     * @return
+     *
      */
     @ExceptionHandler(EntityAlreadyExistsException.class)
     public ResponseEntity<String> handleEntityAlreadyExistsException(EntityAlreadyExistsException e) {
@@ -52,9 +48,7 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 
-     * @param e
-     * @return
+     *
      */
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e) {
@@ -63,9 +57,7 @@ public class CustomExceptionHandler {
 
 
     /**
-     * 
-     * @param e
-     * @return
+     *
      */
     @ExceptionHandler(AsyncRequestTimeoutException.class)
     public ResponseEntity<String> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException e) {
@@ -74,9 +66,7 @@ public class CustomExceptionHandler {
     }
 
     /**
-     * 
-     * @param e
-     * @return
+     *
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {

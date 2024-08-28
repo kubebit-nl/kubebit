@@ -27,16 +27,14 @@ public class ReleaseRepository {
     private final KubernetesClient kubernetes;
 
     /**
-     * 
-     * @param kubernetes
+     *
      */
     public ReleaseRepository(KubernetesClient kubernetes) {
         this.kubernetes = kubernetes;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     public List<ReleaseCRD> findAll() {
         log.trace("find all releases");
@@ -44,9 +42,7 @@ public class ReleaseRepository {
     }
 
     /**
-     * 
-     * @param namespace
-     * @return
+     *
      */
     public List<ReleaseCRD> findAllInNamespace(String namespace) {
         log.trace("{} -> find all releases", namespace);
@@ -54,10 +50,7 @@ public class ReleaseRepository {
     }
 
     /**
-     * 
-     * @param namespace
-     * @param releaseId
-     * @return
+     *
      */
     public Optional<ReleaseCRD> findById(String namespace, String releaseId) {
         log.trace("{} -> get release: {}", namespace, releaseId);
@@ -73,10 +66,7 @@ public class ReleaseRepository {
     // -------------------------------
 
     /**
-     * 
-     * @param namespace
-     * @param release
-     * @return
+     *
      */
     public Optional<ReleaseCRD> save(ReleaseCRD release) {
         log.trace("{} -> save release: {}", release.getMetadata().getNamespace(), release.getMetadata().getName());
@@ -90,10 +80,7 @@ public class ReleaseRepository {
     }
 
     /**
-     * 
-     * @param namespaceId
-     * @param schema
-     * @return
+     *
      */
     public Optional<ReleaseCRD> update(ReleaseCRD release) {
         log.trace("{} -> update release: {}", release.getMetadata().getNamespace(), release.getMetadata().getName());
@@ -107,10 +94,7 @@ public class ReleaseRepository {
     }
 
     /**
-     * 
-     * @param namespace
-     * @param release
-     * @return
+     *
      */
     public Optional<ReleaseCRD> patch(ReleaseCRD release) {
         log.trace("{} -> patch release status: {}", release.getMetadata().getNamespace(), release.getMetadata().getName());
@@ -118,23 +102,21 @@ public class ReleaseRepository {
             return Optional.of(kubernetes.resources(ReleaseCRD.class)
                     .inNamespace(release.getMetadata().getNamespace()).resource(release).patchStatus());
         } catch (Exception e) {
-            log.trace("{} -> release not updated -> {}", release.getMetadata().getNamespace(), e.getMessage());
+            log.trace("{} -> release not patched -> {}", release.getMetadata().getNamespace(), e.getMessage());
         }
         return Optional.empty();
     }
 
     /**
-     * 
-     * @param schema
-     * @return
+     *
      */
     public Optional<List<StatusDetails>> delete(ReleaseCRD release) {
-        log.trace("{} -> update release: {}", release.getMetadata().getNamespace(), release.getMetadata().getName());
+        log.trace("{} -> delete release: {}", release.getMetadata().getNamespace(), release.getMetadata().getName());
         try {
             return Optional.of(kubernetes.resources(ReleaseCRD.class)
                     .inNamespace(release.getMetadata().getNamespace()).resource(release).delete());
         } catch (Exception e) {
-            log.trace("{} -> release not updated -> {}", release.getMetadata().getNamespace(), e.getMessage());
+            log.trace("{} -> release not deleted -> {}", release.getMetadata().getNamespace(), e.getMessage());
         }
         return Optional.empty();
     }
@@ -142,10 +124,7 @@ public class ReleaseRepository {
     // -------------------------------
 
     /**
-     * 
-     * @param namespace
-     * @param release
-     * @return
+     *
      */
     public List<ReleaseCRDSpec> findRevisions(String namespace, String releaseId) {
         log.trace("{} -> find release revisions: {}", namespace, releaseId);
@@ -161,11 +140,7 @@ public class ReleaseRepository {
     }
 
     /**
-     * 
-     * @param namespaceId
-     * @param id
-     * @param revisionVersion
-     * @return
+     *
      */
     public Optional<ReleaseCRDSpec> findRevision(String namespace, String releaseId, Long revisionVersion) {
         log.trace("{} -> find release revisions: {}", namespace, releaseId);

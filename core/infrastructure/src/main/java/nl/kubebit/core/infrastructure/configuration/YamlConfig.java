@@ -15,7 +15,6 @@ public class YamlConfig {
 
     /**
      * enable YAMLFactory with custom options
-     * @return
      */
     @Bean
     YAMLFactory initYAMLFactory() {

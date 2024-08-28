@@ -36,16 +36,14 @@ public class ProjectRepository {
     private final KubernetesClient kubernetes;
 
     /**
-     * 
-     * @param kubernetes
+     *
      */
     public ProjectRepository(KubernetesClient kubernetes) {
         this.kubernetes = kubernetes;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @Cacheable(CACHE_PROJECTS)
     public List<ProjectCRD> findAll() {
@@ -54,9 +52,7 @@ public class ProjectRepository {
     }
 
     /**
-     * 
-     * @param id
-     * @return
+     *
      */
     @Cacheable(value = CACHE_PROJECT, key = "#id", unless = CACHE_PROJECT_UNLESS)
     public Optional<ProjectCRD> findById(String id) {
@@ -70,9 +66,7 @@ public class ProjectRepository {
     }
 
     /**
-     * 
-     * @param project
-     * @return
+     *
      */
     @Caching(
         put = {
@@ -93,9 +87,7 @@ public class ProjectRepository {
     }
 
     /**
-     * 
-     * @param project
-     * @return
+     *
      */
     @Caching( 
         put = {
@@ -116,7 +108,6 @@ public class ProjectRepository {
     }
 
     /**
-     * @param project
      */
     @Caching( 
         evict = { 

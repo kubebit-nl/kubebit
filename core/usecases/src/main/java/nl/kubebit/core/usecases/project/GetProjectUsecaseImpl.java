@@ -22,8 +22,7 @@ class GetProjectUsecaseImpl implements GetProjectUsecase {
     private final ProjectGateway gateway;
 
     /**
-     * 
-     * @param gateway
+     *
      */
     public GetProjectUsecaseImpl(ProjectGateway gateway) {
         this.gateway = gateway;

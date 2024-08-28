@@ -146,13 +146,14 @@ public class ManifestAsyncInstaller {
             log.trace("files to keep: {}", filesToKeep);
 
             // iterate through the list of files and delete the ones that are not in the list
-            for (Path file : Files.list(manifestPath).toList()) {
-                if(!filesToKeep.contains(file.getFileName().toString())) {
-                    log.trace("deleting file: {}", file);
-                    Files.delete(file);
+            try(var files = Files.list(manifestPath)) {
+                for (Path file : files.toList()) {
+                    if (!filesToKeep.contains(file.getFileName().toString())) {
+                        log.trace("deleting file: {}", file);
+                        Files.delete(file);
+                    }
                 }
             }
-
         } catch (Exception e) {
             log.warn("failed to clear revisions: {}", e.getMessage());
         }

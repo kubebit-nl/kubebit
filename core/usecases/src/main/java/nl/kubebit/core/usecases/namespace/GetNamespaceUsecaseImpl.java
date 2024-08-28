@@ -25,9 +25,7 @@ class GetNamespaceUsecaseImpl implements GetNamespaceUsecase {
     private final NamespaceGateway namespaceGateway;
 
     /**
-     * 
-     * @param projectGateway
-     * @param namespaceGateway
+     *
      */
     public GetNamespaceUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway) {
         this.projectGateway = projectGateway;
@@ -35,8 +33,7 @@ class GetNamespaceUsecaseImpl implements GetNamespaceUsecase {
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @Override
     public NamespaceResponse execute(String projectId, String namespaceName) {

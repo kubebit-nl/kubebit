@@ -18,16 +18,14 @@ public class ServerSideEventRepository {
     private final SseEmitter emitter = new SseEmitter(-1L);
 
     /**
-     * 
-     * @return
+     *
      */
     public SseEmitter getEmitter() {
         return emitter;
     }
 
     /**
-     * 
-     * @param emitter
+     *
      */
     public void sendEvent(String projectId, String message) {
         try {

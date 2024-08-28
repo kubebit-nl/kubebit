@@ -26,16 +26,14 @@ public class UpdateReleaseController {
     private final UpdateReleasesUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public UpdateReleaseController(UpdateReleasesUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PutMapping
     public ReleaseResponse fetchDeployments(

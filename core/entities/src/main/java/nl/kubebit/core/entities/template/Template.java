@@ -38,10 +38,7 @@ public record Template(
     
 ) {
     /**
-     * 
-     * @param status
-     * @param message
-     * @return
+     *
      */
     public Template setStatus(TemplateStatus status, String message) {
         return new Template(

@@ -42,11 +42,6 @@ class RollbackReleaseRevisionUsecaseImpl implements RollbackReleaseRevisionUseca
 
     /**
      *
-     * @param projectGateway
-     * @param namespaceGateway
-     * @param templateGateway
-     * @param releaseGateway
-     * @param manifestInstaller
      */
     public RollbackReleaseRevisionUsecaseImpl(
             ProjectGateway projectGateway,

@@ -3,7 +3,6 @@ package nl.kubebit.core.infrastructure.template.gateway;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -34,9 +33,9 @@ public class TemplateGatewayImpl implements TemplateGateway {
     private final IndexRepository indexRepository;
 
     /**
-     * 
-     * @param repository
-     * @param indexRepository
+     * Constructor
+     * @param repository the template repository
+     * @param indexRepository the index repository
      */
     public TemplateGatewayImpl(TemplateRepository repository, IndexRepository indexRepository) {
         this.templateRepository = repository;
@@ -71,9 +70,7 @@ public class TemplateGatewayImpl implements TemplateGateway {
     }
 
     /**
-     * 
-     * @param template
-     * @return
+     *
      */
     @Override
     public Optional<Template> update(Template template) {
@@ -82,13 +79,11 @@ public class TemplateGatewayImpl implements TemplateGateway {
     }
 
     /**
-     * 
-     * @param template
-     * @return
+     *
      */
     @Override
     public Optional<Template> updateStatus(Template template) {
-        log.trace("update template: {}", template.id());
+        log.trace("update template status: {}", template.id());
         return templateRepository.updateStatus(TemplateMapper.toSchema(template)).map(TemplateMapper::toEntity);
     }
 
@@ -98,30 +93,31 @@ public class TemplateGatewayImpl implements TemplateGateway {
      * 
      */
     @Override
-    public File pullIndex(String repositoryUrl) throws IOException, URISyntaxException {
+    public File pullIndex(String repositoryUrl) throws IOException {
         return indexRepository.pullIndex(repositoryUrl);
     }
 
     /**
-     * @throws URISyntaxException 
      * 
      */
     @Override
-    public File pullChart(URI chartUri) throws IOException {
+    public File pullChart(URI chartUri) {
         return indexRepository.pullChart(chartUri);
     }
 
     /**
-     * 
+     * Get the chart from the local repository
      */
     @Override
-    public Optional<File> getChart(String templateId) throws IOException {
+    public Optional<File> getChart(String templateId) {
         return indexRepository.getChart(templateId);
     }
 
     /**
-     * @throws IOException 
-     * 
+     * Parse the index file
+     * @param file the index file
+     * @return the chart wrapper
+     * @throws IOException if the file does not exist
      */
     @Override
     public ChartWrapper parseIndexFile(File file) throws IOException {

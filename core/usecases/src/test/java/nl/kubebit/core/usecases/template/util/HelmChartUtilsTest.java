@@ -10,8 +10,6 @@ import java.util.Map;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -22,22 +20,18 @@ public class HelmChartUtilsTest {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * @throws IOException
-     * @throws DatabindException
-     * @throws StreamReadException
      * 
      */
     @Test
     @SuppressWarnings("unchecked")
-    public void test() throws StreamReadException, DatabindException, IOException {
+    public void test() throws IOException {
         Map<String, Object> result = new ObjectMapper().readValue(new File("./src/test/resources/values.schema.json"),
                 Map.class);
         System.out.println(result);
     }
 
     /**
-     * 
-     * @throws IOException
+     *
      */
     @Test
     @SuppressWarnings("unchecked")

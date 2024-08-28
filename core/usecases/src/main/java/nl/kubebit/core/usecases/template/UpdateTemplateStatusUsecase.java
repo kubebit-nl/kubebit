@@ -13,11 +13,7 @@ import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 public interface UpdateTemplateStatusUsecase {
     
     /**
-     * 
-     * @param templateId
-     * @param status
-     * @return
-     * @throws TemplateNotFoundException
+     *
      */
     TemplateResponse execute(
 

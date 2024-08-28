@@ -8,7 +8,7 @@ import nl.kubebit.core.entities.common.exception.EntityNotFoundException;
 public class NamespaceNotFoundException extends EntityNotFoundException {
 
     public NamespaceNotFoundException(String namespaceId) {
-        super("Enviroment '" + namespaceId + "' not found");
+        super("Namespace '" + namespaceId + "' not found");
     }
     
 }

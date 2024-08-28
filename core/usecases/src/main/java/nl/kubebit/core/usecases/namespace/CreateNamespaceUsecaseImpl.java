@@ -27,9 +27,7 @@ class CreateNamespaceUsecaseImpl implements CreateNamespaceUsecase {
     private final NamespaceGateway namespaceGateway;
 
     /**
-     * 
-     * @param projectGateway
-     * @param namespaceGateway
+     *
      */
     public CreateNamespaceUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway) {
         this.projectGateway = projectGateway;

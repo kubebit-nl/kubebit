@@ -30,11 +30,7 @@ class GetResourceUsecaseImpl implements GetResourceUsecase {
     private final ResourceGateway resourcegateway;
 
     /**
-     * 
-     * @param projectGateway
-     * @param namespaceGateway
-     * @param releaseGateway
-     * @param resourcegateway
+     *
      */
     public GetResourceUsecaseImpl(
             ProjectGateway projectGateway, 
@@ -47,10 +43,7 @@ class GetResourceUsecaseImpl implements GetResourceUsecase {
     }
 
     /**
-     * 
-     * @param namespaceId
-     * @param kind
-     * @param name
+     *
      */
     @Override
     public Resource execute(String projectId, String namespaceName, ReleaseResourceRef ref) {

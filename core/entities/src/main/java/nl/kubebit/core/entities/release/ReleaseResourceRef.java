@@ -24,10 +24,7 @@ public record ReleaseResourceRef(
 ) {
 
     /**
-     * 
-     * @param apiVersion
-     * @param kind
-     * @param name
+     *
      */
     public ReleaseResourceRef(String apiVersion, String kind, String name) {
         this(
@@ -38,8 +35,7 @@ public record ReleaseResourceRef(
     }
 
     /**
-     * 
-     * @return
+     *
      */
     public String apiVersion() {
         if(group != null && !group.isEmpty()) {

@@ -27,16 +27,14 @@ public class CreateReleaseController {
     private final CreateReleaseUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public CreateReleaseController(CreateReleaseUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PostMapping
     public ReleaseResponse getProject(

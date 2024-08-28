@@ -25,8 +25,7 @@ public class ResourceGatewayImpl implements ResourceGateway {
     private final ResourceRepository repository;
 
     /**
-     * 
-     * @param repository
+     *
      */
     public ResourceGatewayImpl(ResourceRepository repository) {
         this.repository = repository;

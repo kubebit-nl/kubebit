@@ -29,17 +29,14 @@ public class NamespaceRepository {
     private final KubernetesClient kubernetes;
 
     /**
-     * 
-     * @param kubernetes
+     *
      */
     public NamespaceRepository(KubernetesClient kubernetes) {
         this.kubernetes = kubernetes;
     }
 
     /**
-     * 
-     * @param id
-     * @return
+     *
      */
     public List<Namespace> findAll() {
         log.trace("find all namespaces");
@@ -50,9 +47,7 @@ public class NamespaceRepository {
     }
 
     /**
-     * 
-     * @param id
-     * @return
+     *
      */
     public List<Namespace> findAllByProject(String projectId) {
         log.trace("{} -> find all namespaces", projectId);
@@ -64,10 +59,7 @@ public class NamespaceRepository {
     }
     
     /**
-     * 
-     * @param projectId
-     * @param environmentId
-     * @return
+     *
      */
     public Optional<Namespace> findByProjectAndId(String projectId, String environmentId) {
         log.trace("{} -> find namespace by id: {}", projectId, environmentId);
@@ -88,9 +80,7 @@ public class NamespaceRepository {
     }
 
     /**
-     * 
-     * @param project
-     * @return
+     *
      */
     public Optional<Namespace> save(String projectId, Namespace namespace) {
         log.trace("{} -> save namespace: {}", projectId, namespace.getMetadata().getName());

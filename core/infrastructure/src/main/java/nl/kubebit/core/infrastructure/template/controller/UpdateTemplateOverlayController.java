@@ -27,16 +27,14 @@ public class UpdateTemplateOverlayController {
     private final UpdateTemplateOverlayUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public UpdateTemplateOverlayController(UpdateTemplateOverlayUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PutMapping
     public TemplateResponse updateTemplateOverlay(

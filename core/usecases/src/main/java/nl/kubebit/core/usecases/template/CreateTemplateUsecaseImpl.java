@@ -22,8 +22,7 @@ class CreateTemplateUsecaseImpl implements CreateTemplateUsecase {
     private final TemplateGateway gateway;
     
     /**
-     * 
-     * @param gateway
+     *
      */
     public CreateTemplateUsecaseImpl(TemplateGateway gateway) {
         this.gateway = gateway;
@@ -58,8 +57,7 @@ class CreateTemplateUsecaseImpl implements CreateTemplateUsecase {
     }
 
     /**
-     * 
-     * @return
+     *
      */
     private String generateId(TemplateCreateRequest request) {
         return request.chart() + "-" + request.version();

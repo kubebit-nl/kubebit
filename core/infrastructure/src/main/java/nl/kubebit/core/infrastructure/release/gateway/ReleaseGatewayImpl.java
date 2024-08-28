@@ -28,8 +28,7 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
     private final ReleaseRepository repository;
 
     /**
-     * 
-     * @param release
+     *
      */
     public ReleaseGatewayImpl(ReleaseRepository release) {
         this.repository = release;

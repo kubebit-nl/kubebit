@@ -24,16 +24,14 @@ public class GetCatalogTemplateController {
     private final GetCatalogTemplateUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public GetCatalogTemplateController(GetCatalogTemplateUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping
     public TemplateFormResponse getTemplate(

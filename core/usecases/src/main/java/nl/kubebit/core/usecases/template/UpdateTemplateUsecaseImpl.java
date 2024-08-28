@@ -24,8 +24,7 @@ class UpdateTemplateUsecaseImpl implements UpdateTemplateUsecase {
     private final TemplateGateway gateway;
     
     /**
-     * 
-     * @param gateway
+     *
      */
     public UpdateTemplateUsecaseImpl(TemplateGateway gateway) {
         this.gateway = gateway;

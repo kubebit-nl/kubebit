@@ -23,16 +23,14 @@ class FetchProjectsUsecaseImpl implements FetchProjectsUsecase {
     private final ProjectGateway gateway;
 
     /**
-     * 
-     * @param gateway
+     *
      */
     public FetchProjectsUsecaseImpl(ProjectGateway gateway) {
         this.gateway = gateway;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @Override
     public List<ProjectResponse> execute() {

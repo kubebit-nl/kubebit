@@ -26,16 +26,14 @@ public class CreateTemplateController {
     private final CreateTemplateUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public CreateTemplateController(CreateTemplateUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PostMapping
     public TemplateResponse createTemplate(

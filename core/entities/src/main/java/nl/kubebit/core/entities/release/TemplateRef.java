@@ -16,8 +16,7 @@ public record TemplateRef(
 ) {
 
     /**
-     * 
-     * @return
+     *
      */
     public String id() {
         return chart + "-" + version;

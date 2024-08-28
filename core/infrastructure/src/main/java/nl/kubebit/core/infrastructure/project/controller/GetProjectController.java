@@ -23,16 +23,14 @@ public class GetProjectController {
     private final GetProjectUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public GetProjectController(GetProjectUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping("/{project_id}")
     public ProjectResponse getProject(@PathVariable("project_id") String projectId) {

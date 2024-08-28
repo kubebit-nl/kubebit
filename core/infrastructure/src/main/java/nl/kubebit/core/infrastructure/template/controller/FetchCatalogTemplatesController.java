@@ -24,16 +24,14 @@ public class FetchCatalogTemplatesController {
     private final FetchCatalogTemplatesUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public FetchCatalogTemplatesController(FetchCatalogTemplatesUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping
     public List<TemplateResponse> fetchCatalogTemplates() {

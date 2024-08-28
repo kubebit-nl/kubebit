@@ -24,16 +24,14 @@ public class RollbackReleaseRevisionController {
     private final RollbackReleaseRevisionUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public RollbackReleaseRevisionController(RollbackReleaseRevisionUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PutMapping
     public ReleaseResponse fetchDeployments(

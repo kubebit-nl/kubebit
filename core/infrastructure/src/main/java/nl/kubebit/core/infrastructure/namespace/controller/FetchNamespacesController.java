@@ -25,16 +25,14 @@ public class FetchNamespacesController {
     private final FetchNamespacesUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public FetchNamespacesController(FetchNamespacesUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping
     public List<NamespaceResponse> getProject(

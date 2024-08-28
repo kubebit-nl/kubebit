@@ -26,8 +26,7 @@ class UpdateTemplateOverlayUsecaseImpl implements UpdateTemplateOverlayUsecase {
     private final TemplateGateway gateway;
     
     /**
-     * 
-     * @param gateway
+     *
      */
     public UpdateTemplateOverlayUsecaseImpl(TemplateGateway gateway) {
         this.gateway = gateway;

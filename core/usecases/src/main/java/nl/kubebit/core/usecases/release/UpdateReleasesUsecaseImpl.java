@@ -46,11 +46,6 @@ class UpdateReleasesUsecaseImpl implements UpdateReleasesUsecase {
 
     /**
      *
-     * @param projectGateway
-     * @param namespaceGateway
-     * @param templateGateway
-     * @param releaseGateway
-     * @param manifestInstaller
      */
     public UpdateReleasesUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, TemplateGateway templateGateway, ReleaseGateway releaseGateway, ManifestAsyncInstaller manifestInstaller) {
         this.projectGateway = projectGateway;

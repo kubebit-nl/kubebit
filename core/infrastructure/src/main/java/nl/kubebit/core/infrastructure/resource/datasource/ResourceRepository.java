@@ -35,21 +35,14 @@ public class ResourceRepository {
     private final KubernetesClient kubernetes;
 
     /**
-     * 
-     * @param kubernetes
+     *
      */
     public ResourceRepository(KubernetesClient kubernetes) {
         this.kubernetes = kubernetes;
     }
 
     /**
-     * 
-     * @param group
-     * @param apiVersion
-     * @param kind
-     * @param name
-     * @param namespace
-     * @return
+     *
      */
     public Optional<GenericKubernetesResource> getResource(
             @NotBlank String namespace,
@@ -70,11 +63,7 @@ public class ResourceRepository {
     }
 
     /**
-     * 
-     * @param namespace
-     * @param podName
-     * @param containerName
-     * @return
+     *
      */
     public Optional<String> getLogs(String namespace, String podName, String containerName) {
         try {

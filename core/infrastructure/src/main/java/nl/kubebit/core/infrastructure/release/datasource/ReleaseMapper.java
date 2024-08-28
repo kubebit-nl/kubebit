@@ -21,9 +21,7 @@ public abstract class ReleaseMapper {
     // --------------------------------------------------------------------------------------------
 
     /**
-     * 
-     * @param schema
-     * @return
+     *
      */
     public static Release toEntity(ReleaseCRD schema) {
         return new Release(
@@ -40,9 +38,7 @@ public abstract class ReleaseMapper {
     }
 
     /**
-     * 
-     * @param project
-     * @return
+     *
      */
     public static ReleaseCRD toSchema(Release entity) {
 
@@ -79,18 +75,14 @@ public abstract class ReleaseMapper {
     // ----------------------------------
 
     /**
-     * 
-     * @param schema
-     * @return
+     *
      */
     public static ReleaseRef toEntity(ReleaseCRDSpec schema) {
         return new ReleaseRef(schema.version(), schema.template(), transformAnyType(schema.values()));
     }
 
     /**
-     * 
-     * @param entity
-     * @return
+     *
      */
     private static ReleaseCRDSpec toSchema(ReleaseRef entity) {
         return new ReleaseCRDSpec(entity.version(), entity.template(), transformAnyType(entity.values()));
@@ -99,9 +91,7 @@ public abstract class ReleaseMapper {
     // ----------------------------------
 
     /**
-     * 
-     * @param anyType
-     * @return
+     *
      */
     @SuppressWarnings("unchecked")
     private static Map<String, Object> transformAnyType(AnyType anyType) {
@@ -109,9 +99,7 @@ public abstract class ReleaseMapper {
     }
 
     /**
-     * 
-     * @param map
-     * @return
+     *
      */
     private static AnyType transformAnyType(Map<String, Object> map) {
         return map == null ? null : new AnyType(map);

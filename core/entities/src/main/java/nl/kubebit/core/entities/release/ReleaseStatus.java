@@ -40,9 +40,7 @@ public enum ReleaseStatus {
     UNINSTALLED;
 
     /**
-     * 
-     * @param status
-     * @return
+     *
      */
     public static boolean isRunning(ReleaseStatus status) {
         var running = EnumSet.of(PENDING_INSTALL, PENDING_UPGRADE, PENDING_ROLLBACK, UNINSTALLING);

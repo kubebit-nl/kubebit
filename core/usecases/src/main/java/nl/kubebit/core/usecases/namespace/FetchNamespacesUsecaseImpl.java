@@ -26,9 +26,7 @@ class FetchNamespacesUsecaseImpl implements FetchNamespacesUsecase {
     private final NamespaceGateway namespaceGateway;
 
     /**
-     * 
-     * @param projectGateway
-     * @param namespaceGateway
+     *
      */
     public FetchNamespacesUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway) {
         this.projectGateway = projectGateway;
@@ -36,8 +34,7 @@ class FetchNamespacesUsecaseImpl implements FetchNamespacesUsecase {
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @Override
     public List<NamespaceResponse> execute(String projectId) {

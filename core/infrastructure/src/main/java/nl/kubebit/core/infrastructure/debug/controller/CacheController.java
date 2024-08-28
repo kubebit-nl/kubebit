@@ -27,8 +27,7 @@ public class CacheController {
     private final CacheManager cacheManager;
 
     /**
-     * 
-     * @param cacheManager
+     *
      */
     public CacheController(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
@@ -39,18 +38,15 @@ public class CacheController {
      */
     @PostMapping("/clear")
     public void clear() {
-        cacheManager.getCacheNames().forEach(name -> cacheManager.getCache(name).clear());
+        cacheManager.getCacheNames().forEach(name -> Objects.requireNonNull(cacheManager.getCache(name)).clear());
     }
 
     /**
-     * @return 
      * 
      */
     @GetMapping
     public List<Object> show() {
-        return cacheManager.getCacheNames().stream().map(name -> {
-            return Objects.requireNonNull(cacheManager.getCache(name)).getNativeCache();
-        }).collect(Collectors.toList());
+        return cacheManager.getCacheNames().stream().map(name -> Objects.requireNonNull(cacheManager.getCache(name)).getNativeCache()).collect(Collectors.toList());
     }
 }
 

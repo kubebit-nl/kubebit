@@ -27,16 +27,14 @@ public class UpdateTemplateFormController {
     private final UpdateTemplateFormUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public UpdateTemplateFormController(UpdateTemplateFormUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @PutMapping
     public TemplateResponse updateTemplateFor(

@@ -8,7 +8,7 @@ import nl.kubebit.core.entities.common.exception.EntityAlreadyExistsException;
 public class NamespaceAlreadyExistsException extends EntityAlreadyExistsException {
 
     public NamespaceAlreadyExistsException(String namespaceName) {
-        super("Enviroment '" + namespaceName + "' already exists");
+        super("Namespace '" + namespaceName + "' already exists");
     }
     
 }

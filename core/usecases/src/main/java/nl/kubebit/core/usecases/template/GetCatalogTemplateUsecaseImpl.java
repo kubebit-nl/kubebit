@@ -22,8 +22,7 @@ class GetCatalogTemplateUsecaseImpl implements GetCatalogTemplateUsecase {
     private final TemplateGateway gateway;
     
     /**
-     * 
-     * @param gateway
+     *
      */
     public GetCatalogTemplateUsecaseImpl(TemplateGateway gateway) {
         this.gateway = gateway;

@@ -23,16 +23,14 @@ public class GetReleaseRevisionController {
     private final GetReleaseRevisionUsecase usecase;
 
     /**
-     * 
-     * @param usecase
+     *
      */
     public GetReleaseRevisionController(GetReleaseRevisionUsecase usecase) {
         this.usecase = usecase;
     }
 
     /**
-     * 
-     * @return
+     *
      */
     @GetMapping
     public ReleaseRefValuesResponse fetchDeployments(
