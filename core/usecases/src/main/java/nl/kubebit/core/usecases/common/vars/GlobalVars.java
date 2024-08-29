@@ -12,4 +12,7 @@ public abstract class GlobalVars {
     //
     public static final String YAML_EXT = ".yaml";
 
+    //
+    public static final String SSE_ADMIN = "admin";
+
 }

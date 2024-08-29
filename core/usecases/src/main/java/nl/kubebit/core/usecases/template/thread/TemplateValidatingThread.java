@@ -7,6 +7,7 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.util.Map;
 
+import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -23,7 +24,7 @@ import nl.kubebit.core.usecases.common.event.ServerSideEventGateway;
 import nl.kubebit.core.usecases.template.util.HelmChartUtils;
 
 /**
- * 
+ *
  */
 public class TemplateValidatingThread extends Thread {
     // --------------------------------------------------------------------------------------------
@@ -44,7 +45,7 @@ public class TemplateValidatingThread extends Thread {
     }
 
     /**
-     * 
+     *
      */
     @Override
     public void run() {
@@ -96,12 +97,13 @@ public class TemplateValidatingThread extends Thread {
             //
             template = setSchemaAndValues(template, schema, values);
 
-            //
-            gateway.updateStatus(template.setStatus(TemplateStatus.VALIDATED, null))
+            // update status of template
+            var event = gateway.updateStatus(template.setStatus(TemplateStatus.VALIDATED, null))
+                    .map(TemplateResponse::new)
                     .orElseThrow(TemplateNotUpdatedException::new);
 
-            //
-            eventGateway.sendEvent(null, "thread finished");
+            // send server side event
+            eventGateway.sendEvent(event);
 
         } catch (Exception e) {
             log.warn("failed to validate chart: {}", e.getMessage());
@@ -117,7 +119,8 @@ public class TemplateValidatingThread extends Thread {
 
     /**
      * Save chart file
-     * @param tarFile tar file
+     *
+     * @param tarFile  tar file
      * @param fileName file name
      * @return file
      */
@@ -129,6 +132,7 @@ public class TemplateValidatingThread extends Thread {
 
     /**
      * Load schema
+     *
      * @param schemaFile schema file
      * @return schema
      */
@@ -144,6 +148,7 @@ public class TemplateValidatingThread extends Thread {
 
     /**
      * Load values
+     *
      * @param valuesFile values file
      * @return values
      */
@@ -153,68 +158,71 @@ public class TemplateValidatingThread extends Thread {
             return yaml.load(valuesReader);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }        
+        }
     }
 
     /**
      * Set chart
+     *
      * @param chart chart
      * @return template
      */
     private Template setChart(Template template, Chart chart) {
         return new Template(
-            template.id(),
-            template.chart(),
-            template.version(),
-            template.repository(),
-            template.type(),
-            template.category(),
-            template.icon(),
-            template.formSchema(),
-            template.overlayValues(),
-            template.status(),
-            template.message(),
-            template.chartSchema(),
-            template.chartValues(),
-            chart != null ? chart.appVersion() : null,
-            chart != null ? chart.description() : null,
-            chart != null ? chart.keywords() : null,
-            template.namespaceId());
+                template.id(),
+                template.chart(),
+                template.version(),
+                template.repository(),
+                template.type(),
+                template.category(),
+                template.icon(),
+                template.formSchema(),
+                template.overlayValues(),
+                template.status(),
+                template.message(),
+                template.chartSchema(),
+                template.chartValues(),
+                chart != null ? chart.appVersion() : null,
+                chart != null ? chart.description() : null,
+                chart != null ? chart.keywords() : null,
+                template.namespaceId());
     }
 
     /**
      * Set schema and values
+     *
      * @param schema schema
      * @return template
      */
     private Template setSchemaAndValues(Template template, Map<String, Object> schema, Map<String, Object> values) {
         return new Template(
-            template.id(),
-            template.chart(),
-            template.version(),
-            template.repository(),
-            template.type(),
-            template.category(),
-            template.icon(),
-            template.formSchema(),
-            template.overlayValues(),
-            template.status(),
-            template.message(),
-            schema,
-            values,
-            template.appVersion(),
-            template.description(),
-            template.keywords(),
-            template.namespaceId());
+                template.id(),
+                template.chart(),
+                template.version(),
+                template.repository(),
+                template.type(),
+                template.category(),
+                template.icon(),
+                template.formSchema(),
+                template.overlayValues(),
+                template.status(),
+                template.message(),
+                schema,
+                values,
+                template.appVersion(),
+                template.description(),
+                template.keywords(),
+                template.namespaceId());
     }
 
     /**
      * Delete file
+     *
      * @param file file
      */
     private void deleteFile(File file) {
         if (file != null && file.exists()) {
-            if(!file.delete()) {
+            if (!file.delete()) {
                 log.error("failed to delete file: {}", file.getAbsolutePath());
             }
         }

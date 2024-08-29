@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException;
 
 import nl.kubebit.core.entities.common.exception.EntityAlreadyExistsException;
@@ -15,6 +16,8 @@ import nl.kubebit.core.entities.common.exception.EntityNotCreatedException;
 import nl.kubebit.core.entities.common.exception.EntityNotDeletedException;
 import nl.kubebit.core.entities.common.exception.EntityNotFoundException;
 import nl.kubebit.core.entities.common.exception.EntityNotUpdatedException;
+
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /**
  * 
@@ -60,7 +63,7 @@ public class CustomExceptionHandler {
      *
      */
     @ExceptionHandler(AsyncRequestTimeoutException.class)
-    public ResponseEntity<String> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException e) {
+    public ResponseEntity<String> handleAsyncRequestTimeoutExceptions(AsyncRequestTimeoutException e) {
         log.warn(e.getMessage());
         return ResponseEntity.status(HttpStatus.REQUEST_TIMEOUT).body(e.getMessage());
     }
@@ -68,8 +71,29 @@ public class CustomExceptionHandler {
     /**
      *
      */
+    @ExceptionHandler(AsyncRequestNotUsableException.class)
+    public ResponseEntity<String> handleAsyncRequestNotUsableExceptions(AsyncRequestNotUsableException e) {
+        log.warn(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(e.getMessage());
+    }
+
+
+    /**
+     * handle NoResourceFoundException
+     * @param e NoResourceFoundException
+     * @return ResponseEntity
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<String> handleNoResourceFoundExceptions(NoResourceFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("endpoint '" + e.getResourcePath() + "' not found");
+    }
+
+    /**
+     *
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleException(Exception e) {
+        log.warn("error class: {}", e.getClass().getCanonicalName());
         log.error(e.getMessage(), e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
