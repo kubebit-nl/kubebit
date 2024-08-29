@@ -3,4 +3,4 @@ git:
   commit: "unknown"
 
 #
-profile: dev
+profile: dev,sse
