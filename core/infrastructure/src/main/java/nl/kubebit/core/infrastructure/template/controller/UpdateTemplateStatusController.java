@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/template/{template_id}/status/{status}")
+@RequestMapping("/api/v1/templates/{template_id}/status/{status}")
 public class UpdateTemplateStatusController {
     // --------------------------------------------------------------------------------------------
 

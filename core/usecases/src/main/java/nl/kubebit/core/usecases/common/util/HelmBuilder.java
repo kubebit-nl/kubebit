@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -49,8 +50,8 @@ public class HelmBuilder {
     /**
      *
      */
-    public HelmBuilder additionalArg(String additionalArg) {
-        commandStrings.add(additionalArg);
+    public HelmBuilder additionalArgs(String... additionalArgs) {
+        Collections.addAll(commandStrings, additionalArgs);
         return this;
     }
 
@@ -118,7 +119,7 @@ public class HelmBuilder {
     /**
      *
      */
-    private String fetchStream(InputStream stream) throws IOException {
+    public static String fetchStream(InputStream stream) throws IOException {
         var output = new StringBuilder();
         try(var input = new InputStreamReader(stream)) {
             try(var reader = new BufferedReader(input)) {

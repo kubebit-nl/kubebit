@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Tag(name = "Release")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/release")
+@RequestMapping("/api/v1/projects/{project_id}/namespaces/{namespace_name}/releases")
 public class CreateReleaseController {
     // --------------------------------------------------------------------------------------------
 

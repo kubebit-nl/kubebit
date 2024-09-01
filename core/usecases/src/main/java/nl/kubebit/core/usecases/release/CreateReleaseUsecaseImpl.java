@@ -26,7 +26,7 @@ import nl.kubebit.core.entities.release.TemplateRef;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 
 import nl.kubebit.core.usecases.release.util.ManifestAsyncInstaller;
-import nl.kubebit.core.usecases.release.util.JsonSchemaSanitizer;
+import nl.kubebit.core.usecases.common.util.JsonSchemaSanitizer;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 import nl.kubebit.core.usecases.common.annotation.Usecase;
 

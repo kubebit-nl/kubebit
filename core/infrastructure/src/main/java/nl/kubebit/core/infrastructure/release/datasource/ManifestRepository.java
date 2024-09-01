@@ -20,7 +20,7 @@ import io.fabric8.kubernetes.client.utils.Serialization;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 
 /**
- * 
+ *
  */
 @Repository
 public class ManifestRepository {
@@ -31,8 +31,8 @@ public class ManifestRepository {
 
     //
     private final String LABEL_MANAGEDBY = "app.kubernetes.io/managed-by";
-    private final String LABEL_PROJECT = "kubebit.nl/project";
-    private final String LABEL_RELEASE = "kubebit.nl/release";
+    private final String LABEL_PROJECT = "kubebit.nl/projects";
+    private final String LABEL_RELEASE = "kubebit.nl/releases";
     private final String LABEL_VERSION = "kubebit.nl/version";
 
     //
@@ -40,6 +40,7 @@ public class ManifestRepository {
 
     /**
      * Constructor
+     *
      * @param kubernetes kubernetes client
      */
     public ManifestRepository(KubernetesClient kubernetes) {
@@ -48,6 +49,7 @@ public class ManifestRepository {
 
     /**
      * Apply the manifest on kubernetes
+     *
      * @param manifestFile manifest file
      * @return list of resources
      * @throws IOException error reading manifest file
@@ -55,24 +57,41 @@ public class ManifestRepository {
     public List<ReleaseResourceRef> applyManifest(File manifestFile) throws IOException {
         log.trace("applying manifest: {}", manifestFile);
         List<ReleaseResourceRef> resources = new ArrayList<>();
-        try(var reader = new FileInputStream(manifestFile)) {
+        try (var reader = new FileInputStream(manifestFile)) {
             var items = kubernetes.load(reader).items();
-            items.forEach(item ->  resources.add(createOrPatch(item)));
+            items.forEach(item -> resources.add(createOrPatch(item)));
+        }
+        return resources;
+    }
+
+    /**
+     * Get the resources from the manifest file
+     *
+     * @param manifestFile manifest file
+     * @return list of resources
+     */
+    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException {
+        log.trace("getting resources: {}", manifestFile);
+        List<ReleaseResourceRef> resources = new ArrayList<>();
+        try (var reader = new FileInputStream(manifestFile)) {
+            kubernetes.load(reader).items().forEach(item ->
+                    resources.add(new ReleaseResourceRef(item.getApiVersion(), item.getKind(), item.getMetadata().getName())));
         }
         return resources;
     }
 
     /**
      * Create manifest from input stream
-     * @param inputStream input stream form helm template
-     * @param projectId project id
-     * @param releaseId release id
+     *
+     * @param inputStream    input stream form helm template
+     * @param projectId      project id
+     * @param releaseId      release id
      * @param releaseVersion release version
-     * @param targetFile manifest file destination
+     * @param targetFile     manifest file destination
      */
     public void createManifest(InputStream inputStream, String projectId, String releaseId, String releaseVersion, File targetFile) throws IOException {
         log.trace("creating manifest: {}", targetFile.getAbsolutePath());
-        try(var writer = new BufferedWriter(new FileWriter(targetFile))) {
+        try (var writer = new BufferedWriter(new FileWriter(targetFile))) {
             writer.write("# kubebit -> version: " + releaseVersion + "\n");
             var items = kubernetes.load(inputStream).items();
             items.forEach(item -> {
@@ -112,6 +131,7 @@ public class ManifestRepository {
 
     /**
      * Create or patch the resource on kubernetes
+     *
      * @param entity resource to create or patch
      * @param <T>    resource type
      * @return resource reference
@@ -132,5 +152,6 @@ public class ManifestRepository {
         }
         return new ReleaseResourceRef(entity.getApiVersion(), entity.getKind(), entity.getMetadata().getName());
     }
+
 
 }

@@ -14,7 +14,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * 
+ *
  */
 @Gateway
 public class ManifestGatewayImpl implements ManifestGateway {
@@ -28,6 +28,7 @@ public class ManifestGatewayImpl implements ManifestGateway {
 
     /**
      * Constructor
+     *
      * @param manifestRepository manifest repository
      */
     public ManifestGatewayImpl(ManifestRepository manifestRepository) {
@@ -36,6 +37,7 @@ public class ManifestGatewayImpl implements ManifestGateway {
 
     /**
      * Apply manifest to kubernetes
+     *
      * @param manifestFile manifest file
      * @return list of resources
      * @throws IOException error reading manifest file
@@ -48,17 +50,31 @@ public class ManifestGatewayImpl implements ManifestGateway {
 
     /**
      * Create manifest from input stream
-     * @param inputStream input stream form helm template
-     * @param projectId project id
-     * @param releaseId release id
+     *
+     * @param inputStream    input stream form helm template
+     * @param projectId      project id
+     * @param releaseId      release id
      * @param releaseVersion release version
-     * @param targetFile manifest file destination
+     * @param targetFile     manifest file destination
      * @throws IOException error writing manifest file
      */
     @Override
     public void createManifest(InputStream inputStream, String projectId, String releaseId, String releaseVersion, File targetFile) throws IOException {
         log.debug("create manifest: {}", targetFile.getAbsolutePath());
         manifestRepository.createManifest(inputStream, projectId, releaseId, releaseVersion, targetFile);
+    }
+
+
+    /**
+     * Get the resources from the manifest file
+     *
+     * @param manifestFile the manifest file
+     * @return the list of release resource references
+     */
+    @Override
+    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException {
+        log.debug("get resources: {}", manifestFile.getAbsolutePath());
+        return manifestRepository.getResources(manifestFile);
     }
 
 }

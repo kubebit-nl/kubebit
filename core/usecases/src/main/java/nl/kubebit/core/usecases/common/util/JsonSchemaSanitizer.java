@@ -1,4 +1,4 @@
-package nl.kubebit.core.usecases.release.util;
+package nl.kubebit.core.usecases.common.util;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

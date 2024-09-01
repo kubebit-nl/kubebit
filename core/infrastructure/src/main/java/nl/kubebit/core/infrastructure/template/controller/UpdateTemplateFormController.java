@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/template/{template_id}/form")
+@RequestMapping("/api/v1/templates/{template_id}/form")
 public class UpdateTemplateFormController {
     // --------------------------------------------------------------------------------------------
 

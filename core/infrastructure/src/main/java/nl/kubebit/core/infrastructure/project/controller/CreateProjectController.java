@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Tag(name = "Project")
 @RestController
-@RequestMapping("/api/v1/project")
+@RequestMapping("/api/v1/projects")
 public class CreateProjectController {
     // --------------------------------------------------------------------------------------------
 

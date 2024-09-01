@@ -3,6 +3,7 @@ package nl.kubebit.core.usecases.release.util;
 import java.io.IOException;
 import java.util.Map;
 
+import nl.kubebit.core.usecases.common.util.JsonSchemaSanitizer;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

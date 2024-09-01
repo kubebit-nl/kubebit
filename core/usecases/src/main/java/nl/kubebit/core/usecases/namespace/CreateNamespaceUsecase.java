@@ -1,7 +1,9 @@
 package nl.kubebit.core.usecases.namespace;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import nl.kubebit.core.entities.namespace.exception.NamespaceNotCreatedException;
@@ -13,7 +15,14 @@ import nl.kubebit.core.usecases.namespace.dto.NamespaceResponse;
 public interface CreateNamespaceUsecase {
     
     //
-    NamespaceResponse execute(String projectId, NamespaceRequest request) throws NamespaceNotCreatedException;
+    NamespaceResponse execute(
+
+            @NotBlank
+            String projectId,
+
+            @NotNull
+            @Valid
+            NamespaceRequest request) throws NamespaceNotCreatedException;
 
     /**
      * 

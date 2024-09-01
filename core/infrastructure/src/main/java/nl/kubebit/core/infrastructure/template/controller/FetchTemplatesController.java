@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/template")
+@RequestMapping("/api/v1/templates")
 public class FetchTemplatesController {
     // --------------------------------------------------------------------------------------------
 

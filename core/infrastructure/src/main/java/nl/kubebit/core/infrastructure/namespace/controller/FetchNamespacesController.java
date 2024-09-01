@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Tag(name = "Namespace")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/namespace")
+@RequestMapping("/api/v1/projects/{project_id}/namespaces")
 public class FetchNamespacesController {
     // --------------------------------------------------------------------------------------------
 

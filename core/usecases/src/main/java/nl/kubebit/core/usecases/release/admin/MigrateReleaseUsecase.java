@@ -1,14 +1,15 @@
-package nl.kubebit.core.usecases.release;
+package nl.kubebit.core.usecases.release.admin;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import nl.kubebit.core.entities.common.exception.EntityNotFoundException;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 /**
  * 
  */
-public interface RollbackReleaseRevisionUsecase {
+public interface MigrateReleaseUsecase {
     
+    //
     ReleaseResponse execute(
 
             @NotBlank
@@ -18,9 +19,8 @@ public interface RollbackReleaseRevisionUsecase {
             String namespaceName,
 
             @NotBlank
-            String releaseId,
+            String deploymentName
 
-            @NotNull
-            Long revisionVersion);
+    ) throws EntityNotFoundException;
 
 }

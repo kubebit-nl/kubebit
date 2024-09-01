@@ -2,7 +2,7 @@ package nl.kubebit.core.usecases.release;
 
 import java.util.Map;
 
-import nl.kubebit.core.usecases.release.util.JsonSchemaSanitizer;
+import nl.kubebit.core.usecases.common.util.JsonSchemaSanitizer;
 import nl.kubebit.core.usecases.release.util.ManifestAsyncInstaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

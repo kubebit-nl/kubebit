@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/template/{template_id}/overlay")
+@RequestMapping("/api/v1/templates/{template_id}/overlay")
 public class UpdateTemplateOverlayController {
     // --------------------------------------------------------------------------------------------
 

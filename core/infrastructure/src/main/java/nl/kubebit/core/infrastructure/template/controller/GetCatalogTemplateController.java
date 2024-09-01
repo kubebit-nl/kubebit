@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/template/catalog/{template_id}")
+@RequestMapping("/api/v1/templatess/catalog/{template_id}")
 public class GetCatalogTemplateController {
     // --------------------------------------------------------------------------------------------
 

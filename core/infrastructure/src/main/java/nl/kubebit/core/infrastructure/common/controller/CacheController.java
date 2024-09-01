@@ -1,4 +1,4 @@
-package nl.kubebit.core.infrastructure.debug.controller;
+package nl.kubebit.core.infrastructure.common.controller;
 
 import java.util.List;
 import java.util.Objects;

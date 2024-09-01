@@ -15,7 +15,7 @@ import nl.kubebit.core.usecases.resource.GetContainerLogsUsecase;
  */
 @Tag(name = "Resource")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/logs")
+@RequestMapping("/api/v1/projects/{project_id}/namespaces/{namespace_name}/logs")
 public class GetContainerLogsController {
     // --------------------------------------------------------------------------------------------
 

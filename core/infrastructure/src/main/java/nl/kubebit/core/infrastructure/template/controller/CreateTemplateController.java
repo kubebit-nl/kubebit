@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/template")
+@RequestMapping("/api/v1/templates")
 public class CreateTemplateController {
     // --------------------------------------------------------------------------------------------
 

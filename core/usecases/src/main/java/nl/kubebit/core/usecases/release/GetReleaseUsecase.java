@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.constraints.NotBlank;
 import nl.kubebit.core.entities.release.Release;
 import nl.kubebit.core.entities.release.ReleaseResourceRef;
 import nl.kubebit.core.entities.release.ReleaseStatus;
@@ -16,7 +17,16 @@ import nl.kubebit.core.entities.release.TemplateRef;
 public interface GetReleaseUsecase {
     
     //
-    ReleaseValueResponse execute(String projectId, String namespaceName, String releaseId);
+    ReleaseValueResponse execute(
+
+            @NotBlank
+            String projectId,
+
+            @NotBlank
+            String namespaceName,
+
+            @NotBlank
+            String releaseId);
 
     /**
      * 

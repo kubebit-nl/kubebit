@@ -2,6 +2,8 @@ package nl.kubebit.core.usecases.release;
 
 import java.util.Map;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import nl.kubebit.core.entities.release.ReleaseRef;
 import nl.kubebit.core.entities.release.TemplateRef;
 
@@ -11,7 +13,19 @@ import nl.kubebit.core.entities.release.TemplateRef;
 public interface GetReleaseRevisionUsecase {
     
     //
-    ReleaseRefValuesResponse execute(String projectId, String namespaceName, String releaseId, Long revisionVersion);
+    ReleaseRefValuesResponse execute(
+
+            @NotBlank
+            String projectId,
+
+            @NotBlank
+            String namespaceName,
+
+            @NotBlank
+            String releaseId,
+
+            @NotNull
+            Long revisionVersion);
 
     /**
      * 

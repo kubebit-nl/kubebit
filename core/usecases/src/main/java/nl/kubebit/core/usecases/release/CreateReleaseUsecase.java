@@ -4,11 +4,13 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-import nl.kubebit.core.entities.project.exception.ProjectNotCreatedException;
+import nl.kubebit.core.entities.common.exception.EntityNotFoundException;
+import nl.kubebit.core.entities.release.exception.ReleaseNotCreatedException;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 /**
@@ -17,7 +19,17 @@ import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 public interface CreateReleaseUsecase {
     
     //
-    ReleaseResponse execute(String projectId, String namespaceName, ReleaseCreateRequest request) throws ProjectNotCreatedException;
+    ReleaseResponse execute(
+
+            @NotBlank
+            String projectId,
+
+            @NotBlank
+            String namespaceName,
+
+            @NotBlank
+            @Valid
+            ReleaseCreateRequest request) throws EntityNotFoundException, ReleaseNotCreatedException;
 
     /**
      * 

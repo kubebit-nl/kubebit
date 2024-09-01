@@ -17,7 +17,7 @@ import nl.kubebit.core.usecases.resource.GetResourceUsecase;
  */
 @Tag(name = "Resource")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/resource")
+@RequestMapping("/api/v1/projects/{project_id}/namespaces/{namespace_name}/resource")
 public class GetResourceController {
     // --------------------------------------------------------------------------------------------
 

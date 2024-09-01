@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/template/{template_id}/validate")
+@RequestMapping("/api/v1/templates/{template_id}/validate")
 public class ValidateTemplateController {
     // --------------------------------------------------------------------------------------------
 

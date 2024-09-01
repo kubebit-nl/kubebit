@@ -16,7 +16,7 @@ public abstract class NamespaceMapper {
     public static final String LABEL_MANAGEDBY_VALUE = "KubeBit";
 
     //
-    public static final String LABEL_PROJECT_KEY = "kubebit.io/project";
+    public static final String LABEL_PROJECT_KEY = "kubebit.io/projects";
     public static final String LABEL_DEFAULT_KEY = "kubebit.io/default";
 
     //

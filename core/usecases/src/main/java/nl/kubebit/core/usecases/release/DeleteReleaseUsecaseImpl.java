@@ -12,6 +12,7 @@ import nl.kubebit.core.entities.release.exception.ReleaseIsRunningException;
 import nl.kubebit.core.entities.release.exception.ReleaseNotFoundException;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 import nl.kubebit.core.usecases.common.annotation.Usecase;
+import nl.kubebit.core.usecases.release.util.ManifestAsyncIRemover;
 
 /**
  * 
@@ -27,14 +28,16 @@ class DeleteReleaseUsecaseImpl implements DeleteReleaseUsecase {
     private final ProjectGateway projectGateway;
     private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
+    private final ManifestAsyncIRemover manifestIRemover;
     
     /**
      *
      */
-    public DeleteReleaseUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway) {
+    public DeleteReleaseUsecaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway, ManifestAsyncIRemover manifestIRemover) {
         this.projectGateway = projectGateway;
         this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
+        this.manifestIRemover = manifestIRemover;
     }
 
     /**
@@ -53,7 +56,7 @@ class DeleteReleaseUsecaseImpl implements DeleteReleaseUsecase {
         }
 
         //
-        releaseGateway.delete(release);
+        manifestIRemover.execute(project, namespace, release);
     }
     
 }

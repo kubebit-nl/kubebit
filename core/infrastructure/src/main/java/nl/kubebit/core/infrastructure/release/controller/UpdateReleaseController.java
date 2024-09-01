@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Tag(name = "Release")
 @RestController
-@RequestMapping("/api/v1/project/{project_id}/namespace/{namespace_name}/release/{release_id}")
+@RequestMapping("/api/v1/projects/{project_id}/namespaces/{namespace_name}/releases/{release_id}")
 public class UpdateReleaseController {
     // --------------------------------------------------------------------------------------------
 

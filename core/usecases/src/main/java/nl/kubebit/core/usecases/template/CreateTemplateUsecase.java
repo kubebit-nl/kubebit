@@ -1,6 +1,8 @@
 package nl.kubebit.core.usecases.template;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +15,11 @@ import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 public interface CreateTemplateUsecase {
     
     //
-    TemplateResponse execute(TemplateCreateRequest request);
+    TemplateResponse execute(
+
+            @NotNull
+            @Valid
+            TemplateCreateRequest request);
 
     /**
      * 
