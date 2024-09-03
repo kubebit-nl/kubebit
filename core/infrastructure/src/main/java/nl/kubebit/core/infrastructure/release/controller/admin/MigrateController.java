@@ -1,7 +1,7 @@
 package nl.kubebit.core.infrastructure.release.controller.admin;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.release.admin.MigrateReleaseUsecase;
+import nl.kubebit.core.usecases.release.admin.MigrateReleaseUseCase;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +18,15 @@ public class MigrateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final MigrateReleaseUsecase migrateReleaseUsecase;
+    private final MigrateReleaseUseCase migrateReleaseUseCase;
 
     /**
      * Constructor
      *
-     * @param migrateReleaseUsecase the migrate release usecase
+     * @param migrateReleaseUseCase the migrate release UseCase
      */
-    public MigrateController(MigrateReleaseUsecase migrateReleaseUsecase) {
-        this.migrateReleaseUsecase = migrateReleaseUsecase;
+    public MigrateController(MigrateReleaseUseCase migrateReleaseUseCase) {
+        this.migrateReleaseUseCase = migrateReleaseUseCase;
     }
 
     /**
@@ -42,6 +42,6 @@ public class MigrateController {
             @PathVariable("project_id") String projectId,
             @PathVariable("namespace_name") String namespaceName,
             @PathVariable("deployment_name") String deploymentName) {
-        return migrateReleaseUsecase.execute(projectId, namespaceName, deploymentName);
+        return migrateReleaseUseCase.execute(projectId, namespaceName, deploymentName);
     }
 }

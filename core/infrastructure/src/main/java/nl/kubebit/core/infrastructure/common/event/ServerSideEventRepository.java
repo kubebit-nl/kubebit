@@ -58,16 +58,13 @@ public class ServerSideEventRepository {
     public void display() {
         emitters.forEach((key, value) -> {
             log.info("group: {}", key);
-            value.forEach(emitter -> {
-                log.info("- emitter: {}", emitter);
-            });
+            value.forEach(emitter -> log.info("- emitter: {}", emitter));
         });
     }
 
     /**
      * Subscribe to admin channel
      *
-     * @return
      */
     public SseEmitter subscribeAdmin() {
         return subscribe(SSE_ADMIN);

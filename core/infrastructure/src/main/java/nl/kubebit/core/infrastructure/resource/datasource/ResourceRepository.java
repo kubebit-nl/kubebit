@@ -110,9 +110,7 @@ public class ResourceRepository {
                         .inNamespace(namespace)
                         .withName(name)).ifPresentOrElse(
                 Deletable::delete,
-                () -> {
-                    log.warn("resource not found: {}/{}", kind, name);
-                });
+                () -> log.warn("resource not found: {}/{}", kind, name));
     }
 
     // --------------------------------------------------------------------------------------------

@@ -4,8 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.release.GetReleaseUsecase;
-import nl.kubebit.core.usecases.release.GetReleaseUsecase.ReleaseValueResponse;
+import nl.kubebit.core.usecases.release.GetReleaseUseCase;
+import nl.kubebit.core.usecases.release.GetReleaseUseCase.ReleaseValueResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +20,13 @@ public class GetReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetReleaseUsecase usecase;
+    private final GetReleaseUseCase UseCase;
 
     /**
      *
      */
-    public GetReleaseController(GetReleaseUsecase usecase) {
-        this.usecase = usecase;
+    public GetReleaseController(GetReleaseUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -37,7 +37,7 @@ public class GetReleaseController {
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {
-        return usecase.execute(projectId, namespaceName, releaseId);
+        return UseCase.execute(projectId, namespaceName, releaseId);
     }
     
 }

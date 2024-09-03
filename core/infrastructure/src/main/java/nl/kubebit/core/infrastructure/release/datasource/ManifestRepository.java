@@ -19,6 +19,8 @@ import io.fabric8.kubernetes.client.dsl.NamespaceableResource;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 
+import static nl.kubebit.core.usecases.common.vars.GlobalVars.SYSTEM_NAME;
+
 /**
  *
  */
@@ -31,8 +33,7 @@ public class ManifestRepository {
 
     //
     private final String LABEL_MANAGEDBY = "app.kubernetes.io/managed-by";
-    private final String LABEL_PROJECT = "kubebit.nl/projects";
-    private final String LABEL_RELEASE = "kubebit.nl/releases";
+    private final String LABEL_PROJECT = "kubebit.nl/project";
     private final String LABEL_VERSION = "kubebit.nl/version";
 
     //
@@ -48,60 +49,25 @@ public class ManifestRepository {
     }
 
     /**
-     * Apply the manifest on kubernetes
-     *
-     * @param manifestFile manifest file
-     * @return list of resources
-     * @throws IOException error reading manifest file
-     */
-    public List<ReleaseResourceRef> applyManifest(File manifestFile) throws IOException {
-        log.trace("applying manifest: {}", manifestFile);
-        List<ReleaseResourceRef> resources = new ArrayList<>();
-        try (var reader = new FileInputStream(manifestFile)) {
-            var items = kubernetes.load(reader).items();
-            items.forEach(item -> resources.add(createOrPatch(item)));
-        }
-        return resources;
-    }
-
-    /**
-     * Get the resources from the manifest file
-     *
-     * @param manifestFile manifest file
-     * @return list of resources
-     */
-    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException {
-        log.trace("getting resources: {}", manifestFile);
-        List<ReleaseResourceRef> resources = new ArrayList<>();
-        try (var reader = new FileInputStream(manifestFile)) {
-            kubernetes.load(reader).items().forEach(item ->
-                    resources.add(new ReleaseResourceRef(item.getApiVersion(), item.getKind(), item.getMetadata().getName())));
-        }
-        return resources;
-    }
-
-    /**
      * Create manifest from input stream
      *
-     * @param inputStream    input stream form helm template
+     * @param inputStream    input-stream from helm template
      * @param projectId      project id
-     * @param releaseId      release id
      * @param releaseVersion release version
      * @param targetFile     manifest file destination
      */
-    public void createManifest(InputStream inputStream, String projectId, String releaseId, String releaseVersion, File targetFile) throws IOException {
+    public void createManifest(InputStream inputStream, String projectId, Long releaseVersion, File targetFile) throws IOException {
         log.trace("creating manifest: {}", targetFile.getAbsolutePath());
         try (var writer = new BufferedWriter(new FileWriter(targetFile))) {
-            writer.write("# kubebit -> version: " + releaseVersion + "\n");
+            writer.write("# " + SYSTEM_NAME + " -> version: " + releaseVersion + "\n");
             var items = kubernetes.load(inputStream).items();
             items.forEach(item -> {
                 log.trace("-> {} {}", item.getKind(), item.getMetadata().getName());
 
                 // add labels
-                item.getMetadata().getLabels().put(LABEL_MANAGEDBY, "kubebit");
+                item.getMetadata().getLabels().put(LABEL_MANAGEDBY, SYSTEM_NAME);
                 item.getMetadata().getLabels().put(LABEL_PROJECT, projectId);
-                item.getMetadata().getLabels().put(LABEL_RELEASE, releaseId);
-                item.getMetadata().getLabels().put(LABEL_VERSION, releaseVersion);
+                item.getMetadata().getLabels().put(LABEL_VERSION, releaseVersion.toString());
 
                 // remove managed by label
                 switch (item) {
@@ -127,6 +93,38 @@ public class ManifestRepository {
         log.trace("manifest created");
     }
 
+    /**
+     * Get the resources from the manifest file
+     *
+     * @param manifestFile manifest file
+     * @return list of resources
+     */
+    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException, RuntimeException {
+        log.trace("getting resources: {}", manifestFile);
+        List<ReleaseResourceRef> resources = new ArrayList<>();
+        try (var reader = new FileInputStream(manifestFile)) {
+            kubernetes.load(reader).items().forEach(item -> resources.add(new ReleaseResourceRef(item.getApiVersion(), item.getKind(), item.getMetadata().getName())));
+        }
+        if (resources.isEmpty()) {
+            throw new RuntimeException("no resources found in manifest");
+        }
+        return resources;
+    }
+
+    /**
+     * Apply the manifest on kubernetes
+     *
+     * @param manifestFile manifest file
+     * @throws IOException error reading manifest file
+     */
+    public void applyManifest(File manifestFile) throws IOException {
+        log.trace("applying manifest: {}", manifestFile);
+        try (var reader = new FileInputStream(manifestFile)) {
+            var items = kubernetes.load(reader).items();
+            items.forEach(this::createOrPatch);
+        }
+    }
+
     // --------------------------------------------------------------------------------------------
 
     /**
@@ -134,9 +132,8 @@ public class ManifestRepository {
      *
      * @param entity resource to create or patch
      * @param <T>    resource type
-     * @return resource reference
      */
-    private <T extends HasMetadata> ReleaseResourceRef createOrPatch(T entity) {
+    private <T extends HasMetadata> void createOrPatch(T entity) {
         log.trace("apply: {}/{}", entity.getKind(), entity.getMetadata().getName());
         String annotationName = "kubectl.kubernetes.io/last-applied-configuration";
         if (entity.getMetadata().getAnnotations() == null) {
@@ -150,8 +147,6 @@ public class ManifestRepository {
         } else {
             resource.forceConflicts().serverSideApply();
         }
-        return new ReleaseResourceRef(entity.getApiVersion(), entity.getKind(), entity.getMetadata().getName());
     }
-
 
 }

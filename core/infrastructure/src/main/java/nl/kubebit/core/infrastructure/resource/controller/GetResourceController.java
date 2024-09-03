@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import nl.kubebit.core.entities.release.ReleaseResourceRef;
 import nl.kubebit.core.entities.resource.Resource;
-import nl.kubebit.core.usecases.resource.GetResourceUsecase;
+import nl.kubebit.core.usecases.resource.GetResourceUseCase;
 
 /**
  * 
@@ -22,13 +22,13 @@ public class GetResourceController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetResourceUsecase usecase;
+    private final GetResourceUseCase UseCase;
 
     /**
      *
      */
-    public GetResourceController(GetResourceUsecase usecase) {
-        this.usecase = usecase;
+    public GetResourceController(GetResourceUseCase UseCase) {
+        this.UseCase = UseCase;
     }
     
     /**
@@ -42,6 +42,6 @@ public class GetResourceController {
         @RequestParam String version,
         @RequestParam String kind,
         @RequestParam String name) {
-        return usecase.execute(projectId, namespaceName, new ReleaseResourceRef(group, version, kind, name));
+        return UseCase.execute(projectId, namespaceName, new ReleaseResourceRef(group, version, kind, name));
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import nl.kubebit.core.usecases.resource.GetContainerLogsUsecase;
+import nl.kubebit.core.usecases.resource.GetContainerLogsUseCase;
 
 /**
  * 
@@ -20,13 +20,13 @@ public class GetContainerLogsController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetContainerLogsUsecase usecase;
+    private final GetContainerLogsUseCase UseCase;
 
     /**
      *
      */
-    public GetContainerLogsController(GetContainerLogsUsecase usecase) {
-        this.usecase = usecase;
+    public GetContainerLogsController(GetContainerLogsUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -38,6 +38,6 @@ public class GetContainerLogsController {
         @PathVariable("namespace_name") String namespaceName,
         @RequestParam String pod,
         @RequestParam String container) {
-        return usecase.execute(projectId, namespaceName, pod, container);
+        return UseCase.execute(projectId, namespaceName, pod, container);
     }
 }

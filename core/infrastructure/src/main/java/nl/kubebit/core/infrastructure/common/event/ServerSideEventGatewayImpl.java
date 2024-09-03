@@ -2,7 +2,6 @@ package nl.kubebit.core.infrastructure.common.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationEventPublisher;
 
 import nl.kubebit.core.usecases.common.annotation.Gateway;
 import nl.kubebit.core.usecases.common.event.ServerSideEventGateway;

@@ -9,24 +9,46 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  */
 public class HelmBuilder {
     // --------------------------------------------------------------------------------------------
 
+    /**
+     *
+     */
+    public enum GetCommand {
+        HOOKS("hooks"),
+        MANIFEST("manifest"),
+        METADATA("metadata"),
+        NOTES("notes"),
+        VALUES("values");
+
+        private final String value;
+
+        GetCommand(String value) {
+            this.value = value;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
+
     //
     private static final Logger log = LoggerFactory.getLogger(HelmBuilder.class);
-    
+
     //
     private final List<String> commandStrings = new ArrayList<>();
 
     /**
-     * 
+     *
      */
     public HelmBuilder() {
         commandStrings.add("helm");
@@ -46,7 +68,19 @@ public class HelmBuilder {
         commandStrings.addAll(List.of("template", release, file.getAbsolutePath()));
         return this;
     }
-    
+
+    /**
+     * helm get <function>
+     *
+     * @param function helm get function
+     * @param release  release name
+     * @return the builder
+     */
+    public HelmBuilder get(GetCommand function, String release) {
+        commandStrings.addAll(List.of("get", function.value(), release));
+        return this;
+    }
+
     /**
      *
      */
@@ -93,7 +127,10 @@ public class HelmBuilder {
     // --------------------------------------------------------------------------------------------
 
     /**
+     * execute the command
      *
+     * @return the process
+     * @throws IOException if an I/O error occurs
      */
     public Process executeAs() throws IOException {
         log.trace("execution: {}", String.join(" ", commandStrings));
@@ -103,26 +140,39 @@ public class HelmBuilder {
     }
 
     /**
+     * execute the command
      *
+     * @return the input stream
      */
-    public String execute() throws IOException, RuntimeException, InterruptedException {
-        var process = this.executeAs();        
-        var response = fetchStream(process.getInputStream());
-        var error = fetchStream(process.getErrorStream());
-        process.waitFor();
-        if(process.exitValue() != 0) {
-            throw new RuntimeException(error);
+    public InputStream execute() {
+        try {
+            var process = this.executeAs();
+
+            // wait for the process to finish
+            process.waitFor(60, TimeUnit.SECONDS);
+
+            // check if the process was not successful
+            if (process.exitValue() != 0) {
+                try (var errorStream = process.getErrorStream()) {
+                    throw new RuntimeException(this.fetchStream(errorStream));
+                }
+            }
+            return process.getInputStream();
+        } catch (Exception e) {
+            throw new RuntimeException("error in process: " + e.getMessage());
         }
-        return response;
     }
+
+    // --------------------------------------------------------------------------------------------
+    // private methods
 
     /**
      *
      */
-    public static String fetchStream(InputStream stream) throws IOException {
+    private String fetchStream(InputStream stream) throws IOException {
         var output = new StringBuilder();
-        try(var input = new InputStreamReader(stream)) {
-            try(var reader = new BufferedReader(input)) {
+        try (var input = new InputStreamReader(stream)) {
+            try (var reader = new BufferedReader(input)) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     output.append(line).append("\n");
@@ -131,7 +181,7 @@ public class HelmBuilder {
         }
         return output.toString().trim();
     }
-    
+
 }
 
 

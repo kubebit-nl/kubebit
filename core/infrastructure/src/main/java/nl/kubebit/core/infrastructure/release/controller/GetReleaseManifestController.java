@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.kubebit.core.entities.release.exception.RevisionNotFoundException;
-import nl.kubebit.core.usecases.release.GetReleaseManifestUsecase;
+import nl.kubebit.core.usecases.release.GetReleaseManifestUseCase;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -26,13 +26,13 @@ public class GetReleaseManifestController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetReleaseManifestUsecase usecase;
+    private final GetReleaseManifestUseCase UseCase;
 
     /**
      *
      */
-    public GetReleaseManifestController(GetReleaseManifestUsecase usecase) {
-        this.usecase = usecase;
+    public GetReleaseManifestController(GetReleaseManifestUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -46,7 +46,7 @@ public class GetReleaseManifestController {
         @RequestParam(value = "revision_version", required = false) Long revisionVersion) {
         
         //
-        var resource = usecase.execute(projectId, namespaceName, releaseId, revisionVersion)
+        var resource = UseCase.execute(projectId, namespaceName, releaseId, revisionVersion)
             .orElseThrow(RevisionNotFoundException::new);
         
         //

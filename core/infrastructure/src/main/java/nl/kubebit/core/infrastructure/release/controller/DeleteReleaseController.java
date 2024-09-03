@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.release.DeleteReleaseUsecase;
+import nl.kubebit.core.usecases.release.DeleteReleaseUseCase;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,13 +19,13 @@ public class DeleteReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final DeleteReleaseUsecase usecase;
+    private final DeleteReleaseUseCase UseCase;
 
     /**
      *
      */
-    public DeleteReleaseController(DeleteReleaseUsecase usecase) {
-        this.usecase = usecase;
+    public DeleteReleaseController(DeleteReleaseUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -36,7 +36,7 @@ public class DeleteReleaseController {
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {
-        usecase.execute(projectId, namespaceName, releaseId);
+        UseCase.execute(projectId, namespaceName, releaseId);
     }
     
 }

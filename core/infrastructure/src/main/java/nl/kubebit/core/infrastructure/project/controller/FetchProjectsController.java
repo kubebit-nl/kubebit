@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.project.FetchProjectsUsecase;
+import nl.kubebit.core.usecases.project.FetchProjectsUseCase;
 import nl.kubebit.core.usecases.project.dto.ProjectResponse;
 
 import java.util.List;
@@ -21,13 +21,13 @@ public class FetchProjectsController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final FetchProjectsUsecase usecase;
+    private final FetchProjectsUseCase UseCase;
 
     /**
      *
      */
-    public FetchProjectsController(FetchProjectsUsecase usecase) {
-        this.usecase = usecase;
+    public FetchProjectsController(FetchProjectsUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -35,7 +35,7 @@ public class FetchProjectsController {
      */
     @GetMapping
     public List<ProjectResponse> fetchProjects() {
-        return usecase.execute();
+        return UseCase.execute();
     }
     
 }

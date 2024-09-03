@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.release.PatchReleaseUsecase;
+import nl.kubebit.core.usecases.release.PatchReleaseUseCase;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,13 +20,13 @@ public class PatchReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final PatchReleaseUsecase usecase;
+    private final PatchReleaseUseCase UseCase;
 
     /**
      *
      */
-    public PatchReleaseController(PatchReleaseUsecase usecase) {
-        this.usecase = usecase;
+    public PatchReleaseController(PatchReleaseUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -37,7 +37,7 @@ public class PatchReleaseController {
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {
-        return usecase.execute(projectId, namespaceName, releaseId);
+        return UseCase.execute(projectId, namespaceName, releaseId);
     }
     
 }

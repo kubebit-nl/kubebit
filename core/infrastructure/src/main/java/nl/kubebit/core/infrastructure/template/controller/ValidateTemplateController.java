@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.template.ValidateTemplateUsecase;
+import nl.kubebit.core.usecases.template.ValidateTemplateUseCase;
 import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,13 +20,13 @@ public class ValidateTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final ValidateTemplateUsecase usecase;
+    private final ValidateTemplateUseCase UseCase;
 
     /**
      *
      */
-    public ValidateTemplateController(ValidateTemplateUsecase usecase) {
-        this.usecase = usecase;
+    public ValidateTemplateController(ValidateTemplateUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -35,7 +35,7 @@ public class ValidateTemplateController {
     @PostMapping
     public TemplateResponse validateTemplate(
         @PathVariable("template_id") String templateId){
-        return usecase.execute(templateId);
+        return UseCase.execute(templateId);
     }
     
 }

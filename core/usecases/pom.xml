@@ -13,7 +13,7 @@
 
 	<!-- -->
 	<groupId>nl.kubebit.core</groupId>
-	<artifactId>usecases</artifactId>
+	<artifactId>UseCases</artifactId>
 
 	<!-- -->
 	<dependencies>

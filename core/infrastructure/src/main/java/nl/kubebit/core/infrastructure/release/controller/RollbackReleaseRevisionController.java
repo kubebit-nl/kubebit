@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import nl.kubebit.core.usecases.release.RollbackReleaseRevisionUsecase;
+import nl.kubebit.core.usecases.release.RollbackReleaseRevisionUseCase;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,13 +21,13 @@ public class RollbackReleaseRevisionController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final RollbackReleaseRevisionUsecase usecase;
+    private final RollbackReleaseRevisionUseCase UseCase;
 
     /**
      *
      */
-    public RollbackReleaseRevisionController(RollbackReleaseRevisionUsecase usecase) {
-        this.usecase = usecase;
+    public RollbackReleaseRevisionController(RollbackReleaseRevisionUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -39,7 +39,7 @@ public class RollbackReleaseRevisionController {
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,
         @PathVariable("revision_version") Long revisionVersion) {
-        return usecase.execute(projectId, namespaceName, releaseId, revisionVersion);
+        return UseCase.execute(projectId, namespaceName, releaseId, revisionVersion);
     }
     
 }

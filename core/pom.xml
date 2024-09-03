@@ -34,7 +34,7 @@
 	<!-- -->
 	<modules>
 		<module>entities</module>
-		<module>usecases</module>
+		<module>UseCases</module>
 		<module>infrastructure</module>
 	</modules>
 

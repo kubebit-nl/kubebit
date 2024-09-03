@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import nl.kubebit.core.usecases.namespace.CreateNamespaceUsecase;
-import nl.kubebit.core.usecases.namespace.CreateNamespaceUsecase.NamespaceRequest;
+import nl.kubebit.core.usecases.namespace.CreateNamespaceUseCase;
+import nl.kubebit.core.usecases.namespace.CreateNamespaceUseCase.NamespaceRequest;
 import nl.kubebit.core.usecases.namespace.dto.NamespaceResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +23,13 @@ public class CreateNamespaceController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final CreateNamespaceUsecase usecase;
+    private final CreateNamespaceUseCase UseCase;
 
     /**
      *
      */
-    public CreateNamespaceController(CreateNamespaceUsecase usecase) {
-        this.usecase = usecase;
+    public CreateNamespaceController(CreateNamespaceUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -39,7 +39,7 @@ public class CreateNamespaceController {
     public NamespaceResponse getProject(
         @PathVariable("project_id") String projectId,
         @RequestBody @Valid NamespaceRequest request) {
-        return usecase.execute(projectId, request);
+        return UseCase.execute(projectId, request);
     }
     
 }

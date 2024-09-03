@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 
-import static nl.kubebit.core.usecases.common.vars.GlobalVars.SSE_ADMIN;
-
 /**
  * ServerSideEventGateway console implementation for debug purposes
  */

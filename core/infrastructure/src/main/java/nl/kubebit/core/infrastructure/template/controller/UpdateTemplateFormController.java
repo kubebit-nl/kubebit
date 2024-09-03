@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import nl.kubebit.core.usecases.template.UpdateTemplateFormUsecase;
+import nl.kubebit.core.usecases.template.UpdateTemplateFormUseCase;
 import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 
 import java.util.Map;
@@ -24,13 +24,13 @@ public class UpdateTemplateFormController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateTemplateFormUsecase usecase;
+    private final UpdateTemplateFormUseCase UseCase;
 
     /**
      *
      */
-    public UpdateTemplateFormController(UpdateTemplateFormUsecase usecase) {
-        this.usecase = usecase;
+    public UpdateTemplateFormController(UpdateTemplateFormUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -40,7 +40,7 @@ public class UpdateTemplateFormController {
     public TemplateResponse updateTemplateFor(
         @PathVariable("template_id") String templateId,
         @RequestBody Map<String, Object> form){
-        return usecase.execute(templateId, form);
+        return UseCase.execute(templateId, form);
     }
     
 }

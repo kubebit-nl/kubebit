@@ -1,6 +1,7 @@
 package nl.kubebit.core.infrastructure.release.gateway;
 
 import nl.kubebit.core.entities.release.ReleaseResourceRef;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,16 +15,16 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- *
+ * Manifest gateway implementation
  */
 @Gateway
 public class ManifestGatewayImpl implements ManifestGateway {
     // --------------------------------------------------------------------------------------------
 
-    //
+    // logger
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    //
+    // manifest repository
     private final ManifestRepository manifestRepository;
 
     /**
@@ -36,34 +37,19 @@ public class ManifestGatewayImpl implements ManifestGateway {
     }
 
     /**
-     * Apply manifest to kubernetes
-     *
-     * @param manifestFile manifest file
-     * @return list of resources
-     * @throws IOException error reading manifest file
-     */
-    @Override
-    public List<ReleaseResourceRef> applyManifest(File manifestFile) throws IOException {
-        log.debug("apply manifest: {}", manifestFile.getAbsolutePath());
-        return manifestRepository.applyManifest(manifestFile);
-    }
-
-    /**
      * Create manifest from input stream
      *
      * @param inputStream    input stream form helm template
      * @param projectId      project id
-     * @param releaseId      release id
      * @param releaseVersion release version
      * @param targetFile     manifest file destination
      * @throws IOException error writing manifest file
      */
     @Override
-    public void createManifest(InputStream inputStream, String projectId, String releaseId, String releaseVersion, File targetFile) throws IOException {
+    public void createManifest(InputStream inputStream, String projectId, Long releaseVersion, File targetFile) throws IOException {
         log.debug("create manifest: {}", targetFile.getAbsolutePath());
-        manifestRepository.createManifest(inputStream, projectId, releaseId, releaseVersion, targetFile);
+        manifestRepository.createManifest(inputStream, projectId, releaseVersion, targetFile);
     }
-
 
     /**
      * Get the resources from the manifest file
@@ -72,9 +58,20 @@ public class ManifestGatewayImpl implements ManifestGateway {
      * @return the list of release resource references
      */
     @Override
-    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException {
+    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException, RuntimeException {
         log.debug("get resources: {}", manifestFile.getAbsolutePath());
         return manifestRepository.getResources(manifestFile);
     }
 
+    /**
+     * Apply manifest to kubernetes
+     *
+     * @param manifestFile manifest file
+     * @throws IOException error reading manifest file
+     */
+    @Override
+    public void applyManifest(File manifestFile) throws IOException {
+        log.debug("apply manifest: {}", manifestFile.getAbsolutePath());
+        manifestRepository.applyManifest(manifestFile);
+    }
 }

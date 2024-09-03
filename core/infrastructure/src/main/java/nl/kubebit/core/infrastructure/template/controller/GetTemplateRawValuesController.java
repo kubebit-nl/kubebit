@@ -2,7 +2,7 @@ package nl.kubebit.core.infrastructure.template.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.template.GetTemplateRawValuesUsecase;
+import nl.kubebit.core.usecases.template.GetTemplateRawValuesUseCase;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,13 +18,13 @@ public class GetTemplateRawValuesController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetTemplateRawValuesUsecase usecase;
+    private final GetTemplateRawValuesUseCase UseCase;
 
     /**
      *
      */
-    public GetTemplateRawValuesController(GetTemplateRawValuesUsecase usecase) {
-        this.usecase = usecase;
+    public GetTemplateRawValuesController(GetTemplateRawValuesUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -34,7 +34,7 @@ public class GetTemplateRawValuesController {
     @GetMapping
     public String getTemplate(
         @PathVariable("template_id") String templateId){
-        return usecase.execute(templateId);
+        return UseCase.execute(templateId);
     }
     
 }

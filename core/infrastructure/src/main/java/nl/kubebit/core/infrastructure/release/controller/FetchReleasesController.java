@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.release.FetchReleasesUsecase;
+import nl.kubebit.core.usecases.release.FetchReleasesUseCase;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 import java.util.List;
@@ -22,13 +22,13 @@ public class FetchReleasesController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final FetchReleasesUsecase usecase;
+    private final FetchReleasesUseCase UseCase;
 
     /**
      *
      */
-    public FetchReleasesController(FetchReleasesUsecase usecase) {
-        this.usecase = usecase;
+    public FetchReleasesController(FetchReleasesUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -38,7 +38,7 @@ public class FetchReleasesController {
     public List<ReleaseResponse> fetchDeployments(
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName) {
-        return usecase.execute(projectId, namespaceName);
+        return UseCase.execute(projectId, namespaceName);
     }
     
 }

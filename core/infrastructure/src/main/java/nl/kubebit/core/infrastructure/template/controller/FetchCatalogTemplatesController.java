@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.template.FetchCatalogTemplatesUsecase;
+import nl.kubebit.core.usecases.template.FetchCatalogTemplatesUseCase;
 import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 
 import java.util.List;
@@ -21,13 +21,13 @@ public class FetchCatalogTemplatesController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final FetchCatalogTemplatesUsecase usecase;
+    private final FetchCatalogTemplatesUseCase UseCase;
 
     /**
      *
      */
-    public FetchCatalogTemplatesController(FetchCatalogTemplatesUsecase usecase) {
-        this.usecase = usecase;
+    public FetchCatalogTemplatesController(FetchCatalogTemplatesUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -35,7 +35,7 @@ public class FetchCatalogTemplatesController {
      */
     @GetMapping
     public List<TemplateResponse> fetchCatalogTemplates() {
-        return usecase.execute();
+        return UseCase.execute();
     }
     
 }

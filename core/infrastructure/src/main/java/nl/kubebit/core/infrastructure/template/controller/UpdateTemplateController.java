@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import nl.kubebit.core.usecases.template.UpdateTemplateUsecase;
-import nl.kubebit.core.usecases.template.UpdateTemplateUsecase.TemplateUpdateRequest;
+import nl.kubebit.core.usecases.template.UpdateTemplateUseCase;
+import nl.kubebit.core.usecases.template.UpdateTemplateUseCase.TemplateUpdateRequest;
 import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +23,13 @@ public class UpdateTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateTemplateUsecase usecase;
+    private final UpdateTemplateUseCase UseCase;
 
     /**
      *
      */
-    public UpdateTemplateController(UpdateTemplateUsecase usecase) {
-        this.usecase = usecase;
+    public UpdateTemplateController(UpdateTemplateUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -39,7 +39,7 @@ public class UpdateTemplateController {
     public TemplateResponse createTemplate(
         @PathVariable("template_id") String templateId,
         @RequestBody @Valid TemplateUpdateRequest request){
-        return usecase.execute(templateId, request);
+        return UseCase.execute(templateId, request);
     }
     
 }

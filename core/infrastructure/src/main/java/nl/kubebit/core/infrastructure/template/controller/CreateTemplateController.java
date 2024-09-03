@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
-import nl.kubebit.core.usecases.template.CreateTemplateUsecase;
-import nl.kubebit.core.usecases.template.CreateTemplateUsecase.TemplateCreateRequest;
+import nl.kubebit.core.usecases.template.CreateTemplateUseCase;
+import nl.kubebit.core.usecases.template.CreateTemplateUseCase.TemplateCreateRequest;
 import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +23,13 @@ public class CreateTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final CreateTemplateUsecase usecase;
+    private final CreateTemplateUseCase UseCase;
 
     /**
      *
      */
-    public CreateTemplateController(CreateTemplateUsecase usecase) {
-        this.usecase = usecase;
+    public CreateTemplateController(CreateTemplateUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -38,7 +38,7 @@ public class CreateTemplateController {
     @PostMapping
     public TemplateResponse createTemplate(
         @RequestBody @Valid TemplateCreateRequest request) {
-        return usecase.execute(request);
+        return UseCase.execute(request);
     }
     
 }

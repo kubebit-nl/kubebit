@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import nl.kubebit.core.usecases.template.GetTemplateUsecase;
+import nl.kubebit.core.usecases.template.GetTemplateUseCase;
 import nl.kubebit.core.usecases.template.dto.TemplateFullResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +21,13 @@ public class GetTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetTemplateUsecase usecase;
+    private final GetTemplateUseCase UseCase;
 
     /**
      *
      */
-    public GetTemplateController(GetTemplateUsecase usecase) {
-        this.usecase = usecase;
+    public GetTemplateController(GetTemplateUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -36,7 +36,7 @@ public class GetTemplateController {
     @GetMapping
     public TemplateFullResponse getTemplate(
         @PathVariable("template_id") String templateId){
-        return usecase.execute(templateId);
+        return UseCase.execute(templateId);
     }
     
 }

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import nl.kubebit.core.usecases.template.GetCatalogTemplateUsecase;
+import nl.kubebit.core.usecases.template.GetCatalogTemplateUseCase;
 import nl.kubebit.core.usecases.template.dto.TemplateFormResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +16,18 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @Tag(name = "Template")
 @RestController
-@RequestMapping("/api/v1/templatess/catalog/{template_id}")
+@RequestMapping("/api/v1/templates/catalog/{template_id}")
 public class GetCatalogTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetCatalogTemplateUsecase usecase;
+    private final GetCatalogTemplateUseCase UseCase;
 
     /**
      *
      */
-    public GetCatalogTemplateController(GetCatalogTemplateUsecase usecase) {
-        this.usecase = usecase;
+    public GetCatalogTemplateController(GetCatalogTemplateUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -36,7 +36,7 @@ public class GetCatalogTemplateController {
     @GetMapping
     public TemplateFormResponse getTemplate(
         @PathVariable("template_id") String templateId){
-        return usecase.execute(templateId);
+        return UseCase.execute(templateId);
     }
     
 }

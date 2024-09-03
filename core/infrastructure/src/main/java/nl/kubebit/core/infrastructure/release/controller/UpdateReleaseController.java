@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import nl.kubebit.core.usecases.release.UpdateReleasesUsecase;
-import nl.kubebit.core.usecases.release.UpdateReleasesUsecase.ReleaseUpdateRequest;
+import nl.kubebit.core.usecases.release.UpdateReleasesUseCase;
+import nl.kubebit.core.usecases.release.UpdateReleasesUseCase.ReleaseUpdateRequest;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,13 +23,13 @@ public class UpdateReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateReleasesUsecase usecase;
+    private final UpdateReleasesUseCase UseCase;
 
     /**
      *
      */
-    public UpdateReleaseController(UpdateReleasesUsecase usecase) {
-        this.usecase = usecase;
+    public UpdateReleaseController(UpdateReleasesUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -41,7 +41,7 @@ public class UpdateReleaseController {
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,
         @RequestBody @Valid ReleaseUpdateRequest request) {
-        return usecase.execute(projectId, namespaceName, releaseId, request);
+        return UseCase.execute(projectId, namespaceName, releaseId, request);
     }
     
 }

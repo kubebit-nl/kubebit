@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
-import nl.kubebit.core.usecases.namespace.GetNamespaceUsecase;
+import nl.kubebit.core.usecases.namespace.GetNamespaceUseCase;
 import nl.kubebit.core.usecases.namespace.dto.NamespaceResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +20,13 @@ public class GetNamespaceController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetNamespaceUsecase usecase;
+    private final GetNamespaceUseCase UseCase;
 
     /**
      *
      */
-    public GetNamespaceController(GetNamespaceUsecase usecase) {
-        this.usecase = usecase;
+    public GetNamespaceController(GetNamespaceUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -36,7 +36,7 @@ public class GetNamespaceController {
     public NamespaceResponse getProject(
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName) {
-        return usecase.execute(projectId, namespaceName);
+        return UseCase.execute(projectId, namespaceName);
     }
     
 }

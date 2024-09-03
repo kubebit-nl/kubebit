@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import nl.kubebit.core.usecases.project.CreateProjectUsecase;
-import nl.kubebit.core.usecases.project.CreateProjectUsecase.ProjectRequest;
+import nl.kubebit.core.usecases.project.CreateProjectUseCase;
+import nl.kubebit.core.usecases.project.CreateProjectUseCase.ProjectRequest;
 import nl.kubebit.core.usecases.project.dto.ProjectResponse;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,13 +22,13 @@ public class CreateProjectController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final CreateProjectUsecase usecase;
+    private final CreateProjectUseCase UseCase;
 
     /**
      *
      */
-    public CreateProjectController(CreateProjectUsecase usecase) {
-        this.usecase = usecase;
+    public CreateProjectController(CreateProjectUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -36,7 +36,7 @@ public class CreateProjectController {
      */
     @PostMapping
     public ProjectResponse getProject(@RequestBody @Valid ProjectRequest request) {
-        return usecase.execute(request);
+        return UseCase.execute(request);
     }
     
 }

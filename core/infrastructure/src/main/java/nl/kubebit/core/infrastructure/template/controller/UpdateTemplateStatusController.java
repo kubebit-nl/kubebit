@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.kubebit.core.entities.template.TemplateStatus;
-import nl.kubebit.core.usecases.template.UpdateTemplateStatusUsecase;
+import nl.kubebit.core.usecases.template.UpdateTemplateStatusUseCase;
 import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +22,13 @@ public class UpdateTemplateStatusController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateTemplateStatusUsecase usecase;
+    private final UpdateTemplateStatusUseCase UseCase;
 
     /**
      *
      */
-    public UpdateTemplateStatusController(UpdateTemplateStatusUsecase usecase) {
-        this.usecase = usecase;
+    public UpdateTemplateStatusController(UpdateTemplateStatusUseCase UseCase) {
+        this.UseCase = UseCase;
     }
 
     /**
@@ -39,7 +39,7 @@ public class UpdateTemplateStatusController {
     public TemplateResponse updateTemplateStatus(
         @PathVariable("template_id") String templateId,
         @PathVariable("status") TemplateStatus status){
-        return usecase.execute(templateId, status);
+        return UseCase.execute(templateId, status);
     }
     
 }
