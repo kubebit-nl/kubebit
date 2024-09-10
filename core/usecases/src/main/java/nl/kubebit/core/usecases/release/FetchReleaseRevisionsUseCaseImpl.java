@@ -45,9 +45,9 @@ class FetchReleaseRevisionsUseCaseImpl implements FetchReleaseRevisionsUseCase {
     @Override
     public List<ReleaseRefResponse> execute(String projectId, String namespaceName, String releaseId) {
         log.info("{} - {} -> fetch revisions", projectId, namespaceName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
-        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
         return releaseGateway.findRevisions(namespace.id(), release).stream().map(ReleaseRefResponse::new).toList();
     }
     

@@ -20,13 +20,13 @@ public class GetReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetReleaseUseCase UseCase;
+    private final GetReleaseUseCase useCase;
 
     /**
      *
      */
     public GetReleaseController(GetReleaseUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -37,7 +37,7 @@ public class GetReleaseController {
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {
-        return UseCase.execute(projectId, namespaceName, releaseId);
+        return useCase.execute(projectId, namespaceName, releaseId);
     }
     
 }

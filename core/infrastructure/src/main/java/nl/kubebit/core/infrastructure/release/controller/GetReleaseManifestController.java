@@ -26,13 +26,13 @@ public class GetReleaseManifestController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetReleaseManifestUseCase UseCase;
+    private final GetReleaseManifestUseCase useCase;
 
     /**
      *
      */
     public GetReleaseManifestController(GetReleaseManifestUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -46,7 +46,7 @@ public class GetReleaseManifestController {
         @RequestParam(value = "revision_version", required = false) Long revisionVersion) {
         
         //
-        var resource = UseCase.execute(projectId, namespaceName, releaseId, revisionVersion)
+        var resource = useCase.execute(projectId, namespaceName, releaseId, revisionVersion)
             .orElseThrow(RevisionNotFoundException::new);
         
         //

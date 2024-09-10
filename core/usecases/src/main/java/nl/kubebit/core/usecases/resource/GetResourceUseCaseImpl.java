@@ -48,8 +48,8 @@ class GetResourceUseCaseImpl implements GetResourceUseCase {
     @Override
     public Resource execute(String projectId, String namespaceName, ReleaseResourceRef ref) {
         log.info("{} - {} -> get resource: {}", projectId, namespaceName, ref);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
         return resourcegateway.getResource(namespace.id(), ref).orElseThrow(ResourceNotFoundException::new);
     }
 }

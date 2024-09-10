@@ -40,14 +40,15 @@ class CreateNamespaceUseCaseImpl implements CreateNamespaceUseCase {
     @Override
     public NamespaceResponse execute(String projectId, NamespaceRequest request) throws NamespaceNotCreatedException {
         log.info("{} -> create namespace {}", projectId, request.name());
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
 
         //
         var namespace = new Namespace(
             request.name(), 
             request.description(),
             project.id(),
-            request.isDefault());
+            request.isDefault(),
+            request.isProduction());
 
         //
         if(!namespaceGateway.unique(namespace.id())) {

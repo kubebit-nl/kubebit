@@ -7,8 +7,8 @@ import nl.kubebit.core.entities.common.exception.EntityNotFoundException;
  */
 public class ChartNotFoundException extends EntityNotFoundException {
 
-    public ChartNotFoundException(String chartName) {
-        super("Chart '" + chartName + "' not found");
+    public ChartNotFoundException() {
+        super("Chart not found");
     }
     
 }

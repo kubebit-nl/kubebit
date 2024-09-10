@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import static nl.kubebit.core.usecases.common.vars.GlobalVars.CHARTS_LOCATION;
-import static nl.kubebit.core.usecases.common.vars.GlobalVars.MANIFESTS_LOCATION;
+import static nl.kubebit.core.entities.common.vars.GlobalVars.CHARTS_LOCATION;
+import static nl.kubebit.core.entities.common.vars.GlobalVars.MANIFESTS_LOCATION;
 
 /**
  * 

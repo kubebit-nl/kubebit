@@ -3,7 +3,7 @@ package nl.kubebit.core.usecases.release;
 import java.util.Map;
 
 import nl.kubebit.core.usecases.common.util.JsonSchemaSanitizer;
-import nl.kubebit.core.usecases.release.chore.ManifestAsyncInstaller;
+import nl.kubebit.core.usecases.release.chore.ManifestAsyncChore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,17 +42,17 @@ class UpdateReleasesUseCaseImpl implements UpdateReleasesUseCase {
     private final NamespaceGateway namespaceGateway;
     private final TemplateGateway templateGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestAsyncInstaller manifestInstaller;
+    private final ManifestAsyncChore chore;
 
     /**
      *
      */
-    public UpdateReleasesUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, TemplateGateway templateGateway, ReleaseGateway releaseGateway, ManifestAsyncInstaller manifestInstaller) {
+    public UpdateReleasesUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, TemplateGateway templateGateway, ReleaseGateway releaseGateway, ManifestAsyncChore manifestInstaller) {
         this.projectGateway = projectGateway;
         this.namespaceGateway = namespaceGateway;
         this.templateGateway = templateGateway;
         this.releaseGateway = releaseGateway;
-        this.manifestInstaller = manifestInstaller;
+        this.chore = manifestInstaller;
     }
 
     /**
@@ -61,9 +61,11 @@ class UpdateReleasesUseCaseImpl implements UpdateReleasesUseCase {
     @Override
     public ReleaseResponse execute(String projectId, String namespaceName, String releaseId, ReleaseUpdateRequest request) {
         log.info("{} - {} -> update release", projectId, namespaceName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
-        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
+
+        // find project, namespace and release
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
         
         // check if release is running
         if(ReleaseStatus.isRunning(release.status())) {
@@ -71,13 +73,13 @@ class UpdateReleasesUseCaseImpl implements UpdateReleasesUseCase {
         }
         
         // check if template is available
-        var template = templateGateway.findById(request.templateId()).orElseThrow(() -> new TemplateNotFoundException(request.templateId()));
+        var template = templateGateway.findById(request.templateId()).orElseThrow(TemplateNotFoundException::new);
         if(template.status() != TemplateStatus.AVAILABLE) {
             throw new TemplateInvalidStatusException(template.status());
         }
 
         // sanitize values based on the template schema
-        Map<String, Object> sanitizeValues = JsonSchemaSanitizer.execute(template.formSchema(), request.values());
+        Map<String, Object> sanitizeValues = JsonSchemaSanitizer.execute(template.schema(), request.values());
 
         // update release
         var entity = new Release(
@@ -85,10 +87,10 @@ class UpdateReleasesUseCaseImpl implements UpdateReleasesUseCase {
             release.version() + 1,
             new TemplateRef(template.chart(), template.version()),
             sanitizeValues,
-            null,
+            template.icon(),
             ReleaseStatus.PENDING_UPGRADE,
-            null,
-            null,
+            "",
+            release.resources(),
             release.newRevisions(),
             namespace.id());
 
@@ -96,7 +98,7 @@ class UpdateReleasesUseCaseImpl implements UpdateReleasesUseCase {
         releaseGateway.update(entity).orElseThrow(ReleaseNotCreatedException::new);
 
         // install manifest async
-        manifestInstaller.execute(project, namespace, template, entity);
+        chore.execute(project, namespace, template, entity);
 
         // return response
         return new ReleaseResponse(entity);

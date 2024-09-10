@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public record ResourcePod(
         
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "id")
     String name,
 
     @JsonProperty(value = "init_containers")

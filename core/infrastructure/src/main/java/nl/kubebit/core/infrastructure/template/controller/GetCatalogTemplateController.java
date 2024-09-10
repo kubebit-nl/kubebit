@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import nl.kubebit.core.usecases.template.GetCatalogTemplateUseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateFormResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateCatalogResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +34,7 @@ public class GetCatalogTemplateController {
      *
      */
     @GetMapping
-    public TemplateFormResponse getTemplate(
+    public TemplateCatalogResponse getTemplate(
         @PathVariable("template_id") String templateId){
         return UseCase.execute(templateId);
     }

@@ -1,13 +1,14 @@
 package nl.kubebit.core.usecases.release;
 
 import jakarta.validation.constraints.NotBlank;
+import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 /**
  * 
  */
 public interface DeleteReleaseUseCase {
-    
-    void execute(
+
+    ReleaseResponse execute(
 
             @NotBlank
             String projectId,

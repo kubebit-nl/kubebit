@@ -23,13 +23,13 @@ public class FetchReleaseRevisionsController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final FetchReleaseRevisionsUseCase UseCase;
+    private final FetchReleaseRevisionsUseCase useCase;
 
     /**
      *
      */
     public FetchReleaseRevisionsController(FetchReleaseRevisionsUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -40,7 +40,7 @@ public class FetchReleaseRevisionsController {
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {
-        return UseCase.execute(projectId, namespaceName, releaseId);
+        return useCase.execute(projectId, namespaceName, releaseId);
     }
     
 }

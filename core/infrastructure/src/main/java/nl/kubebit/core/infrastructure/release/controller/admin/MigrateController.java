@@ -33,8 +33,8 @@ public class MigrateController {
      * Migrate a release
      *
      * @param projectId      the project id
-     * @param namespaceName  the namespace name
-     * @param deploymentName the helm deployment name
+     * @param namespaceName  the namespace id
+     * @param deploymentName the helm deployment id
      * @return the release response
      */
     @PostMapping

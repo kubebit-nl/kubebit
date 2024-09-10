@@ -73,7 +73,7 @@ public class HelmBuilder {
      * helm get <function>
      *
      * @param function helm get function
-     * @param release  release name
+     * @param release  release id
      * @return the builder
      */
     public HelmBuilder get(GetCommand function, String release) {
@@ -142,9 +142,10 @@ public class HelmBuilder {
     /**
      * execute the command
      *
-     * @return the input stream
+     * @return the output stream
+     * @throws RuntimeException if an error occurs
      */
-    public InputStream execute() {
+    public InputStream execute() throws RuntimeException {
         try {
             var process = this.executeAs();
 

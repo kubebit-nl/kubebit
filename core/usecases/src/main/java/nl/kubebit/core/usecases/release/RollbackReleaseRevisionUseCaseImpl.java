@@ -1,6 +1,6 @@
 package nl.kubebit.core.usecases.release;
 
-import nl.kubebit.core.usecases.release.chore.ManifestAsyncInstaller;
+import nl.kubebit.core.usecases.release.chore.ManifestAsyncChore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +38,7 @@ class RollbackReleaseRevisionUseCaseImpl implements RollbackReleaseRevisionUseCa
     private final NamespaceGateway namespaceGateway;
     private final TemplateGateway templateGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestAsyncInstaller manifestInstaller;
+    private final ManifestAsyncChore manifestInstaller;
 
     /**
      *
@@ -48,7 +48,7 @@ class RollbackReleaseRevisionUseCaseImpl implements RollbackReleaseRevisionUseCa
             NamespaceGateway namespaceGateway,
             TemplateGateway templateGateway,
             ReleaseGateway releaseGateway,
-            ManifestAsyncInstaller manifestInstaller) {
+            ManifestAsyncChore manifestInstaller) {
         this.projectGateway = projectGateway;
         this.namespaceGateway = namespaceGateway;
         this.templateGateway = templateGateway;
@@ -62,9 +62,9 @@ class RollbackReleaseRevisionUseCaseImpl implements RollbackReleaseRevisionUseCa
     @Override
     public ReleaseResponse execute(String projectId, String namespaceName, String releaseId, Long revisionVersion) {
         log.info("{} - {} -> rollback release: {}", projectId, namespaceName, revisionVersion);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
-        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));  
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
         
         // check if release is running
         if(ReleaseStatus.isRunning(release.status())) {
@@ -73,11 +73,11 @@ class RollbackReleaseRevisionUseCaseImpl implements RollbackReleaseRevisionUseCa
         
         // find revision
         var revision = releaseGateway.findRevisionById(namespace.id(), release, revisionVersion)
-            .orElseThrow(() -> new RevisionNotFoundException(revisionVersion));
+            .orElseThrow(RevisionNotFoundException::new);
 
         // find template
         var templateId = revision.template().id();
-        var template = templateGateway.findById(templateId).orElseThrow(() -> new TemplateNotFoundException(templateId));
+        var template = templateGateway.findById(templateId).orElseThrow(TemplateNotFoundException::new);
         if(template.status() != TemplateStatus.AVAILABLE) {
             throw new TemplateInvalidStatusException(template.status());
         }
@@ -88,10 +88,10 @@ class RollbackReleaseRevisionUseCaseImpl implements RollbackReleaseRevisionUseCa
             release.version() + 1,
             new TemplateRef(template.chart(), template.version()),
             revision.values(),
-            null,
+            template.icon(),
             ReleaseStatus.PENDING_ROLLBACK,
-            null,
-            null,
+            "",
+            release.resources(),
             release.newRevisions(),
             namespace.id());
         

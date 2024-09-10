@@ -21,14 +21,8 @@ public record TemplateResponse(
     @JsonProperty("version")
     String version,
 
-    @JsonProperty("repository")
-    String repository,
-
     @JsonProperty("status")
     TemplateStatus status,
-
-    @JsonProperty("message")
-    String message,
 
     @JsonProperty("type")
     String type,
@@ -54,9 +48,7 @@ public record TemplateResponse(
             entity.id(),
             entity.chart(),
             entity.version(),
-            entity.repository(),
             entity.status(),
-            entity.message(),
             entity.type(),
             entity.category(),
             entity.icon(),

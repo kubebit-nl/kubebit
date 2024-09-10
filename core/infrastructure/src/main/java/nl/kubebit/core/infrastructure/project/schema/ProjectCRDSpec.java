@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public record ProjectCRDSpec(
     // --------------------------------------------------------------------------------------------
 
-    @JsonProperty("name")
+    @JsonProperty("id")
     String name,
 
     @JsonProperty("description")

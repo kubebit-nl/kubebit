@@ -7,8 +7,8 @@ import nl.kubebit.core.entities.common.exception.EntityNotFoundException;
  */
 public class ProjectNotFoundException extends EntityNotFoundException {
 
-    public ProjectNotFoundException(String projectId) {
-        super("Project '" + projectId + "' not found");
+    public ProjectNotFoundException() {
+        super("Project not found");
     }
     
 }

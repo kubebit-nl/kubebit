@@ -7,8 +7,8 @@ import nl.kubebit.core.entities.common.exception.EntityNotFoundException;
  */
 public class ReleaseNotFoundException extends EntityNotFoundException {
 
-    public ReleaseNotFoundException(String releaseId) {
-        super("Release '" + releaseId + "' not found");
+    public ReleaseNotFoundException() {
+        super("Release not found");
     }
     
 }

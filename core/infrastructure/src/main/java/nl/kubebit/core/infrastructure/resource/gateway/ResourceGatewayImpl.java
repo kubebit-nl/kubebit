@@ -55,8 +55,8 @@ public class ResourceGatewayImpl implements ResourceGateway {
      * Get the logs
      *
      * @param namespaceId   the namespace id
-     * @param podName       the pod name
-     * @param containerName the container name
+     * @param podName       the pod id
+     * @param containerName the container id
      * @return the logs
      */
     @Override

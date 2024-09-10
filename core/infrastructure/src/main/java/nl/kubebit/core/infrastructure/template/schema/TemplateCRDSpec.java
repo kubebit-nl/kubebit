@@ -32,11 +32,19 @@ public record TemplateCRDSpec(
 
     // ----
 
-    @JsonProperty("form_schema")
-    AnyType formSchema,
+    @JsonProperty("schema")
+    AnyType schema,
 
-    @JsonProperty("overlay_values")
-    AnyType overlayValues
+    // ----
+
+    @JsonProperty("values_base")
+    AnyType baseValues,
+
+    @JsonProperty("values_staging")
+    AnyType stagingValues,
+
+    @JsonProperty("values_production")
+    AnyType productionValues
     
 ) {
 

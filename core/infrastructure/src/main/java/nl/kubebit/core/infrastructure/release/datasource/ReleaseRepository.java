@@ -97,7 +97,7 @@ public class ReleaseRepository {
      *
      */
     public Optional<ReleaseCRD> patch(ReleaseCRD release) {
-        log.trace("{} -> patch release status: {}", release.getMetadata().getNamespace(), release.getMetadata().getName());
+        log.trace("{} -> patch status: {} - {}", release.getMetadata().getNamespace(), release.getMetadata().getName(), release.getStatus().status());
         try {
             return Optional.of(kubernetes.resources(ReleaseCRD.class)
                     .inNamespace(release.getMetadata().getNamespace()).resource(release).patchStatus());

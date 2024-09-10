@@ -327,7 +327,7 @@ spec:
         fsGroupChangePolicy: Always
         supplementalGroups: []
         sysctls: []
-      serviceAccountName: release-name-wordpress
+      serviceAccountName: release-id-wordpress
       initContainers:
         - name: prepare-base-dir
           image: docker.io/bitnami/wordpress:6.6.1-debian-12-r5
@@ -407,7 +407,7 @@ spec:
             - name: WORDPRESS_SKIP_BOOTSTRAP
               value: "no"
             - name: MARIADB_HOST
-              value: "release-name-mariadb"
+              value: "release-id-mariadb"
             - name: MARIADB_PORT_NUMBER
               value: "3306"
             - name: WORDPRESS_DATABASE_NAME
@@ -518,7 +518,7 @@ spec:
           emptyDir: {}
         - name: wordpress-data
           persistentVolumeClaim:
-            claimName: release-name-wordpress
+            claimName: release-id-wordpress
 ---
 # Source: wordpress/charts/mariadb/templates/primary/statefulset.yaml
 apiVersion: apps/v1
@@ -541,7 +541,7 @@ spec:
       app.kubernetes.io/instance: release-name
       app.kubernetes.io/name: mariadb
       app.kubernetes.io/component: primary
-  serviceName: release-name-mariadb
+  serviceName: release-id-mariadb
   updateStrategy:
     type: RollingUpdate
   template:
@@ -558,7 +558,7 @@ spec:
     spec:
       
       automountServiceAccountToken: false
-      serviceAccountName: release-name-mariadb
+      serviceAccountName: release-id-mariadb
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

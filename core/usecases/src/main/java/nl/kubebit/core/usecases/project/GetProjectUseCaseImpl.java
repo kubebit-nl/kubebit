@@ -34,7 +34,7 @@ class GetProjectUseCaseImpl implements GetProjectUseCase {
     @Override
     public ProjectResponse execute(String projectId) throws ProjectNotFoundException {
         log.info("get project: {}", projectId);
-        return gateway.findById(projectId).map(ProjectResponse::new).orElseThrow(() -> new ProjectNotFoundException(projectId));
+        return gateway.findById(projectId).map(ProjectResponse::new).orElseThrow(ProjectNotFoundException::new);
     }
     
 }

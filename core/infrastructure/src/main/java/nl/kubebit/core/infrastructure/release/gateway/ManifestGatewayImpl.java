@@ -58,8 +58,8 @@ public class ManifestGatewayImpl implements ManifestGateway {
      * @return the list of release resource references
      */
     @Override
-    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException, RuntimeException {
-        log.debug("get resources: {}", manifestFile.getAbsolutePath());
+    public List<ReleaseResourceRef> getResources(File manifestFile) throws IOException {
+        log.debug("get resources: {}", manifestFile.getName());
         return manifestRepository.getResources(manifestFile);
     }
 
@@ -71,7 +71,7 @@ public class ManifestGatewayImpl implements ManifestGateway {
      */
     @Override
     public void applyManifest(File manifestFile) throws IOException {
-        log.debug("apply manifest: {}", manifestFile.getAbsolutePath());
+        log.debug("apply manifest: {}", manifestFile.getName());
         manifestRepository.applyManifest(manifestFile);
     }
 }

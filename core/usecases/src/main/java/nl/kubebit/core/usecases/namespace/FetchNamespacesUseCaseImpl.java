@@ -39,7 +39,7 @@ class FetchNamespacesUseCaseImpl implements FetchNamespacesUseCase {
     @Override
     public List<NamespaceResponse> execute(String projectId) {
         log.info("{} -> fetch namespaces", projectId);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
         return namespaceGateway.findAll(project).stream().map(NamespaceResponse::new).toList();
     }
     

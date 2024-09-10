@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import nl.kubebit.core.entities.release.exception.ReleaseAlreadyExistsException;
+import nl.kubebit.core.usecases.release.chore.ManifestAsyncChore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +26,12 @@ import nl.kubebit.core.entities.release.ReleaseStatus;
 import nl.kubebit.core.entities.release.TemplateRef;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 
-import nl.kubebit.core.usecases.release.chore.ManifestAsyncInstaller;
 import nl.kubebit.core.usecases.common.util.JsonSchemaSanitizer;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
 
 /**
- * 
+ *
  */
 @UseCase
 class CreateReleaseUseCaseImpl implements CreateReleaseUseCase {
@@ -45,17 +45,18 @@ class CreateReleaseUseCaseImpl implements CreateReleaseUseCase {
     private final NamespaceGateway namespaceGateway;
     private final TemplateGateway templateGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestAsyncInstaller manifestInstaller;
+    private final ManifestAsyncChore manifestInstaller;
 
     /**
      * Constructor
-     * @param projectGateway project gateway
-     * @param namespaceGateway namespace gateway
-     * @param templateGateway template gateway
-     * @param releaseGateway release gateway
+     *
+     * @param projectGateway    project gateway
+     * @param namespaceGateway  namespace gateway
+     * @param templateGateway   template gateway
+     * @param releaseGateway    release gateway
      * @param manifestInstaller manifest installer
      */
-    public CreateReleaseUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, TemplateGateway templateGateway, ReleaseGateway releaseGateway, ManifestAsyncInstaller manifestInstaller) {
+    public CreateReleaseUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, TemplateGateway templateGateway, ReleaseGateway releaseGateway, ManifestAsyncChore manifestInstaller) {
         this.projectGateway = projectGateway;
         this.namespaceGateway = namespaceGateway;
         this.templateGateway = templateGateway;
@@ -65,38 +66,39 @@ class CreateReleaseUseCaseImpl implements CreateReleaseUseCase {
 
     /**
      * Create a release
-     * @param projectId the project id
-     * @param namespaceName the namespace name
-     * @param request the request
+     *
+     * @param projectId     the project id
+     * @param namespaceName the namespace id
+     * @param request       the request
      * @return the response
      * @throws ProjectNotCreatedException if the project is not created
      */
     @Override
     public ReleaseResponse execute(String projectId, String namespaceName, ReleaseCreateRequest request) throws ProjectNotCreatedException {
         log.info("{} - {} -> create release", projectId, namespaceName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
 
         //
-        if(!releaseGateway.unique(namespace.id(), request.name())) {
+        if (!releaseGateway.unique(namespace.id(), request.name())) {
             throw new ReleaseAlreadyExistsException();
         }
 
-        var template = templateGateway.findById(request.templateId()).orElseThrow(() -> new TemplateNotFoundException(request.templateId()));
+        var template = templateGateway.findById(request.templateId()).orElseThrow(TemplateNotFoundException::new);
         if (template.status() != TemplateStatus.AVAILABLE) {
             throw new TemplateInvalidStatusException(template.status());
         }
 
         // sanitize values based on the template schema
-        Map<String, Object> sanitizeValues = JsonSchemaSanitizer.execute(template.formSchema(), request.values());
+        Map<String, Object> sanitizeValues = JsonSchemaSanitizer.execute(template.schema(), request.values());
 
         // create release
         var release = new Release(
                 request.name(),
                 1L,
-                new TemplateRef(template.chart(), template.version()),
+                new TemplateRef(template),
                 sanitizeValues,
-                null,
+                template.icon(),
                 ReleaseStatus.PENDING_INSTALL,
                 null,
                 null,

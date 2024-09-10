@@ -19,7 +19,7 @@ import io.fabric8.kubernetes.client.dsl.NamespaceableResource;
 import io.fabric8.kubernetes.client.utils.Serialization;
 import io.fabric8.kubernetes.api.model.HasMetadata;
 
-import static nl.kubebit.core.usecases.common.vars.GlobalVars.SYSTEM_NAME;
+import static nl.kubebit.core.entities.common.vars.GlobalVars.SYSTEM_NAME;
 
 /**
  *
@@ -145,7 +145,7 @@ public class ManifestRepository {
         if (serverEntity == null) {
             resource.create();
         } else {
-            resource.forceConflicts().serverSideApply();
+            resource.patch();
         }
     }
 

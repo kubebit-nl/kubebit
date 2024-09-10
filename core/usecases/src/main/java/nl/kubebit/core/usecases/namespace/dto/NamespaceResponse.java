@@ -19,7 +19,10 @@ public record NamespaceResponse(
     String description,
 
     @JsonProperty("is_default")
-    boolean isDefault
+    boolean isDefault,
+
+    @JsonProperty("is_production")
+    boolean isProduction
 
 ) {
     public NamespaceResponse(Namespace entity) {
@@ -27,6 +30,7 @@ public record NamespaceResponse(
             entity.id(),
             entity.name(),            
             entity.description(),
-            entity.isDefault());
+            entity.isDefault(),
+            entity.isProduction());
     }
 }

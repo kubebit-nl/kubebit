@@ -17,12 +17,9 @@ public record TemplateCRDStatus(
 
     @JsonProperty("message")
     String message,
-    
-    @JsonProperty("chart_schema")
-    AnyType chartSchema,
 
-    @JsonProperty("chart_values")
-    AnyType chartValues,
+    @JsonProperty("values")
+    AnyType values,
 
     @JsonProperty("app_version")
     String appVersion,

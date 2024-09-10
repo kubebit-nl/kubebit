@@ -32,8 +32,8 @@ import jakarta.validation.constraints.NotNull;
 import reactor.core.publisher.Flux;
 import reactor.netty.http.client.HttpClient;
 
-import static nl.kubebit.core.usecases.common.vars.GlobalVars.CHARTS_LOCATION;
-import static nl.kubebit.core.usecases.common.vars.GlobalVars.YAML_EXT;
+import static nl.kubebit.core.entities.common.vars.GlobalVars.CHARTS_LOCATION;
+import static nl.kubebit.core.entities.common.vars.GlobalVars.YAML_EXT;
 
 /**
  * 

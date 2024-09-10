@@ -21,13 +21,13 @@ public class RollbackReleaseRevisionController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final RollbackReleaseRevisionUseCase UseCase;
+    private final RollbackReleaseRevisionUseCase useCase;
 
     /**
      *
      */
     public RollbackReleaseRevisionController(RollbackReleaseRevisionUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -39,7 +39,7 @@ public class RollbackReleaseRevisionController {
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,
         @PathVariable("revision_version") Long revisionVersion) {
-        return UseCase.execute(projectId, namespaceName, releaseId, revisionVersion);
+        return useCase.execute(projectId, namespaceName, releaseId, revisionVersion);
     }
     
 }

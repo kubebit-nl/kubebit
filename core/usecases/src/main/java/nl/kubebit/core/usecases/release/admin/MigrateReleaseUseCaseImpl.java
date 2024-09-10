@@ -10,7 +10,7 @@ import nl.kubebit.core.entities.release.exception.ReleaseNotUpdatedException;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
-import nl.kubebit.core.usecases.release.chore.ManifestAsyncMigrator;
+import nl.kubebit.core.usecases.release.chore.ManifestMigrator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ class MigrateReleaseUseCaseImpl implements MigrateReleaseUseCase {
     private final ProjectGateway projectGateway;
     private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestAsyncMigrator manifestMigrator;
+    private final ManifestMigrator manifestMigrator;
 
     /**
      * Constructor
@@ -41,7 +41,7 @@ class MigrateReleaseUseCaseImpl implements MigrateReleaseUseCase {
      * @param releaseGateway   release gateway
      * @param manifestMigrator manifest migrator
      */
-    public MigrateReleaseUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway, ManifestAsyncMigrator manifestMigrator) {
+    public MigrateReleaseUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway, ManifestMigrator manifestMigrator) {
         this.projectGateway = projectGateway;
         this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
@@ -52,14 +52,14 @@ class MigrateReleaseUseCaseImpl implements MigrateReleaseUseCase {
      * Create a release from a helm deployment
      *
      * @param projectId      the project id
-     * @param namespaceName  the namespace name
-     * @param deploymentName the helm deployment name
+     * @param namespaceName  the namespace id
+     * @param deploymentName the helm deployment id
      */
     @Override
     public ReleaseResponse execute(String projectId, String namespaceName, String deploymentName) {
         log.info("{} - {} -> create release", projectId, namespaceName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
 
         // create release
         var release = new Release(

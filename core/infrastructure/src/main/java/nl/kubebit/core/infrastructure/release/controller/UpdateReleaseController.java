@@ -23,13 +23,13 @@ public class UpdateReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateReleasesUseCase UseCase;
+    private final UpdateReleasesUseCase useCase;
 
     /**
      *
      */
     public UpdateReleaseController(UpdateReleasesUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -41,7 +41,7 @@ public class UpdateReleaseController {
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,
         @RequestBody @Valid ReleaseUpdateRequest request) {
-        return UseCase.execute(projectId, namespaceName, releaseId, request);
+        return useCase.execute(projectId, namespaceName, releaseId, request);
     }
     
 }

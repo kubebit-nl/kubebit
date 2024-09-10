@@ -8,7 +8,8 @@ public record Namespace(
     String name,
     String description,
     String projectId,
-    boolean isDefault
+    boolean isDefault,
+    boolean isProduction
 
 ) {
 
@@ -22,7 +23,7 @@ public record Namespace(
     /**
      *
      */
-    public static String formatId(String projectId, String environmentName) {
-        return String.format("%s-%s", projectId, environmentName);
+    public static String formatId(String projectId, String namespaceName) {
+        return String.format("%s-%s", projectId, namespaceName);
     }
 }

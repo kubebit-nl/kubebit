@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record ResourcePort(
         
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "id")
     String name,
 
     @JsonProperty(value = "protocol")

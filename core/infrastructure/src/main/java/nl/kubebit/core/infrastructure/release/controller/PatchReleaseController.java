@@ -20,13 +20,13 @@ public class PatchReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final PatchReleaseUseCase UseCase;
+    private final PatchReleaseUseCase useCase;
 
     /**
      *
      */
     public PatchReleaseController(PatchReleaseUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -37,7 +37,7 @@ public class PatchReleaseController {
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {
-        return UseCase.execute(projectId, namespaceName, releaseId);
+        return useCase.execute(projectId, namespaceName, releaseId);
     }
     
 }

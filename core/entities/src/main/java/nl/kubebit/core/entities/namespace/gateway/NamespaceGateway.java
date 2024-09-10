@@ -16,7 +16,7 @@ public interface NamespaceGateway {
 
     Optional<Namespace> findById(Project project, String namespaceId);
 
-    Optional<Namespace> findByName(Project project, String namespaceName);
+    Optional<Namespace> findByName(String projectId, String namespaceName);
 
     Optional<Namespace> save(Namespace namespace);
 

@@ -22,13 +22,13 @@ public class FetchReleasesController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final FetchReleasesUseCase UseCase;
+    private final FetchReleasesUseCase useCase;
 
     /**
      *
      */
     public FetchReleasesController(FetchReleasesUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -38,7 +38,7 @@ public class FetchReleasesController {
     public List<ReleaseResponse> fetchDeployments(
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName) {
-        return UseCase.execute(projectId, namespaceName);
+        return useCase.execute(projectId, namespaceName);
     }
     
 }

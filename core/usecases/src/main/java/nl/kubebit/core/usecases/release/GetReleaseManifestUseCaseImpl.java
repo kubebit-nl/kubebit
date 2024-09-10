@@ -50,7 +50,7 @@ class GetReleaseManifestUseCaseImpl implements GetReleaseManifestUseCase {
     /**
      * Fetch release manifest
      * @param projectId project id
-     * @param namespaceName namespace name
+     * @param namespaceName namespace id
      * @param releaseId release id
      * @param revisionVersion revision version
      * @return resource
@@ -58,9 +58,9 @@ class GetReleaseManifestUseCaseImpl implements GetReleaseManifestUseCase {
     @Override
     public Optional<Resource> execute(String projectId, String namespaceName, String releaseId, Long revisionVersion) {
         log.info("{} - {} -> get manifest", projectId, namespaceName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
-        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));  
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
         
         //
         var dirPath = Paths.get("/.kubebit/manifests/", project.id(), namespace.name(), release.id());

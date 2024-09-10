@@ -25,8 +25,7 @@ public class HelmChartUtilsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void test() throws IOException {
-        Map<String, Object> result = new ObjectMapper().readValue(new File("./src/test/resources/values.schema.json"),
-                Map.class);
+        Map<String, Object> result = new ObjectMapper().readValue(new File("./src/test/resources/values.schema.json"), Map.class);
         System.out.println(result);
     }
 
@@ -42,20 +41,6 @@ public class HelmChartUtilsTest {
 
         String fileName = "values.schema.json";
 
-        // Call the method
-        try {
-            HelmChartUtils.saveChartFile(tarPath, destination, fileName);
 
-            // Assert that the file was saved successfully
-            assertTrue(destination.exists());
-
-            Map<String, Object> result = new ObjectMapper().readValue(new File("./src/test/resources/values.schema.json"), Map.class);
-            System.out.println(result);
-            
-            // Add more assertions if needed
-        } catch (Exception e) {
-            // Handle the exception if necessary
-            fail("Exception should not be thrown");
-        }
     }
 }

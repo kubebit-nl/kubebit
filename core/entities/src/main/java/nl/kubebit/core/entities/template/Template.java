@@ -20,15 +20,15 @@ public record Template(
     String icon,
 
     //
-    Map<String, Object> formSchema,
-    Map<String, Object> overlayValues,
+    Map<String, Object> schema,
+    Map<String, Object> baseValues,
+    Map<String, Object> stagingValues,
+    Map<String, Object> productionValues,
 
     //
     TemplateStatus status,
     String message,
-
-    Map<String, Object> chartSchema,
-    Map<String, Object> chartValues,
+    Map<String, Object> values,
     String appVersion,
     String description,
     List<String> keywords,
@@ -49,12 +49,13 @@ public record Template(
             this.type(),
             this.category(),
             this.icon(),
-            this.formSchema(),
-            this.overlayValues(),
+            this.schema(),
+            this.baseValues(),
+            this.stagingValues(),
+            this.productionValues(),
             status,
             message,
-            this.chartSchema(),
-            this.chartValues(),
+            this.values(),
             this.appVersion(),
             this.description(),
             this.keywords(),

@@ -18,7 +18,7 @@ public record ReleaseResourceRef(
     @JsonProperty(value = "kind")
     String kind,
 
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "id")
     String name
     
 ) {

@@ -77,7 +77,7 @@ public class ReleaseGatewayImpl implements ReleaseGateway {
      */
     @Override
     public Optional<Release> patch(Release release) {
-        log.trace("patch release status: {} - v{}", release.id(), release.version());
+        log.trace("patch status: {} - {}", release.id(), release.status());
         return repository.patch(ReleaseMapper.toSchema(release)).map(ReleaseMapper::toEntity);
     }
 

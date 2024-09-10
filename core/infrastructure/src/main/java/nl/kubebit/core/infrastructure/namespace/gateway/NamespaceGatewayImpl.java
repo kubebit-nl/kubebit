@@ -40,7 +40,7 @@ public class NamespaceGatewayImpl implements NamespaceGateway {
     @Override
     public List<Namespace> findAll(Project project) {
         log.trace("{} -> find all namespaces", project.id());
-        return repository.findAllByProject(project.id()).stream().map(NamespaceMapper::toEntity).toList();
+        return repository.findByProject(project.id()).stream().map(NamespaceMapper::toEntity).toList();
     }
 
     /**
@@ -49,16 +49,16 @@ public class NamespaceGatewayImpl implements NamespaceGateway {
     @Override
     public Optional<Namespace> findById(Project project, String namespaceId) {
         log.trace("{} -> find namespace by id: {}", project.id(), namespaceId);
-        return repository.findByProjectAndId(project.id(), namespaceId).map(NamespaceMapper::toEntity);
+        return repository.findById(project.id(), namespaceId).map(NamespaceMapper::toEntity);
     }
 
     /**
-     * 
+     * Namespace.formatId(projectId, namespaceName)
      */
     @Override
-    public Optional<Namespace> findByName(Project project, String namespaceName) {
-        log.trace("{} -> find namespace by name: {}", project.id(), namespaceName);
-        return findById(project, Namespace.formatId(project.id(), namespaceName));
+    public Optional<Namespace> findByName(String projectId, String namespaceName) {
+        log.trace("{} -> find namespace by name: {}", projectId, namespaceName);
+        return repository.findByName(projectId, namespaceName).map(NamespaceMapper::toEntity);
     }
 
     /**

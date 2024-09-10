@@ -1,19 +1,21 @@
 package nl.kubebit.core.infrastructure.namespace.datasource;
 
-import static nl.kubebit.core.infrastructure.namespace.datasource.NamespaceMapper.LABEL_MANAGEDBY_KEY;
-import static nl.kubebit.core.infrastructure.namespace.datasource.NamespaceMapper.LABEL_MANAGEDBY_VALUE;
-import static nl.kubebit.core.infrastructure.namespace.datasource.NamespaceMapper.LABEL_PROJECT_KEY;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import io.fabric8.kubernetes.api.model.NamespaceList;
+import io.fabric8.kubernetes.client.Watch;
+import io.fabric8.kubernetes.client.Watcher;
+import io.fabric8.kubernetes.client.dsl.FilterWatchListDeletable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import io.fabric8.kubernetes.api.model.Namespace;
 import io.fabric8.kubernetes.client.KubernetesClient;
+
+import static nl.kubebit.core.infrastructure.namespace.datasource.NamespaceMapper.*;
 
 /**
  * 
@@ -49,32 +51,49 @@ public class NamespaceRepository {
     /**
      *
      */
-    public List<Namespace> findAllByProject(String projectId) {
+    public List<Namespace> findByProject(String projectId) {
         log.trace("{} -> find all namespaces", projectId);
-        return kubernetes.namespaces().withLabels(Map.of(
-                LABEL_MANAGEDBY_KEY, LABEL_MANAGEDBY_VALUE,
-                LABEL_PROJECT_KEY, projectId))
+        return kubernetes.namespaces()
+                .withLabel(LABEL_PROJECT_KEY, projectId)
+                .withLabel(LABEL_MANAGEDBY_KEY, LABEL_MANAGEDBY_VALUE)
             .list()
             .getItems();
     }
-    
+
     /**
      *
+     * @param projectId
+     * @param namespaceId
+     * @return
      */
-    public Optional<Namespace> findByProjectAndId(String projectId, String environmentId) {
-        log.trace("{} -> find namespace by id: {}", projectId, environmentId);
+    public Optional<Namespace> findById(String projectId, String namespaceId) {
+        log.trace("find namespace by id: {}", namespaceId);
+        try {
+            return Optional.ofNullable(kubernetes.namespaces().withName(namespaceId).get())
+                    .filter(namespace -> projectId.equals(namespace.getMetadata().getLabels().get(LABEL_PROJECT_KEY)))
+                    .filter(namespace -> LABEL_MANAGEDBY_VALUE.equals(namespace.getMetadata().getLabels().get(LABEL_MANAGEDBY_KEY)));
+        } catch (Exception e) {
+            log.trace("namespace '{}' not found -> {}", namespaceId, e.getMessage());
+        }
+        return Optional.empty();
+    }
+
+    /**
+     *
+     * @param projectId
+     * @param namespaceName
+     * @return
+     */
+    public Optional<Namespace> findByName(String projectId, String namespaceName) {
+        log.trace("{} -> find namespace by name: {}", projectId, namespaceName);
         try {
             return kubernetes.namespaces()
-                .withLabels(Map.of(
-                    LABEL_MANAGEDBY_KEY, LABEL_MANAGEDBY_VALUE,
-                    LABEL_PROJECT_KEY, projectId
-                ))
-                .list()
-                .getItems().stream()
-                    .filter(n -> n.getMetadata().getName().equals(environmentId))
-                    .findAny();
+                    .withLabel(LABEL_PROJECT_KEY, projectId)
+                    .withLabel(LABEL_NAME_KEY, namespaceName)
+                    .withLabel(LABEL_MANAGEDBY_KEY, LABEL_MANAGEDBY_VALUE)
+                    .list().getItems().stream().findAny();
         } catch (Exception e) {
-            log.trace("{} -> namespace '{}' not found -> {}", projectId, environmentId, e.getMessage());
+            log.trace("{} -> namespace '{}' not found -> {}", projectId, namespaceName, e.getMessage());
         }
         return Optional.empty();
     }
@@ -91,4 +110,6 @@ public class NamespaceRepository {
         }
         return Optional.empty();
     }
+
+
 }

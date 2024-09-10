@@ -42,12 +42,12 @@ class GetReleaseRevisionUseCaseImpl implements GetReleaseRevisionUseCase {
     @Override
     public ReleaseRefValuesResponse execute(String projectId, String namespaceName, String releaseId, Long revisionVersion) {
         log.info("{} - {} -> get revision: {}", projectId, namespaceName, revisionVersion);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
-        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
         
         return releaseGateway.findRevisionById(namespace.id(), release, revisionVersion).map(ReleaseRefValuesResponse::new)
-            .orElseThrow(() -> new RevisionNotFoundException(revisionVersion));
+            .orElseThrow(RevisionNotFoundException::new);
     }
     
 }

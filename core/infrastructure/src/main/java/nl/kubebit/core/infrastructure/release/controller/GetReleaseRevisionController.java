@@ -20,13 +20,13 @@ public class GetReleaseRevisionController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetReleaseRevisionUseCase UseCase;
+    private final GetReleaseRevisionUseCase useCase;
 
     /**
      *
      */
     public GetReleaseRevisionController(GetReleaseRevisionUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -38,7 +38,7 @@ public class GetReleaseRevisionController {
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,
         @PathVariable("revision_version") Long revisionVersion) {
-        return UseCase.execute(projectId, namespaceName, releaseId, revisionVersion);
+        return useCase.execute(projectId, namespaceName, releaseId, revisionVersion);
     }
     
 }

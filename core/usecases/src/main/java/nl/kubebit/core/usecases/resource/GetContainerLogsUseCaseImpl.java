@@ -43,8 +43,8 @@ class GetContainerLogsUseCaseImpl implements GetContainerLogsUseCase {
     @Override
     public String execute(String projectId, String namespaceName, String podName, String containerName) {
         log.info("{} - {} -> get logs: {}/{}", projectId, namespaceName, podName, containerName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
         return resourcegateway.getLogs(namespace.id(), podName, containerName).orElseThrow(ResourceNotFoundException::new);
     }
     

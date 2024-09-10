@@ -38,7 +38,10 @@ public interface CreateNamespaceUseCase {
         String description,
 
         @JsonProperty("is_default")
-        boolean isDefault
+        boolean isDefault,
+
+        @JsonProperty("is_production")
+        boolean isProduction
 
     ) {
     }

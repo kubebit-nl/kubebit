@@ -22,7 +22,7 @@ import io.fabric8.kubernetes.client.KubernetesClient;
 import jakarta.validation.constraints.NotBlank;
 
 /**
- * api/resources?group=&version=v1&kind=Secret&name=mysql&namespace=default
+ * api/resources?group=&version=v1&kind=Secret&id=mysql&namespace=default
  */
 @Repository
 @Validated
@@ -50,7 +50,7 @@ public class ResourceRepository {
      * @param namespace  the namespace
      * @param apiVersion the api version
      * @param kind       the kind
-     * @param name       the name
+     * @param name       the id
      * @return the resource
      */
     public Optional<GenericKubernetesResource> getResource(
@@ -75,8 +75,8 @@ public class ResourceRepository {
      * Get the logs
      *
      * @param namespace     the namespace
-     * @param podName       the pod name
-     * @param containerName the container name
+     * @param podName       the pod id
+     * @param containerName the container id
      * @return the logs
      */
     public Optional<String> getLogs(String namespace, String podName, String containerName) {
@@ -98,7 +98,7 @@ public class ResourceRepository {
      * @param namespace  the namespace
      * @param apiVersion the api version
      * @param kind       the kind
-     * @param name       the name
+     * @param name       the id
      */
     public void removeResource(@NotBlank String namespace,
                                @NotBlank String apiVersion,

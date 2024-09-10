@@ -24,13 +24,13 @@ public class CreateReleaseController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final CreateReleaseUseCase UseCase;
+    private final CreateReleaseUseCase useCase;
 
     /**
      *
      */
     public CreateReleaseController(CreateReleaseUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -41,7 +41,7 @@ public class CreateReleaseController {
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @RequestBody @Valid ReleaseCreateRequest request) {
-        return UseCase.execute(projectId, namespaceName, request);
+        return useCase.execute(projectId, namespaceName, request);
     }
     
 }

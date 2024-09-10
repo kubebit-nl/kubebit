@@ -37,7 +37,9 @@ class FetchCatalogTemplatesUseCaseImpl implements FetchCatalogTemplatesUseCase {
     public List<TemplateResponse> execute() {
         log.info("fetch templates catalog");
         return gateway.findAll().stream()
-            .filter(t -> TemplateStatus.AVAILABLE.equals(t.status())).map(TemplateResponse::new).toList();
+            .filter(t -> TemplateStatus.AVAILABLE.equals(t.status()))
+            .map(TemplateResponse::new)
+            .toList();
     }
 
 }

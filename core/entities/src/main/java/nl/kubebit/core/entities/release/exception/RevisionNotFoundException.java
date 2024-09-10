@@ -11,8 +11,4 @@ public class RevisionNotFoundException extends EntityNotFoundException {
         super("Revision not found");
     }
 
-    public RevisionNotFoundException(Long revisionVersion) {
-        super("Revision '" + revisionVersion.toString() + "' not found");
-    }
-    
 }

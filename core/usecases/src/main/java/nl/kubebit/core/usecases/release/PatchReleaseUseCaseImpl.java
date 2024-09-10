@@ -1,6 +1,7 @@
 package nl.kubebit.core.usecases.release;
 
-import nl.kubebit.core.usecases.release.chore.ManifestAsyncPatcher;
+import nl.kubebit.core.usecases.release.chore.ManifestAsyncChore;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +28,7 @@ class PatchReleaseUseCaseImpl implements PatchReleaseUseCase {
     private final ProjectGateway projectGateway;
     private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestAsyncPatcher manifestPatcher;
+    private final ManifestAsyncChore manifestPatcher;
 
     /**
      * Constructor
@@ -40,7 +41,7 @@ class PatchReleaseUseCaseImpl implements PatchReleaseUseCase {
             ProjectGateway projectGateway,
             NamespaceGateway namespaceGateway,
             ReleaseGateway releaseGateway,
-            ManifestAsyncPatcher manifestPatcher) {
+            ManifestAsyncChore manifestPatcher) {
         this.projectGateway = projectGateway;
         this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
@@ -53,9 +54,9 @@ class PatchReleaseUseCaseImpl implements PatchReleaseUseCase {
     @Override
     public ReleaseResponse execute(String projectId, String namespaceName, String releaseId) {
         log.info("{} - {} -> patch release: {}", projectId, namespaceName, releaseId);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
-        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
         
         // check if release is running
         if(ReleaseStatus.isRunning(release.status())) {
@@ -68,15 +69,15 @@ class PatchReleaseUseCaseImpl implements PatchReleaseUseCase {
             release.version(),
             release.template(),
             release.values(),
-            null,
+            release.icon(),
             ReleaseStatus.PENDING_PATCH,
-            null,
-            null,
+            "",
+            release.resources(),
             release.revisions(),
             namespace.id());
 
         // patch manifest
-        manifestPatcher.execute(project, namespace, entity);
+        manifestPatcher.execute(project, namespace, null, entity);
 
         // return response
         return new ReleaseResponse(entity);

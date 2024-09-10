@@ -40,11 +40,17 @@ public record TemplateFullResponse(
     @JsonProperty("icon")
     String icon,
 
-    @JsonProperty("form")
-    Map<String, Object> form,
+    @JsonProperty("schema")
+    Map<String, Object> schema,
 
-    @JsonProperty("overlay")
-    Map<String, Object> overlay,
+    @JsonProperty("values_base")
+    Map<String, Object> baseValues,
+
+    @JsonProperty("values_staging")
+    Map<String, Object> stagingValues,
+
+    @JsonProperty("values_production")
+    Map<String, Object> productionValues,
 
     @JsonProperty("app_version")
     String appVersion,
@@ -53,10 +59,7 @@ public record TemplateFullResponse(
     String description,
 
     @JsonProperty("keywords")
-    List<String> keywords,
-
-    @JsonProperty("schema")
-    Map<String, Object> schema
+    List<String> keywords
 
 ) {
     public TemplateFullResponse(Template entity) {
@@ -70,11 +73,12 @@ public record TemplateFullResponse(
             entity.type(),
             entity.category(),
             entity.icon(),
-            entity.formSchema(),
-            entity.overlayValues(),
+            entity.schema(),
+            entity.baseValues(),
+            entity.stagingValues(),
+            entity.productionValues(),
             entity.appVersion(),
             entity.description(),
-            entity.keywords(),
-            entity.chartSchema());
+            entity.keywords());
     }
 }

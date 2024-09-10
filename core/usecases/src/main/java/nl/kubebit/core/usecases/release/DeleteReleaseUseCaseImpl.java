@@ -1,5 +1,8 @@
 package nl.kubebit.core.usecases.release;
 
+import nl.kubebit.core.entities.release.Release;
+import nl.kubebit.core.usecases.release.chore.ManifestAsyncChore;
+import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +15,6 @@ import nl.kubebit.core.entities.release.exception.ReleaseIsRunningException;
 import nl.kubebit.core.entities.release.exception.ReleaseNotFoundException;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
-import nl.kubebit.core.usecases.release.chore.ManifestAsyncIRemover;
 
 /**
  * 
@@ -28,12 +30,12 @@ class DeleteReleaseUseCaseImpl implements DeleteReleaseUseCase {
     private final ProjectGateway projectGateway;
     private final NamespaceGateway namespaceGateway;
     private final ReleaseGateway releaseGateway;
-    private final ManifestAsyncIRemover manifestIRemover;
+    private final ManifestAsyncChore manifestIRemover;
     
     /**
      *
      */
-    public DeleteReleaseUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway, ManifestAsyncIRemover manifestIRemover) {
+    public DeleteReleaseUseCaseImpl(ProjectGateway projectGateway, NamespaceGateway namespaceGateway, ReleaseGateway releaseGateway, ManifestAsyncChore manifestIRemover) {
         this.projectGateway = projectGateway;
         this.namespaceGateway = namespaceGateway;
         this.releaseGateway = releaseGateway;
@@ -44,19 +46,35 @@ class DeleteReleaseUseCaseImpl implements DeleteReleaseUseCase {
      * 
      */
     @Override
-    public void execute(String projectId, String namespaceName, String releaseId) {
+    public ReleaseResponse execute(String projectId, String namespaceName, String releaseId) {
         log.info("{} - {} -> delete release: {}", projectId, namespaceName, releaseId);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
-        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(() -> new ReleaseNotFoundException(releaseId));  
-        
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
+        var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
+
         //
         if(ReleaseStatus.isRunning(release.status())) {
             throw new ReleaseIsRunningException(release.id());
         }
 
-        //
-        manifestIRemover.execute(project, namespace, release);
+        // update release
+        var entity = new Release(
+                release.id(),
+                release.version(),
+                release.template(),
+                release.values(),
+                release.icon(),
+                ReleaseStatus.UNINSTALLING,
+                "",
+                release.resources(),
+                release.revisions(),
+                namespace.id());
+
+        // patch manifest
+        manifestIRemover.execute(project, namespace, null, entity);
+
+        // return response
+        return new ReleaseResponse(entity);
     }
     
 }

@@ -29,12 +29,13 @@ public abstract class TemplateMapper {
             schema.getSpec().type(),
             schema.getSpec().category(),
             schema.getSpec().icon(),
-            schema.getSpec().formSchema() != null ? transformAnyType(schema.getSpec().formSchema()) : null,
-            schema.getSpec().overlayValues() != null ? transformAnyType(schema.getSpec().overlayValues()) : null,
+            schema.getSpec().schema() != null ? transformAnyType(schema.getSpec().schema()) : null,
+            schema.getSpec().baseValues() != null ? transformAnyType(schema.getSpec().baseValues()) : null,
+            schema.getSpec().stagingValues() != null ? transformAnyType(schema.getSpec().stagingValues()) : null,
+            schema.getSpec().productionValues() != null ? transformAnyType(schema.getSpec().productionValues()) : null,
             schema.getStatus() != null ? schema.getStatus().status() : TemplateStatus.UNKNOWN,
             schema.getStatus() != null ? schema.getStatus().message() : null,
-            schema.getStatus() != null ? transformAnyType(schema.getStatus().chartSchema()) : null,
-            schema.getStatus() != null ? transformAnyType(schema.getStatus().chartValues()) : null,
+            schema.getStatus() != null ? transformAnyType(schema.getStatus().values()) : null,
             schema.getStatus() != null ? schema.getStatus().appVersion() : null,
             schema.getStatus() != null ? schema.getStatus().description() : null,
             schema.getStatus() != null ? schema.getStatus().keywords() : null,
@@ -60,15 +61,16 @@ public abstract class TemplateMapper {
             entity.type(),
             entity.category(),
             entity.icon(),
-            transformAnyType(entity.formSchema()),
-            transformAnyType(entity.overlayValues()));
+            transformAnyType(entity.schema()),
+            transformAnyType(entity.baseValues()),
+            transformAnyType(entity.stagingValues()),
+            transformAnyType(entity.productionValues()));
 
         //
         var status = new TemplateCRDStatus(
             entity.status(), 
             entity.message(),
-            transformAnyType(entity.chartSchema()),
-            transformAnyType(entity.chartValues()),
+            transformAnyType(entity.values()),
             entity.appVersion(),
             entity.description(),
             entity.keywords());

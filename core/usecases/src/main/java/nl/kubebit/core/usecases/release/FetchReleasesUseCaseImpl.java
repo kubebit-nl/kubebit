@@ -43,8 +43,8 @@ class FetchReleasesUseCaseImpl implements FetchReleasesUseCase {
     @Override
     public List<ReleaseResponse> execute(String projectId, String namespaceName) {
         log.info("{} - {} -> fetch releases", projectId, namespaceName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        var namespace = namespaceGateway.findByName(project, namespaceName).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
         return releaseGateway.findAll(namespace.id()).stream().map(ReleaseResponse::new).toList();
     }
    

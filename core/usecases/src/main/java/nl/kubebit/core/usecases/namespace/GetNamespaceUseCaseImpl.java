@@ -38,8 +38,8 @@ class GetNamespaceUseCaseImpl implements GetNamespaceUseCase {
     @Override
     public NamespaceResponse execute(String projectId, String namespaceName) {
         log.info("{} -> get namespace: {}", projectId, namespaceName);
-        var project = projectGateway.findById(projectId).orElseThrow(() -> new ProjectNotFoundException(projectId));
-        return namespaceGateway.findByName(project, namespaceName).map(NamespaceResponse::new).orElseThrow(() -> new NamespaceNotFoundException(namespaceName));
+        var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
+        return namespaceGateway.findByName(project.id(), namespaceName).map(NamespaceResponse::new).orElseThrow(NamespaceNotFoundException::new);
     }
     
 }
