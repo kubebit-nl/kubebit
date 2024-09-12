@@ -41,14 +41,15 @@ public class ManifestGatewayImpl implements ManifestGateway {
      *
      * @param inputStream    input stream form helm template
      * @param projectId      project id
+     * @param namespaceId    namespace id
      * @param releaseVersion release version
      * @param targetFile     manifest file destination
      * @throws IOException error writing manifest file
      */
     @Override
-    public void createManifest(InputStream inputStream, String projectId, Long releaseVersion, File targetFile) throws IOException {
+    public void createManifest(InputStream inputStream, String projectId, String namespaceId, Long releaseVersion, File targetFile) throws IOException {
         log.debug("create manifest: {}", targetFile.getAbsolutePath());
-        manifestRepository.createManifest(inputStream, projectId, releaseVersion, targetFile);
+        manifestRepository.createManifest(inputStream, projectId, namespaceId, releaseVersion, targetFile);
     }
 
     /**

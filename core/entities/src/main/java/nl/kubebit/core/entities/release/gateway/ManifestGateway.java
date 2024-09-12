@@ -18,11 +18,12 @@ public interface ManifestGateway {
      *
      * @param inputStream    the input stream from helm template process
      * @param projectId      the project id
+     * @param namespaceId    the namespace id
      * @param releaseVersion the release version
      * @param targetFile     the target file
      * @throws IOException if an error occurs
      */
-    void createManifest(InputStream inputStream, String projectId, Long releaseVersion, File targetFile) throws IOException;
+    void createManifest(InputStream inputStream, String projectId, String namespaceId, Long releaseVersion, File targetFile) throws IOException;
 
     /**
      * Get the resources from the manifest file

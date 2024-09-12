@@ -76,6 +76,8 @@ class CreateReleaseUseCaseImpl implements CreateReleaseUseCase {
     @Override
     public ReleaseResponse execute(String projectId, String namespaceName, ReleaseCreateRequest request) throws ProjectNotCreatedException {
         log.info("{} - {} -> create release", projectId, namespaceName);
+
+        //
         var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
         var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
 

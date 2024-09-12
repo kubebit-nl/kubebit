@@ -79,7 +79,7 @@ public class ManifestMigrator {
             // create manifest file
             log.trace("create manifest file");
             try (var inputStream = HelmBuilder.init().get(HelmBuilder.GetCommand.MANIFEST, release.id()).namespace(namespace.id()).execute()) {
-                manifestGateway.createManifest(inputStream, project.id(), release.version(), manifestFile);
+                manifestGateway.createManifest(inputStream, project.id(), namespace.id(), release.version(), manifestFile);
             }
 
             // get resources

@@ -20,7 +20,10 @@ import java.util.stream.Collectors;
 import static nl.kubebit.core.entities.common.vars.GlobalVars.YAML_EXT;
 
 /**
+ * Create a new manifest
+ * <a href="https://helm.sh/docs/topics/charts/#schema-files">json schema</a>
  *
+ * @see ManifestAction
  */
 public class ManifestActionCreate implements ManifestAction {
     // ------------------------------------------------------------------------
@@ -57,9 +60,15 @@ public class ManifestActionCreate implements ManifestAction {
         log.trace("creating values file");
         var valuesFile = createValuesFile(manifest);
 
+        //
         log.trace("creating helm template");
-        try (var inputStream = HelmBuilder.init().template(manifest.release().id(), chart).namespace(manifest.namespace().id()).values(valuesFile).execute()) {
-            manifestGateway.createManifest(inputStream, manifest.project().id(), manifest.release().version(), manifest.getFile());
+        try (var inputStream = HelmBuilder.init().template(manifest.release().id(), chart).values(valuesFile).execute()) {
+            manifestGateway.createManifest(
+                    inputStream,
+                    manifest.project().id(),
+                    manifest.namespace().id(),
+                    manifest.release().version(),
+                    manifest.getFile());
         }
 
         log.trace("cleaning up old revisions");

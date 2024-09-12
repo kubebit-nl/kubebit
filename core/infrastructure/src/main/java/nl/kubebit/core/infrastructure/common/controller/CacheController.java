@@ -49,4 +49,3 @@ public class CacheController {
         return cacheManager.getCacheNames().stream().map(name -> Objects.requireNonNull(cacheManager.getCache(name)).getNativeCache()).collect(Collectors.toList());
     }
 }
-

@@ -53,16 +53,20 @@ public class ManifestRepository {
      *
      * @param inputStream    input-stream from helm template
      * @param projectId      project id
+     * @param namespaceId    namespace id
      * @param releaseVersion release version
      * @param targetFile     manifest file destination
      */
-    public void createManifest(InputStream inputStream, String projectId, Long releaseVersion, File targetFile) throws IOException {
+    public void createManifest(InputStream inputStream, String projectId, String namespaceId, Long releaseVersion, File targetFile) throws IOException {
         log.trace("creating manifest: {}", targetFile.getAbsolutePath());
         try (var writer = new BufferedWriter(new FileWriter(targetFile))) {
             writer.write("# " + SYSTEM_NAME + " -> version: " + releaseVersion + "\n");
             var items = kubernetes.load(inputStream).items();
             items.forEach(item -> {
                 log.trace("-> {} {}", item.getKind(), item.getMetadata().getName());
+
+                // force to set namespace
+                item.getMetadata().setNamespace(namespaceId);
 
                 // add labels
                 item.getMetadata().getLabels().put(LABEL_MANAGEDBY, SYSTEM_NAME);
