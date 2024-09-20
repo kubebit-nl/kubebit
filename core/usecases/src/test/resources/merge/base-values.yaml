@@ -1,0 +1,32 @@
+
+#
+float: 6.28
+
+#
+string: "hello $PROJECT_ID"
+
+#
+dynamic: "$DYNAMIC_VALUE"
+
+#
+array:
+  - 4
+  - 5
+
+#
+extra:
+  - |
+    multiline
+    value.
+
+  - |
+    another
+    $PROJECT_ID
+    value.
+
+  - |
+    another
+    multiline
+    
+    whitespace
+    $PROJECT_ID.

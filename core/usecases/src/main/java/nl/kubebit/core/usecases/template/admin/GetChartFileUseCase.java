@@ -4,17 +4,18 @@ import jakarta.validation.constraints.NotBlank;
 import nl.kubebit.core.entities.template.exception.ChartNotFoundException;
 import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
 
-import java.util.Map;
-
 /**
  * 
  */
-public interface GetTemplateSchemaUseCase {
+public interface GetChartFileUseCase {
 
-    Map<String, Object> execute(
+    String execute(
 
             @NotBlank
-            String templateId
+            String templateId,
+
+            @NotBlank
+            String fileName
 
     ) throws TemplateNotFoundException, ChartNotFoundException;
 

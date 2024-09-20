@@ -1,4 +1,4 @@
-package nl.kubebit.core.infrastructure.configuration;
+package nl.kubebit.core.infrastructure.system.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

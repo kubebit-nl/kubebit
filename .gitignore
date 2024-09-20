@@ -33,7 +33,8 @@ build/
 .vscode/
 .tmp
 
-### Cusrom ###
+### Custom ###
 *.tgz
+.chart
 ui
 deploy.ps1

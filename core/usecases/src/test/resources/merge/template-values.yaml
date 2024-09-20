@@ -1,0 +1,54 @@
+
+#
+boolean: true
+
+#
+number: 43
+
+#
+float: 3.14
+
+#
+string: "hello"
+
+#
+dynamic: "default"
+
+#
+array:
+  - 1
+  - 2
+  - 3
+
+#
+object:
+  key1: value1
+  key2: value2
+  key3: value3
+
+#
+nested:
+  key1: value1
+  key2: value2
+  key3:
+    key1: value1
+    key2: value2
+    key3: value3
+
+#
+sequence:
+  - |
+    multiline
+    value.
+
+  - |
+    another
+    multiline
+    value.
+
+  - |
+    another
+    multiline
+    
+    whitespace
+    value.

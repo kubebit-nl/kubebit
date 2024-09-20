@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.kubebit.core.usecases.template.FetchCatalogTemplatesUseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class FetchCatalogTemplatesController {
      *
      */
     @GetMapping
-    public List<TemplateResponse> fetchCatalogTemplates() {
+    public List<TemplateItemResponse> fetchCatalogTemplates() {
         return UseCase.execute();
     }
     

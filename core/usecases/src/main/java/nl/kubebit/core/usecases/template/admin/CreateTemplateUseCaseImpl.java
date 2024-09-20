@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.kubebit.core.entities.template.Template;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
 
 /**
@@ -32,7 +32,7 @@ class CreateTemplateUseCaseImpl implements CreateTemplateUseCase {
      * 
      */
     @Override
-    public TemplateResponse execute(TemplateCreateRequest request) {
+    public TemplateItemResponse execute(TemplateCreateRequest request) {
         log.info("create template: {} - {} - {}", request.chart(), request.version(), request.repository());
         var template = new Template(
             generateId(request),
@@ -54,7 +54,7 @@ class CreateTemplateUseCaseImpl implements CreateTemplateUseCase {
             null,
             null
         );
-        return gateway.save(template).map(TemplateResponse::new).orElseThrow();
+        return gateway.save(template).map(TemplateItemResponse::new).orElseThrow();
     }
 
     /**

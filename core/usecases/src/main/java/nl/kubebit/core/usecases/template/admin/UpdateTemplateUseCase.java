@@ -7,14 +7,14 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.URL;
 
 import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 /**
  * 
  */
 public interface UpdateTemplateUseCase {
     
-    TemplateResponse execute(
+    TemplateItemResponse execute(
 
             @NotBlank
             String templateId,

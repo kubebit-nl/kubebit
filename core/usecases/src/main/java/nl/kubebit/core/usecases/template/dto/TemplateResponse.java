@@ -1,6 +1,7 @@
 package nl.kubebit.core.usecases.template.dto;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,8 +22,14 @@ public record TemplateResponse(
     @JsonProperty("version")
     String version,
 
+    @JsonProperty("repository")
+    String repository,
+
     @JsonProperty("status")
     TemplateStatus status,
+
+    @JsonProperty("message")
+    String message,
 
     @JsonProperty("type")
     String type,
@@ -32,6 +39,18 @@ public record TemplateResponse(
 
     @JsonProperty("icon")
     String icon,
+
+    @JsonProperty("schema")
+    Map<String, Object> schema,
+
+    @JsonProperty("values_base")
+    Map<String, Object> baseValues,
+
+    @JsonProperty("values_staging")
+    Map<String, Object> stagingValues,
+
+    @JsonProperty("values_production")
+    Map<String, Object> productionValues,
 
     @JsonProperty("app_version")
     String appVersion,
@@ -48,10 +67,16 @@ public record TemplateResponse(
             entity.id(),
             entity.chart(),
             entity.version(),
+            entity.repository(),
             entity.status(),
+            entity.message(),
             entity.type(),
             entity.category(),
             entity.icon(),
+            entity.schema(),
+            entity.baseValues(),
+            entity.stagingValues(),
+            entity.productionValues(),
             entity.appVersion(),
             entity.description(),
             entity.keywords());

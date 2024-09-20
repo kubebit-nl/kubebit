@@ -1,8 +1,9 @@
-package nl.kubebit.core.usecases.release.chore;
+package nl.kubebit.core.usecases.release.chore.actions;
 
 import nl.kubebit.core.entities.release.Manifest;
 import nl.kubebit.core.entities.release.ReleaseStatus;
 import nl.kubebit.core.entities.resource.gateway.ResourceGateway;
+import nl.kubebit.core.usecases.release.chore.ManifestAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

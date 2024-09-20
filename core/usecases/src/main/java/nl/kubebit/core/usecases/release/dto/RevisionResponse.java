@@ -6,13 +6,13 @@ import nl.kubebit.core.entities.release.TemplateRef;
 /**
  * 
  */
-public record ReleaseRefResponse(
+public record RevisionResponse(
 
         Long version,
         TemplateRef template
 
     ) {
-        public ReleaseRefResponse(ReleaseRef entity) {
+        public RevisionResponse(ReleaseRef entity) {
             this(
                 entity.version(), 
                 entity.template());

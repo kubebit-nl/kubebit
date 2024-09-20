@@ -16,7 +16,5 @@ public interface FetchReleasesUseCase {
             String projectId,
 
             @NotBlank
-            String namespaceName
-
-    );
+            String namespaceName);
 }

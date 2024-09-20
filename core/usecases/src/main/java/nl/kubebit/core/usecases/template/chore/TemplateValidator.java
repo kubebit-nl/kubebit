@@ -6,7 +6,7 @@ import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
 import nl.kubebit.core.entities.template.exception.TemplateNotUpdatedException;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.event.ServerSendEventGateway;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 import nl.kubebit.core.usecases.common.util.HelmChartUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +107,7 @@ public class TemplateValidator {
 
             // update status of template
             var event = gateway.updateStatus(entity)
-                    .map(TemplateResponse::new)
+                    .map(TemplateItemResponse::new)
                     .orElseThrow(TemplateNotUpdatedException::new);
 
             // send server side event

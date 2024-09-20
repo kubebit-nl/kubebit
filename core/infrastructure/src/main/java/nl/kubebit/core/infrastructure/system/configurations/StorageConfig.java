@@ -1,4 +1,4 @@
-package nl.kubebit.core.infrastructure.configuration;
+package nl.kubebit.core.infrastructure.system.configurations;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;

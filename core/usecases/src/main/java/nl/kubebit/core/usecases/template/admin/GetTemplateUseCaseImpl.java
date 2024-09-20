@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateFullResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 
 /**
  * 
@@ -32,9 +32,9 @@ class GetTemplateUseCaseImpl implements GetTemplateUseCase {
      * 
      */
     @Override
-    public TemplateFullResponse execute(String templateId) throws TemplateNotFoundException {
+    public TemplateResponse execute(String templateId) throws TemplateNotFoundException {
         log.info("get template: {}", templateId);
-        return gateway.findById(templateId).map(TemplateFullResponse::new).orElseThrow(TemplateNotFoundException::new);
+        return gateway.findById(templateId).map(TemplateResponse::new).orElseThrow(TemplateNotFoundException::new);
     }
 
 }

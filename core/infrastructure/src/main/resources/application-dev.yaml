@@ -1,7 +1,19 @@
 
+# ======================= Cors ========================
+
+
 # =================== Spring Config ===================
 
 #
 spring:
   banner: 
     location: banner-dev.txt
+
+# ================== Dynamic Values ===================
+
+# all key values will prefix with an $ sign
+dynamic:
+  properties:
+    LOKI_URL: http://loki:3100
+    LOKI_USERNAME: loki
+    LOKI_PASSWORD: my_dev_password

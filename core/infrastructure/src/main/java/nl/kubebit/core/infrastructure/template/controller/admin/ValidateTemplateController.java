@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.kubebit.core.usecases.template.admin.ValidateTemplateUseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +33,7 @@ public class ValidateTemplateController {
      *
      */
     @PostMapping
-    public TemplateResponse validateTemplate(
+    public TemplateItemResponse validateTemplate(
         @PathVariable("template_id") String templateId){
         return UseCase.execute(templateId);
     }

@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import nl.kubebit.core.infrastructure.project.schema.ProjectCRD;
 
-import static nl.kubebit.core.infrastructure.configuration.CacheConfig.CACHE_PROJECTS;
-import static nl.kubebit.core.infrastructure.configuration.CacheConfig.CACHE_PROJECT;
+import static nl.kubebit.core.infrastructure.system.configurations.CacheConfig.CACHE_PROJECTS;
+import static nl.kubebit.core.infrastructure.system.configurations.CacheConfig.CACHE_PROJECT;
 
 /**
  * 

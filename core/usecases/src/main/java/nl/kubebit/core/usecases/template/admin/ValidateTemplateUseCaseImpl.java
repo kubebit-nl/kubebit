@@ -9,7 +9,7 @@ import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
 import nl.kubebit.core.entities.template.exception.TemplateNotUpdatedException;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 /**
  * 
@@ -37,7 +37,7 @@ class ValidateTemplateUseCaseImpl implements ValidateTemplateUseCase {
      * 
      */
     @Override
-    public TemplateResponse execute(String templateId) throws TemplateNotFoundException {
+    public TemplateItemResponse execute(String templateId) throws TemplateNotFoundException {
         log.info("validate template: {}", templateId);
         var template = gateway.findById(templateId).orElseThrow(TemplateNotFoundException::new);
         
@@ -49,7 +49,7 @@ class ValidateTemplateUseCaseImpl implements ValidateTemplateUseCase {
         validator.execute(result);
 
         //
-        return new TemplateResponse(result);
+        return new TemplateItemResponse(result);
     }
 
 }

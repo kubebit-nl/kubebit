@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import nl.kubebit.core.usecases.release.FetchReleaseRevisionsUseCase;
-import nl.kubebit.core.usecases.release.dto.ReleaseRefResponse;
+import nl.kubebit.core.usecases.release.dto.RevisionResponse;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class FetchReleaseRevisionsController {
      *
      */
     @GetMapping
-    public List<ReleaseRefResponse> fetchDeployments(
+    public List<RevisionResponse> fetchDeployments(
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {

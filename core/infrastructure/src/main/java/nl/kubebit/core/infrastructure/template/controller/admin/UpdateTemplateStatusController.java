@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.kubebit.core.entities.template.TemplateStatus;
 import nl.kubebit.core.usecases.template.admin.UpdateTemplateStatusUseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,7 +36,7 @@ public class UpdateTemplateStatusController {
      */
     @PutMapping
     @Operation(summary = "Update template status [DEPRECATED, AVAILABLE]")
-    public TemplateResponse updateTemplateStatus(
+    public TemplateItemResponse updateTemplateStatus(
         @PathVariable("template_id") String templateId,
         @PathVariable("status") TemplateStatus status){
         return UseCase.execute(templateId, status);

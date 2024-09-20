@@ -1,5 +1,6 @@
 package nl.kubebit.core.usecases.release;
 
+import nl.kubebit.core.usecases.release.dto.RevisionItemResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,13 +41,13 @@ class GetReleaseRevisionUseCaseImpl implements GetReleaseRevisionUseCase {
      * 
      */
     @Override
-    public ReleaseRefValuesResponse execute(String projectId, String namespaceName, String releaseId, Long revisionVersion) {
+    public RevisionItemResponse execute(String projectId, String namespaceName, String releaseId, Long revisionVersion) {
         log.info("{} - {} -> get revision: {}", projectId, namespaceName, revisionVersion);
         var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
         var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
         var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
         
-        return releaseGateway.findRevisionById(namespace.id(), release, revisionVersion).map(ReleaseRefValuesResponse::new)
+        return releaseGateway.findRevisionById(namespace.id(), release, revisionVersion).map(RevisionItemResponse::new)
             .orElseThrow(RevisionNotFoundException::new);
     }
     

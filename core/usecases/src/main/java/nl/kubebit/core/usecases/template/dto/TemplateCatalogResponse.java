@@ -22,6 +22,9 @@ public record TemplateCatalogResponse(
     @JsonProperty("version")
     String version,
 
+    @JsonProperty("repository")
+    String repository,
+
     @JsonProperty("type")
     String type,
 
@@ -49,6 +52,7 @@ public record TemplateCatalogResponse(
             entity.id(),
             entity.chart(),
             entity.version(),
+            entity.repository(),
             entity.type(),
             entity.category(),
             entity.icon(),

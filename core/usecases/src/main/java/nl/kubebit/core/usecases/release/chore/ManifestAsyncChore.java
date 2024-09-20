@@ -12,15 +12,24 @@ import nl.kubebit.core.entities.resource.gateway.ResourceGateway;
 import nl.kubebit.core.entities.template.Template;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.event.ServerSendEventGateway;
+import nl.kubebit.core.usecases.release.chore.actions.ManifestActionApply;
+import nl.kubebit.core.usecases.release.chore.actions.ManifestActionCreate;
+import nl.kubebit.core.usecases.release.chore.actions.ManifestActionDelete;
+import nl.kubebit.core.usecases.release.chore.properties.DynamicProperties;
 import nl.kubebit.core.usecases.release.dto.ReleaseResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+/**
+ *
+ */
 @Component
+@EnableConfigurationProperties(DynamicProperties.class)
 public class ManifestAsyncChore {
     // --------------------------------------------------------------------------------------------
 
@@ -34,6 +43,9 @@ public class ManifestAsyncChore {
     private final ResourceGateway resourceGateway;
     private final ServerSendEventGateway eventGateway;
 
+    //
+    private final DynamicProperties properties;
+
     /**
      * Constructor
      *
@@ -42,12 +54,13 @@ public class ManifestAsyncChore {
      * @param templateGateway template gateway
      * @param eventGateway    event gateway
      */
-    public ManifestAsyncChore(ReleaseGateway releaseGateway, ManifestGateway manifestGateway, TemplateGateway templateGateway, ResourceGateway resourceGateway, ServerSendEventGateway eventGateway) {
+    public ManifestAsyncChore(ReleaseGateway releaseGateway, ManifestGateway manifestGateway, TemplateGateway templateGateway, ResourceGateway resourceGateway, ServerSendEventGateway eventGateway, DynamicProperties properties) {
         this.releaseGateway = releaseGateway;
         this.manifestGateway = manifestGateway;
         this.templateGateway = templateGateway;
         this.resourceGateway = resourceGateway;
         this.eventGateway = eventGateway;
+        this.properties = properties;
     }
 
     /**
@@ -66,7 +79,7 @@ public class ManifestAsyncChore {
 
             // action: create manifest
             if (ManifestActionCreate.statusAllowed().contains(release.status())) {
-                try(var action = new ManifestActionCreate(templateGateway, manifestGateway)) {
+                try(var action = new ManifestActionCreate(templateGateway, manifestGateway, properties.properties())) {
                     action.execute(manifest);
                 }
             }

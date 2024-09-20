@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import nl.kubebit.core.usecases.template.admin.UpdateTemplateUseCase;
 import nl.kubebit.core.usecases.template.admin.UpdateTemplateUseCase.TemplateUpdateRequest;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -36,7 +36,7 @@ public class UpdateTemplateController {
      *
      */
     @PutMapping
-    public TemplateResponse createTemplate(
+    public TemplateItemResponse createTemplate(
         @PathVariable("template_id") String templateId,
         @RequestBody @Valid TemplateUpdateRequest request){
         return UseCase.execute(templateId, request);

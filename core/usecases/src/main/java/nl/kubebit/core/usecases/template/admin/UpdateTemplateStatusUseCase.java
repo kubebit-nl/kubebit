@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import nl.kubebit.core.entities.template.TemplateStatus;
 import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
 import nl.kubebit.core.entities.template.validator.HasTemplateStatus;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 /**
  * 
@@ -15,7 +15,7 @@ public interface UpdateTemplateStatusUseCase {
     /**
      *
      */
-    TemplateResponse execute(
+    TemplateItemResponse execute(
 
         @NotBlank
         String templateId, 

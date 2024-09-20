@@ -1,0 +1,10 @@
+
+# override base-values
+array:
+  - 6
+  - 7
+  - "$PROJECT_ID"
+
+# override single key in template-values
+nested:
+  key2: "value2 $PROJECT_ID"

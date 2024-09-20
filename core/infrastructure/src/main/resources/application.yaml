@@ -7,6 +7,17 @@ server:
   # reverse proxy configuration
   forward-headers-strategy: FRAMEWORK
 
+# ======================= Cors ========================
+
+#
+web:
+  cors:
+    allowed-origins: "http://localhost:3000"
+    allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
+    max-age: 3600
+    allowed-headers: "*"
+    exposed-headers: "*"
+
 # =================== Spring Config ===================
 
 #

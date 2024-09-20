@@ -1,11 +1,8 @@
 package nl.kubebit.core.usecases.release;
 
-import java.util.Map;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import nl.kubebit.core.entities.release.ReleaseRef;
-import nl.kubebit.core.entities.release.TemplateRef;
+import nl.kubebit.core.usecases.release.dto.RevisionItemResponse;
 
 /**
  * 
@@ -13,7 +10,7 @@ import nl.kubebit.core.entities.release.TemplateRef;
 public interface GetReleaseRevisionUseCase {
     
     //
-    ReleaseRefValuesResponse execute(
+    RevisionItemResponse execute(
 
             @NotBlank
             String projectId,
@@ -27,21 +24,4 @@ public interface GetReleaseRevisionUseCase {
             @NotNull
             Long revisionVersion);
 
-    /**
-     * 
-     */
-    record ReleaseRefValuesResponse(
-
-        Long version,
-        TemplateRef template,
-        Map<String, Object> values
-
-    ) {
-        public ReleaseRefValuesResponse(ReleaseRef entity) {
-            this(
-                entity.version(), 
-                entity.template(),
-                entity.values());
-        }
-    }
 }

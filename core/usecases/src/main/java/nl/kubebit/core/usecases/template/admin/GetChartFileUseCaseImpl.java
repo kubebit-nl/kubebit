@@ -9,13 +9,11 @@ import nl.kubebit.core.usecases.common.util.HelmChartUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 /**
  *
  */
 @UseCase
-class GetTemplateSchemaUseCaseImpl implements GetTemplateSchemaUseCase {
+class GetChartFileUseCaseImpl implements GetChartFileUseCase {
     // --------------------------------------------------------------------------------------------
 
     //
@@ -29,28 +27,30 @@ class GetTemplateSchemaUseCaseImpl implements GetTemplateSchemaUseCase {
      *
      * @param gateway template gateway
      */
-    public GetTemplateSchemaUseCaseImpl(TemplateGateway gateway) {
+    public GetChartFileUseCaseImpl(TemplateGateway gateway) {
         this.gateway = gateway;
     }
 
     /**
-     * Getting template values schema
+     * Getting chart file from a helm chart
      *
      * @param templateId template id
-     * @return values schema
+     * @param fileName   file name
+     * @return content of the file
      * @throws TemplateNotFoundException if the template is not found
+     * @throws ChartNotFoundException    if the chart is not found
      */
     @Override
-    public Map<String, Object> execute(String templateId) throws TemplateNotFoundException, ChartNotFoundException {
+    public String execute(String templateId, String fileName) throws TemplateNotFoundException, ChartNotFoundException {
         log.info("get template: {}", templateId);
         var template = gateway.findById(templateId).orElseThrow(TemplateNotFoundException::new);
         var tarFile = gateway.getChart(template.id()).orElseThrow(ChartNotFoundException::new);
         try {
-            return HelmChartUtils.getChartSchema(tarFile);
+            return HelmChartUtils.getChartFileAsString(tarFile, fileName);
         } catch (Exception e) {
             log.warn("failed to get values: {}", e.getMessage());
         }
-        return Map.of();
+        return "";
     }
 
 }

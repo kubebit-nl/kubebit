@@ -8,7 +8,7 @@ import nl.kubebit.core.entities.template.exception.TemplateNotFoundException;
 import nl.kubebit.core.entities.template.exception.TemplateNotUpdatedException;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 /**
  * 
@@ -34,7 +34,7 @@ class UpdateTemplateUseCaseImpl implements UpdateTemplateUseCase {
      * 
      */
     @Override
-    public TemplateResponse execute(String templateId, TemplateUpdateRequest request) throws TemplateNotFoundException {
+    public TemplateItemResponse execute(String templateId, TemplateUpdateRequest request) throws TemplateNotFoundException {
         log.info("update template: {}", templateId);
         var template = gateway.findById(templateId).orElseThrow(TemplateNotFoundException::new);
         
@@ -60,7 +60,7 @@ class UpdateTemplateUseCaseImpl implements UpdateTemplateUseCase {
             template.namespaceId());
 
         //
-        return gateway.update(update).map(TemplateResponse::new).orElseThrow(TemplateNotUpdatedException::new);
+        return gateway.update(update).map(TemplateItemResponse::new).orElseThrow(TemplateNotUpdatedException::new);
     }
     
 }

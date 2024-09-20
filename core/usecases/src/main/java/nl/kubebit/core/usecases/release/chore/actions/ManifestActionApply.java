@@ -1,8 +1,9 @@
-package nl.kubebit.core.usecases.release.chore;
+package nl.kubebit.core.usecases.release.chore.actions;
 
 import nl.kubebit.core.entities.release.Manifest;
 import nl.kubebit.core.entities.release.ReleaseStatus;
 import nl.kubebit.core.entities.release.gateway.ManifestGateway;
+import nl.kubebit.core.usecases.release.chore.ManifestAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,10 +37,8 @@ public class ManifestActionApply implements ManifestAction {
      */
     @Override
     public void execute(Manifest manifest) throws Exception {
-
         log.info("apply manifest {}", manifest.release().id());
         manifestGateway.applyManifest(manifest.getFile());
-
     }
 
     /**

@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.kubebit.core.usecases.release.GetReleaseUseCase;
-import nl.kubebit.core.usecases.release.GetReleaseUseCase.ReleaseValueResponse;
+import nl.kubebit.core.usecases.release.dto.ReleaseItemResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +33,7 @@ public class GetReleaseController {
      *
      */
     @GetMapping
-    public ReleaseValueResponse fetchDeployments(
+    public ReleaseItemResponse fetchDeployments(
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId) {

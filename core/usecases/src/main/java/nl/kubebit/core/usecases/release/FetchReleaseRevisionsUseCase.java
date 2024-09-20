@@ -3,14 +3,14 @@ package nl.kubebit.core.usecases.release;
 import java.util.List;
 
 import jakarta.validation.constraints.NotBlank;
-import nl.kubebit.core.usecases.release.dto.ReleaseRefResponse;
+import nl.kubebit.core.usecases.release.dto.RevisionResponse;
 
 /**
  * 
  */
 public interface FetchReleaseRevisionsUseCase {
     
-    List<ReleaseRefResponse> execute(
+    List<RevisionResponse> execute(
 
             @NotBlank
             String projectId,

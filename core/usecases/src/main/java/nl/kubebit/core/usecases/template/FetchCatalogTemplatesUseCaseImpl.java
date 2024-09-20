@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import nl.kubebit.core.entities.template.TemplateStatus;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 /**
  * 
@@ -34,11 +34,11 @@ class FetchCatalogTemplatesUseCaseImpl implements FetchCatalogTemplatesUseCase {
      * 
      */
     @Override
-    public List<TemplateResponse> execute() {
+    public List<TemplateItemResponse> execute() {
         log.info("fetch templates catalog");
         return gateway.findAll().stream()
             .filter(t -> TemplateStatus.AVAILABLE.equals(t.status()))
-            .map(TemplateResponse::new)
+            .map(TemplateItemResponse::new)
             .toList();
     }
 

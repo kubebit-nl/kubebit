@@ -1,9 +1,8 @@
-package nl.kubebit.core.usecases.release.chore;
+package nl.kubebit.core.usecases.common.util;
 
 import java.io.IOException;
 import java.util.Map;
 
-import nl.kubebit.core.usecases.common.util.JsonSchemaSanitizer;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;

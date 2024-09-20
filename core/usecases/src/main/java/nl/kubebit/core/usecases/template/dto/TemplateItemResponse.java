@@ -1,7 +1,6 @@
 package nl.kubebit.core.usecases.template.dto;
 
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,7 +10,7 @@ import nl.kubebit.core.entities.template.TemplateStatus;
 /**
  * 
  */
-public record TemplateFullResponse(
+public record TemplateItemResponse(
 
     @JsonProperty("id")
     String id,
@@ -28,9 +27,6 @@ public record TemplateFullResponse(
     @JsonProperty("status")
     TemplateStatus status,
 
-    @JsonProperty("message")
-    String message,
-
     @JsonProperty("type")
     String type,
 
@@ -39,18 +35,6 @@ public record TemplateFullResponse(
 
     @JsonProperty("icon")
     String icon,
-
-    @JsonProperty("schema")
-    Map<String, Object> schema,
-
-    @JsonProperty("values_base")
-    Map<String, Object> baseValues,
-
-    @JsonProperty("values_staging")
-    Map<String, Object> stagingValues,
-
-    @JsonProperty("values_production")
-    Map<String, Object> productionValues,
 
     @JsonProperty("app_version")
     String appVersion,
@@ -62,21 +46,16 @@ public record TemplateFullResponse(
     List<String> keywords
 
 ) {
-    public TemplateFullResponse(Template entity) {
+    public TemplateItemResponse(Template entity) {
         this(
             entity.id(),
             entity.chart(),
             entity.version(),
             entity.repository(),
             entity.status(),
-            entity.message(),
             entity.type(),
             entity.category(),
             entity.icon(),
-            entity.schema(),
-            entity.baseValues(),
-            entity.stagingValues(),
-            entity.productionValues(),
             entity.appVersion(),
             entity.description(),
             entity.keywords());

@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 
 import nl.kubebit.core.usecases.template.admin.CreateTemplateUseCase;
 import nl.kubebit.core.usecases.template.admin.CreateTemplateUseCase.TemplateCreateRequest;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +36,7 @@ public class CreateTemplateController {
      *
      */
     @PostMapping
-    public TemplateResponse createTemplate(
+    public TemplateItemResponse createTemplate(
         @RequestBody @Valid TemplateCreateRequest request) {
         return UseCase.execute(request);
     }

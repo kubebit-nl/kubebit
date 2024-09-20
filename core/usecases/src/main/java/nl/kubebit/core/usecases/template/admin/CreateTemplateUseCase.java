@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.URL;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 /**
  * 
@@ -15,7 +15,7 @@ import nl.kubebit.core.usecases.template.dto.TemplateResponse;
 public interface CreateTemplateUseCase {
     
     //
-    TemplateResponse execute(
+    TemplateItemResponse execute(
 
             @NotNull
             @Valid

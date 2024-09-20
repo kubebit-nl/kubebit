@@ -1,4 +1,4 @@
-package nl.kubebit.core.infrastructure.configuration;
+package nl.kubebit.core.infrastructure.system.configurations;
 
 import nl.kubebit.core.infrastructure.common.converter.StringToTemplateValueTypeConverter;
 import org.springframework.context.annotation.Configuration;

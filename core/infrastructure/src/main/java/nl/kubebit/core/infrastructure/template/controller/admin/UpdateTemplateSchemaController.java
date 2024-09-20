@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import nl.kubebit.core.usecases.template.admin.UpdateTemplateSchemaUseCase;
-import nl.kubebit.core.usecases.template.dto.TemplateResponse;
+import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
 
 import java.util.Map;
 
@@ -37,7 +37,7 @@ public class UpdateTemplateSchemaController {
      *
      */
     @PutMapping
-    public TemplateResponse updateTemplateFor(
+    public TemplateItemResponse updateTemplateFor(
         @PathVariable("template_id") String templateId,
         @RequestBody Map<String, Object> form){
         return UseCase.execute(templateId, form);

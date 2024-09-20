@@ -1,4 +1,4 @@
-package nl.kubebit.core.usecases.release.chore;
+package nl.kubebit.core.usecases.release.chore.actions;
 
 import nl.kubebit.core.entities.release.Manifest;
 import nl.kubebit.core.entities.release.ReleaseStatus;
@@ -8,6 +8,7 @@ import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.util.HelmBuilder;
 import nl.kubebit.core.usecases.common.util.HelmValuesMerger;
 
+import nl.kubebit.core.usecases.release.chore.ManifestAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static nl.kubebit.core.entities.common.vars.GlobalVars.YAML_EXT;
@@ -35,14 +37,19 @@ public class ManifestActionCreate implements ManifestAction {
     private final TemplateGateway templateGateway;
     private final ManifestGateway manifestGateway;
 
+    //
+    private final Map<String, Object> dynamicProperties;
+
     /**
      * Constructor
      *
      * @param templateGateway template gateway
+     * @param properties      dynamic properties
      */
-    public ManifestActionCreate(TemplateGateway templateGateway, ManifestGateway manifestGateway) {
+    public ManifestActionCreate(TemplateGateway templateGateway, ManifestGateway manifestGateway, Map<String, Object> properties) {
         this.templateGateway = templateGateway;
         this.manifestGateway = manifestGateway;
+        this.dynamicProperties = properties;
     }
 
     /**
@@ -115,8 +122,11 @@ public class ManifestActionCreate implements ManifestAction {
                 // merge values
                 merger.merge(manifest);
 
+                //
+                merger.replace(manifest, dynamicProperties);
+
                 // write values to file
-                return merger.write(manifest.release().id());
+                return merger.write();
             }
         } catch (IOException e) {
             log.error("failed to create values file", e);

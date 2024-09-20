@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import nl.kubebit.core.usecases.release.GetReleaseRevisionUseCase;
-import nl.kubebit.core.usecases.release.GetReleaseRevisionUseCase.ReleaseRefValuesResponse;
+import nl.kubebit.core.usecases.release.dto.RevisionItemResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +33,7 @@ public class GetReleaseRevisionController {
      *
      */
     @GetMapping
-    public ReleaseRefValuesResponse fetchDeployments(
+    public RevisionItemResponse fetchDeployments(
         @PathVariable("project_id") String projectId,
         @PathVariable("namespace_name") String namespaceName,
         @PathVariable("release_id") String releaseId,

@@ -13,7 +13,7 @@ import nl.kubebit.core.entities.release.exception.ReleaseNotFoundException;
 import nl.kubebit.core.entities.release.gateway.ReleaseGateway;
 
 import nl.kubebit.core.usecases.common.annotation.UseCase;
-import nl.kubebit.core.usecases.release.dto.ReleaseRefResponse;
+import nl.kubebit.core.usecases.release.dto.RevisionResponse;
 
 /**
  * 
@@ -43,12 +43,12 @@ class FetchReleaseRevisionsUseCaseImpl implements FetchReleaseRevisionsUseCase {
      * 
      */
     @Override
-    public List<ReleaseRefResponse> execute(String projectId, String namespaceName, String releaseId) {
+    public List<RevisionResponse> execute(String projectId, String namespaceName, String releaseId) {
         log.info("{} - {} -> fetch revisions", projectId, namespaceName);
         var project = projectGateway.findById(projectId).orElseThrow(ProjectNotFoundException::new);
         var namespace = namespaceGateway.findByName(project.id(), namespaceName).orElseThrow(NamespaceNotFoundException::new);
         var release = releaseGateway.findById(namespace.id(), releaseId).orElseThrow(ReleaseNotFoundException::new);
-        return releaseGateway.findRevisions(namespace.id(), release).stream().map(ReleaseRefResponse::new).toList();
+        return releaseGateway.findRevisions(namespace.id(), release).stream().map(RevisionResponse::new).toList();
     }
     
 }
