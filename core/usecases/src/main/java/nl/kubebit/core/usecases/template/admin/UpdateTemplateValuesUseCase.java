@@ -22,7 +22,7 @@ public interface UpdateTemplateValuesUseCase {
             TemplateValueType type,
 
             @NotNull
-            Map<String, Object> overlay
+            String values
 
     ) throws TemplateNotFoundException;
 

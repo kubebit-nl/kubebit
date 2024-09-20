@@ -42,16 +42,16 @@ public class HelmValuesMerger implements AutoCloseable {
         values = new HashMap<>(manifest.template().values());
 
         // merge overlay (unknown/new values will be copied)
-        if (manifest.template().baseValues() != null)
-            deepMerge(values, manifest.template().baseValues());
+        if (manifest.template().baseValues() != null && !manifest.template().baseValues().isEmpty())
+            deepMerge(values, parseMap(manifest.template().baseValues()));
 
         //
         if (manifest.namespace().isProduction()) {
-            if (manifest.template().productionValues() != null)
-                deepMerge(values, manifest.template().productionValues());
+            if (manifest.template().productionValues() != null && !manifest.template().productionValues().isEmpty())
+                deepMerge(values, parseMap(manifest.template().productionValues()));
         } else {
-            if (manifest.template().stagingValues() != null)
-                deepMerge(values, manifest.template().stagingValues());
+            if (manifest.template().stagingValues() != null && !manifest.template().stagingValues().isEmpty())
+                deepMerge(values, parseMap(manifest.template().stagingValues()));
         }
 
         // merge input (unknown/new values will not be copied)
@@ -113,6 +113,20 @@ public class HelmValuesMerger implements AutoCloseable {
     }
 
     // ------------------------------------------------------------------------
+
+    /**
+     * Parse the values
+     *
+     * @return the map
+     */
+    private Map<String, Object> parseMap(String inputValues) {
+        try {
+            return new Yaml().load(inputValues);
+        } catch (Exception e) {
+            log.error("error parsing values", e);
+            return Collections.emptyMap();
+        }
+    }
 
     /**
      * Put known values from map2 into map1

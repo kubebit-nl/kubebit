@@ -44,13 +44,13 @@ public record TemplateResponse(
     Map<String, Object> schema,
 
     @JsonProperty("values_base")
-    Map<String, Object> baseValues,
+    String baseValues,
 
     @JsonProperty("values_staging")
-    Map<String, Object> stagingValues,
+    String stagingValues,
 
     @JsonProperty("values_production")
-    Map<String, Object> productionValues,
+    String productionValues,
 
     @JsonProperty("app_version")
     String appVersion,

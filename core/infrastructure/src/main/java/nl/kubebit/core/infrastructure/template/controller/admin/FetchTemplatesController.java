@@ -21,13 +21,13 @@ public class FetchTemplatesController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final FetchTemplatesUseCase UseCase;
+    private final FetchTemplatesUseCase useCase;
 
     /**
      *
      */
     public FetchTemplatesController(FetchTemplatesUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -35,7 +35,7 @@ public class FetchTemplatesController {
      */
     @GetMapping
     public List<TemplateItemResponse> fetchTemplates() {
-        return UseCase.execute();
+        return useCase.execute();
     }
     
 }

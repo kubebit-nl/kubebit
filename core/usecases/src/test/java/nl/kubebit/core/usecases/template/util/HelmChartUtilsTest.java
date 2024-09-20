@@ -33,7 +33,6 @@ public class HelmChartUtilsTest {
      *
      */
     @Test
-    @SuppressWarnings("unchecked")
     public void testSaveChartFile() throws IOException {
         // Prepare test data
         File tarPath = new File("./src/test/resources/wordpress-23.1.0.tgz");

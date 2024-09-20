@@ -12,8 +12,8 @@ web:
     allowed-origins: "http://localhost:3000"
     allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
     max-age: 3600
-    allowed-headers: "Requestor-Type"
-    exposed-headers: "X-Get-Header"
+    allowed-headers: "*"
+    exposed-headers: "*"
 
 # =================== Spring Config ===================
 

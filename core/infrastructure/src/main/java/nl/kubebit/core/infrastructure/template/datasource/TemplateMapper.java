@@ -30,9 +30,9 @@ public abstract class TemplateMapper {
             schema.getSpec().category(),
             schema.getSpec().icon(),
             schema.getSpec().schema() != null ? transformAnyType(schema.getSpec().schema()) : null,
-            schema.getSpec().baseValues() != null ? transformAnyType(schema.getSpec().baseValues()) : null,
-            schema.getSpec().stagingValues() != null ? transformAnyType(schema.getSpec().stagingValues()) : null,
-            schema.getSpec().productionValues() != null ? transformAnyType(schema.getSpec().productionValues()) : null,
+            schema.getSpec().baseValues() != null ? schema.getSpec().baseValues().toString() : null,
+            schema.getSpec().stagingValues() != null ? schema.getSpec().stagingValues().toString() : null,
+            schema.getSpec().productionValues() != null ? schema.getSpec().productionValues().toString() : null,
             schema.getStatus() != null ? schema.getStatus().status() : TemplateStatus.UNKNOWN,
             schema.getStatus() != null ? schema.getStatus().message() : null,
             schema.getStatus() != null ? transformAnyType(schema.getStatus().values()) : null,
@@ -93,11 +93,22 @@ public abstract class TemplateMapper {
     private static Map<String, Object> transformAnyType(AnyType anyType) {
         return anyType == null ? null : (Map<String, Object>) anyType.getValue();
     }
-    
+
     /**
-     *
+     * Covert the map to AnyType
+     * @param map the map
+     * @return the AnyType
      */
     private static AnyType transformAnyType(Map<String, Object> map) {
         return map == null ? null : new AnyType(map);
+    }
+
+    /**
+     *  Covert the string to AnyType
+     * @param str the string
+     * @return the AnyType
+     */
+    private static AnyType transformAnyType(String str) {
+        return str == null ? null : new AnyType(str);
     }
 }

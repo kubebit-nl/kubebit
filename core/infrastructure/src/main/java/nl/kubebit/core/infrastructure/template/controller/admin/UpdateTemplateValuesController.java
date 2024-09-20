@@ -24,24 +24,24 @@ public class UpdateTemplateValuesController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateTemplateValuesUseCase UseCase;
+    private final UpdateTemplateValuesUseCase useCase;
 
     /**
      *
      */
     public UpdateTemplateValuesController(UpdateTemplateValuesUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
      *
      */
-    @PutMapping
+    @PutMapping(consumes = "application/x-yaml")
     public TemplateItemResponse updateTemplateOverlay(
         @PathVariable("template_id") String templateId,
         @PathVariable("value_type") UpdateTemplateValuesUseCase.TemplateValueType valueType,
-        @RequestBody Map<String, Object> overlay){
-        return UseCase.execute(templateId, valueType, overlay);
+        @RequestBody String overlay){
+        return useCase.execute(templateId, valueType, overlay);
     }
     
 }

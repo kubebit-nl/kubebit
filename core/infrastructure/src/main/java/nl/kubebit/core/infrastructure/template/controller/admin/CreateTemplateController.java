@@ -23,13 +23,13 @@ public class CreateTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final CreateTemplateUseCase UseCase;
+    private final CreateTemplateUseCase useCase;
 
     /**
      *
      */
     public CreateTemplateController(CreateTemplateUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -38,7 +38,7 @@ public class CreateTemplateController {
     @PostMapping
     public TemplateItemResponse createTemplate(
         @RequestBody @Valid TemplateCreateRequest request) {
-        return UseCase.execute(request);
+        return useCase.execute(request);
     }
     
 }

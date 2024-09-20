@@ -18,13 +18,13 @@ public class GetChartFileController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetChartFileUseCase UseCase;
+    private final GetChartFileUseCase useCase;
 
     /**
      *
      */
     public GetChartFileController(GetChartFileUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -35,7 +35,7 @@ public class GetChartFileController {
     public String getTemplate(
             @PathVariable("template_id") String templateId,
             @PathVariable("file_name") String fileName) {
-        return UseCase.execute(templateId, fileName);
+        return useCase.execute(templateId, fileName);
     }
 
 }

@@ -2,6 +2,7 @@ package nl.kubebit.core.usecases.template.admin;
 
 import java.util.Map;
 
+import nl.kubebit.core.entities.template.exception.TemplateInvalidValuesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +12,7 @@ import nl.kubebit.core.entities.template.exception.TemplateNotUpdatedException;
 import nl.kubebit.core.entities.template.gateway.TemplateGateway;
 import nl.kubebit.core.usecases.common.annotation.UseCase;
 import nl.kubebit.core.usecases.template.dto.TemplateItemResponse;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * 
@@ -36,9 +38,17 @@ class UpdateTemplateValuesUseCaseImpl implements UpdateTemplateValuesUseCase {
      * 
      */
     @Override
-    public TemplateItemResponse execute(String templateId, TemplateValueType type, Map<String, Object> values) throws TemplateNotFoundException {
+    public TemplateItemResponse execute(String templateId, TemplateValueType type, String values) throws TemplateNotFoundException {
         log.info("update template values: {}", templateId);
         var template = gateway.findById(templateId).orElseThrow(TemplateNotFoundException::new);
+
+        //
+        try {
+            new Yaml().load(values);
+        }
+        catch (Exception e) {
+            throw new TemplateInvalidValuesException(e.getMessage());
+        }
         
         // change values
         var update = new Template(

@@ -40,7 +40,7 @@ public class ManifestActionDelete implements ManifestAction {
      * @param manifest the manifest
      */
     @Override
-    public void execute(Manifest manifest) throws IOException {
+    public void execute(Manifest manifest) {
 
         log.trace("deleting resources");
         manifest.release().resources()

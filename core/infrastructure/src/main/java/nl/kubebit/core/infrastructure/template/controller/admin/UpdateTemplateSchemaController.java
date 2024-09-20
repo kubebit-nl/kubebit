@@ -24,13 +24,13 @@ public class UpdateTemplateSchemaController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateTemplateSchemaUseCase UseCase;
+    private final UpdateTemplateSchemaUseCase useCase;
 
     /**
      *
      */
     public UpdateTemplateSchemaController(UpdateTemplateSchemaUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -40,7 +40,7 @@ public class UpdateTemplateSchemaController {
     public TemplateItemResponse updateTemplateFor(
         @PathVariable("template_id") String templateId,
         @RequestBody Map<String, Object> form){
-        return UseCase.execute(templateId, form);
+        return useCase.execute(templateId, form);
     }
     
 }

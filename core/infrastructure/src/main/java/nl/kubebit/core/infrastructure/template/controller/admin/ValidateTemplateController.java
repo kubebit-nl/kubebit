@@ -20,13 +20,13 @@ public class ValidateTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final ValidateTemplateUseCase UseCase;
+    private final ValidateTemplateUseCase useCase;
 
     /**
      *
      */
     public ValidateTemplateController(ValidateTemplateUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -35,7 +35,7 @@ public class ValidateTemplateController {
     @PostMapping
     public TemplateItemResponse validateTemplate(
         @PathVariable("template_id") String templateId){
-        return UseCase.execute(templateId);
+        return useCase.execute(templateId);
     }
     
 }

@@ -23,13 +23,13 @@ public class UpdateTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final UpdateTemplateUseCase UseCase;
+    private final UpdateTemplateUseCase useCase;
 
     /**
      *
      */
     public UpdateTemplateController(UpdateTemplateUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -39,7 +39,7 @@ public class UpdateTemplateController {
     public TemplateItemResponse createTemplate(
         @PathVariable("template_id") String templateId,
         @RequestBody @Valid TemplateUpdateRequest request){
-        return UseCase.execute(templateId, request);
+        return useCase.execute(templateId, request);
     }
     
 }

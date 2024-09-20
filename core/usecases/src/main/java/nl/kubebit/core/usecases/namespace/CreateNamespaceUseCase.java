@@ -12,6 +12,7 @@ import nl.kubebit.core.usecases.namespace.dto.NamespaceResponse;
 /**
  * 
  */
+@SuppressWarnings("unused")
 public interface CreateNamespaceUseCase {
     
     //
@@ -27,6 +28,7 @@ public interface CreateNamespaceUseCase {
     /**
      * 
      */
+    @SuppressWarnings("unused")
     record NamespaceRequest(
 
         @NotBlank

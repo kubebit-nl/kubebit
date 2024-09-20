@@ -21,9 +21,9 @@ public record Template(
 
     //
     Map<String, Object> schema,
-    Map<String, Object> baseValues,
-    Map<String, Object> stagingValues,
-    Map<String, Object> productionValues,
+    String baseValues,
+    String stagingValues,
+    String productionValues,
 
     //
     TemplateStatus status,

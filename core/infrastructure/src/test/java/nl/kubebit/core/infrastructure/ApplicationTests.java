@@ -13,7 +13,8 @@ import org.springframework.test.context.ActiveProfiles;
 class ApplicationTests {
 
 	//
-	@Test
+    @Test
+	@SuppressWarnings("EmptyMethod")
 	void smokeTest() {
 		// running spring boot application is the test
 	}

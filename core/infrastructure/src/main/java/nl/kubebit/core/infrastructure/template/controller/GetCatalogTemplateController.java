@@ -21,13 +21,13 @@ public class GetCatalogTemplateController {
     // --------------------------------------------------------------------------------------------
 
     //
-    private final GetCatalogTemplateUseCase UseCase;
+    private final GetCatalogTemplateUseCase useCase;
 
     /**
      *
      */
     public GetCatalogTemplateController(GetCatalogTemplateUseCase UseCase) {
-        this.UseCase = UseCase;
+        this.useCase = UseCase;
     }
 
     /**
@@ -36,7 +36,7 @@ public class GetCatalogTemplateController {
     @GetMapping
     public TemplateCatalogResponse getTemplate(
         @PathVariable("template_id") String templateId){
-        return UseCase.execute(templateId);
+        return useCase.execute(templateId);
     }
     
 }

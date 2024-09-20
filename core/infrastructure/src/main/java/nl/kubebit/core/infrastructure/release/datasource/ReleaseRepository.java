@@ -143,7 +143,7 @@ public class ReleaseRepository {
      *
      */
     public Optional<ReleaseCRDSpec> findRevision(String namespace, String releaseId, Long revisionVersion) {
-        log.trace("{} -> find release revisions: {}", namespace, releaseId);
+        log.trace("{} -> find release revision: {}", namespace, releaseId);
         try {
             var optional = this.findById(namespace, releaseId);
             if (optional.isPresent()) {
@@ -151,7 +151,7 @@ public class ReleaseRepository {
                     .filter(r -> r.version().equals(revisionVersion)).findAny();
             }
         } catch (Exception e) {
-            log.trace("{} -> revisions not found -> {}", namespace, e.getMessage());
+            log.trace("{} -> revision not found -> {}", namespace, e.getMessage());
         }        
         return Optional.empty();
     }

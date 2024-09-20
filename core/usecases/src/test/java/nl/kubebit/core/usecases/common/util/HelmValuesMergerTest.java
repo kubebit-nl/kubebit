@@ -9,7 +9,9 @@ import nl.kubebit.core.entities.template.Template;
 import org.junit.jupiter.api.*;
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class HelmValuesMergerTest {
      * @throws IOException if an I/O error occurs
      */
     @Test
+    @SuppressWarnings("unchecked")
     void merge_when_then() throws IOException {
         var yaml = new Yaml();
 
@@ -60,15 +63,15 @@ public class HelmValuesMergerTest {
         }
 
         //
-        Map<String, Object> baseValues;
+        String baseValues;
         try (var baseStream = getClass().getClassLoader().getResourceAsStream("merge/base-values.yaml")) {
-            baseValues = yaml.load(baseStream);
+            baseValues = new String(baseStream.readAllBytes(), StandardCharsets.UTF_8);
         }
 
         //
-        Map<String, Object> stagingValues;
+        String stagingValues;
         try (var stagingStream = getClass().getClassLoader().getResourceAsStream("merge/staging-values.yaml")) {
-            stagingValues = yaml.load(stagingStream);
+            stagingValues = new String(stagingStream.readAllBytes(), StandardCharsets.UTF_8);
         }
 
         //
